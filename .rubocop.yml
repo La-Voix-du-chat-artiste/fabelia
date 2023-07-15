@@ -1,0 +1,14 @@
+inherit_from:
+  - .rubocop-custom.yml
+  - .rubocop-disabled.yml
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  SuggestExtensions: false
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
