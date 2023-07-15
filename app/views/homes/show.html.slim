@@ -1,2 +1,15 @@
-h1 Homes#show
-p Find me in app/views/homes/show.html.slim
+.mb-6
+  = button_to 'Générer une aventure',
+              stories_path,
+              class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
+              data: { turbo_confirm: "Voulez-vous générer un nouveau chapitre de l'aventure ?" }
+
+
+.bg-gray-200.border.border-gray-400.rounded-lg.p-2
+  - if @chapter.present?
+    h3.font-bold.mb-2= @chapter.title
+
+    == @chapter.content
+
+  - else
+    p Il n'y a pas encore d'histoire
