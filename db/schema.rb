@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_15_083657) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_15_093412) do
+  create_table "chapters", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.datetime "published_at"
+    t.string "event_identifier"
+    t.integer "story_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_identifier"], name: "index_chapters_on_event_identifier", unique: true
+    t.index ["story_id"], name: "index_chapters_on_story_id"
+  end
+
+  create_table "stories", force: :cascade do |t|
+    t.string "title"
+    t.integer "chapters_count", default: 0, null: false
+    t.datetime "adventure_ended_at"
+    t.json "raw_response_body", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "crypted_password"
@@ -28,4 +49,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_083657) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
+  add_foreign_key "chapters", "stories"
 end
