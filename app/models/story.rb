@@ -7,6 +7,14 @@ class Story < ApplicationRecord
     exists?(adventure_ended_at: nil)
   end
 
+  def current?
+    adventure_ended_at.nil? && chapters.published.any?
+  end
+
+  def ended?
+    adventure_ended_at.present?
+  end
+
   def ended!
     update(adventure_ended_at: Time.current)
   end
@@ -16,7 +24,7 @@ end
 #
 # Table name: stories
 #
-#  id                 :integer          not null, primary key
+#  id                 :bigint(8)        not null, primary key
 #  title              :string
 #  chapters_count     :integer          default(0), not null
 #  adventure_ended_at :datetime

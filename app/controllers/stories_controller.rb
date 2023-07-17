@@ -1,62 +1,69 @@
 class StoriesController < ApplicationController
+  before_action :set_story, only: :update
+
   # @route POST /stories (stories)
   def create
-    if Story.current?
+    if !force_new_adventure? && Story.current?
       # Find last non published chapter of current story
       @story = Story.currents.last
       @chapter = @story.chapters.where(published_at: nil).first
-      @last_published = @chapter.last_published
-
-      @command = "noscl publish --reference #{@last_published.event_identifier} \"#{@chapter.title}\n\n#{@chapter.content}\""
     else
       # Generate a brand new story
       json = ChatgptService.call(prompt)
 
       ApplicationRecord.transaction do
         @story = Story.create!(
-          title: title,
+          title: json['title'],
           adventure_ended_at: nil,
           raw_response_body: json
         )
 
-        json.each do |chapter|
+        json['chapters'].each do |chapter|
           @story.chapters.create!(
             title: chapter['title'],
-            content: chapter['content']
+            content: chapter['content'],
+            summary: chapter['summary']
           )
         end
       end
 
       @chapter = @story.chapters.first
-
-      @command = "noscl publish \"#{@story.title}\n\n #{@chapter.title}\n\n#{@chapter.content}\""
     end
 
-    IO.popen(@command) do |pipe|
-      @output = pipe.readlines
-    end
+    ReplicateServices::Picture.call(@chapter, @chapter.summary)
 
-    event_id = @output.last.split[1]
+    redirect_to root_path, notice: "L'aventure va être publiée sur Nostr après réponse de l'API Replicate"
+  rescue OpenaiChatgpt::Error, StandardError => e
+    redirect_to root_path, alert: e.message
+  end
 
-    @chapter.update!(
-      event_identifier: event_id,
-      published_at: Time.current
-    )
+  # @route PATCH /stories/:id (story)
+  # @route PUT /stories/:id (story)
+  def update
+    @chapter = @story.chapters.where(published_at: nil).first
 
-    @story.ended! if @chapter.last_published?
+    ReplicateServices::Picture.call(@chapter, @chapter.summary)
 
-    redirect_to root_path, notice: "L'aventure a bien été publiée sur Nostr (nostr event: #{@chapter.event_identifier})"
+    redirect_to root_path, notice: "La suite de l'aventure va être publiée sur Nostr après réponse de l'API Replicate"
   rescue OpenaiChatgpt::Error, StandardError => e
     redirect_to root_path, alert: e.message
   end
 
   private
 
-  def prompt
-    'Invente une aventure médiévale'
+  def set_story
+    @story = Story.find(params[:id])
   end
 
-  def title
-    'Aventure médiévale'
+  def force_new_adventure?
+    params[:force_new_adventure].present? && params[:force_new_adventure] == 'true'
+  end
+
+  def prompt
+    "Début de l'aventure #{thematics}"
+  end
+
+  def thematics
+    ['médiévale', 'spatiale', 'maritime', 'en ville', 'dans la jungle', 'en bord de mer', "sous l'eau"].sample
   end
 end

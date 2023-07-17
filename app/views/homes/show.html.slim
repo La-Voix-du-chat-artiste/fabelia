@@ -1,15 +1,37 @@
 .mb-6
-  = button_to 'Générer une aventure',
-              stories_path,
+  = button_to "Publier une nouvelle aventure",
+              stories_path(force_new_adventure: true),
               class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-              data: { turbo_confirm: "Voulez-vous générer un nouveau chapitre de l'aventure ?" }
+              data: { turbo_confirm: "Voulez-vous créer une nouvelle aventure ?" }
 
+- @stories.each do |story|
+  .mb-6
+    header.flex.items-center.justify-between.mb-3
+      h2.text-2xl.font-bold= story.title
 
-.bg-gray-200.border.border-gray-400.rounded-lg.p-2
-  - if @chapter.present?
-    h3.font-bold.mb-2= @chapter.title
+      - if story.ended?
+        span.p-2.italic.text-sm.text-white.bg-green-500.rounded-lg Aventure terminée
+      - else
+        = button_to "Publier la suite de l'aventure",
+                    story_path(story),
+                    method: :patch,
+                    class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
+                    data: { turbo_confirm: "Voulez-vous générer un nouveau chapitre de l'aventure ?" }
 
-    == @chapter.content
+    - story.chapters.order(id: :asc).each do |chapter|
+      .flex.gap-2.items-center.bg-gray-200.border.border-gray-400.rounded-lg.p-2.mb-2
+        - if chapter.cover.attached?
+          = image_tag url_for(chapter.cover), class: 'w-64 rounded-lg'
+        div
+          h3.font-bold.mb-2= chapter.title
+          == chapter.content
 
-  - else
+          p.text-sm.mt-2.italic
+            - if chapter.published?
+              span.text-green-600 Chapitre publié le #{l(chapter.published_at, format: :long)}
+            - else
+              span.text-gray-500 Chapitre non publié
+
+- if @stories.empty?
+  .bg-red-100.border.border-red-200.rounded-lg.p-2
     p Il n'y a pas encore d'histoire

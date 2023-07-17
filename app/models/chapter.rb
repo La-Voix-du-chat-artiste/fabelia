@@ -1,6 +1,8 @@
 class Chapter < ApplicationRecord
   belongs_to :story, counter_cache: true
 
+  has_one_attached :cover
+
   scope :published, -> { where.not(published_at: nil) }
 
   def last_published?
@@ -11,27 +13,35 @@ class Chapter < ApplicationRecord
   def last_published
     story.chapters.published.last
   end
+
+  def published?
+    !published_at.nil?
+  end
 end
 
 # == Schema Information
 #
 # Table name: chapters
 #
-#  id               :integer          not null, primary key
-#  title            :string
-#  content          :text
-#  published_at     :datetime
-#  event_identifier :string
-#  story_id         :integer          not null
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                   :bigint(8)        not null, primary key
+#  title                :string
+#  content              :text
+#  summary              :string
+#  published_at         :datetime
+#  nostr_identifier     :string
+#  replicate_identifier :string
+#  raw_response_body    :json             not null
+#  story_id             :bigint(8)        not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 # Indexes
 #
-#  index_chapters_on_event_identifier  (event_identifier) UNIQUE
-#  index_chapters_on_story_id          (story_id)
+#  index_chapters_on_nostr_identifier      (nostr_identifier) UNIQUE
+#  index_chapters_on_replicate_identifier  (replicate_identifier) UNIQUE
+#  index_chapters_on_story_id              (story_id)
 #
 # Foreign Keys
 #
-#  story_id  (story_id => stories.id)
+#  fk_rails_...  (story_id => stories.id)
 #

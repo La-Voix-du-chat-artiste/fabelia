@@ -3,8 +3,11 @@ class CreateChapters < ActiveRecord::Migration[7.0]
     create_table :chapters do |t|
       t.string :title
       t.text :content
+      t.string :summary
       t.datetime :published_at
-      t.string :event_identifier, index: { unique: true }
+      t.string :nostr_identifier, index: { unique: true }
+      t.string :replicate_identifier, index: { unique: true }
+      t.json :raw_response_body, null: false, default: {}
       t.references :story, null: false, foreign_key: true
 
       t.timestamps

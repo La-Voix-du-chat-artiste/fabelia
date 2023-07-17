@@ -33,6 +33,12 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  port = ENV.fetch('PORT', 3000)
+  host = ENV.fetch('HOST', 'http://localhost')
+  config.action_controller.default_url_options = {
+    host: host, port: port
+  }
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
@@ -72,4 +78,6 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  config.hosts << ENV['HOST'] if ENV['HOST'].present?
 end

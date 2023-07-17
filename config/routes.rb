@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   root to: 'homes#show'
 
-  resources :stories, only: :create
+  post '/replicate/webhook', to: 'replicate/webhooks#event'
+
+  resources :stories, only: %i[create update]
 end

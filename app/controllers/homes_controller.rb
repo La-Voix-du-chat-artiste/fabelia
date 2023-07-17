@@ -1,6 +1,6 @@
 class HomesController < ApplicationController
   # @route GET / (root)
   def show
-    @chapter = Chapter.published.last
+    @stories = Story.includes(:chapters).order(id: :desc)
   end
 end

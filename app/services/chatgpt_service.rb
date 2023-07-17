@@ -29,7 +29,7 @@ class ChatgptService < ApplicationService
 
   def system_prompt
     <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be progressive, chapter by chapter (three to five sentences) and written in french.
+      You act as a story book adventure narrator. The adventure should be progressive, chapter by chapter (maximum ten chapters) with three to five sentences for each one and written in french (except the summary that must be comma separated words in english only).
 
       Provide a RFC 8259 compliant JSON response following this format without deviation:
 
@@ -40,18 +40,21 @@ class ChatgptService < ApplicationService
   private
 
   def json_format
-    [
-      {
-        title: 'Chapter title',
-        content: 'Chapter story narration',
-        summary: 'Chapter summary separated by commas'
-      },
-      {
-        title: 'Another chapter title',
-        content: 'Another chapter story narration',
-        summary: 'Another chapter summary separated by commas'
-      }
-    ]
+    {
+      title: 'Adventure title',
+      chapters: [
+        {
+          title: 'Chapter title',
+          content: 'Chapter story narration',
+          summary: 'Chapter, summary, commas, separated, english'
+        },
+        {
+          title: 'Another chapter title',
+          content: 'Another chapter story narration',
+          summary: 'another, chapter, summary, commas, separated, english'
+        }
+      ]
+    }
   end
 
   def client

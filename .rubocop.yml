@@ -9,6 +9,16 @@ require:
 AllCops:
   SuggestExtensions: false
   Exclude:
+    - 'bin/*'
     - 'db/schema.rb'
+    - 'db/seeds.rb'
+    - 'lib/generators/**/*'
+    - 'node_modules/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/BulkChangeTable:
+  Enabled: false
