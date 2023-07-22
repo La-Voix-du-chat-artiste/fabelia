@@ -80,4 +80,10 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.hosts << ENV['HOST'] if ENV['HOST'].present?
+
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.add_footer    = true
+  end
 end

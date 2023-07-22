@@ -1,36 +1,70 @@
-.mb-6
-  = button_to "Publier une nouvelle aventure",
-              stories_path(force_new_adventure: true),
-              class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-              data: { turbo_confirm: "Voulez-vous créer une nouvelle aventure ?" }
+= turbo_stream_from :chapters
+
+h1.text-3xl.mb-6
+  - if params[:display_ended].to_bool
+    | Les aventures terminées
+  - else
+    | Les aventures en cours
 
 - @stories.each do |story|
   .mb-6
     header.flex.items-center.justify-between.mb-3
-      h2.text-2xl.font-bold= story.title
+      .flex.gap-3
+        = image_tag polymorphic_path(story.cover), class: 'w-24' if story.cover.attached?
+
+        div
+          h2.text-2xl.font-bold.mb-1
+            = story.title
+
+            - if story.complete?
+              span=< "(#{story.chapters.published.count}/#{story.chapters_count})"
+            - else
+              span=< "(#{story.chapters.published.count}/???)"
+
+          p.inline-block.text-xs.font-medium.rounded.py-1 class="px-2.5 #{story.complete? ? 'bg-orange-100 text-orange-800' : 'bg-purple-100 text-purple-800' }"
+            = story.human_mode
 
       - if story.ended?
-        span.p-2.italic.text-sm.text-white.bg-green-500.rounded-lg Aventure terminée
+        span.p-2.italic.text-sm.text-white.bg-gray-500.rounded-lg Aventure terminée
       - else
-        = button_to "Publier la suite de l'aventure",
-                    story_path(story),
-                    method: :patch,
-                    class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-                    data: { turbo_confirm: "Voulez-vous générer un nouveau chapitre de l'aventure ?" }
-
-    - story.chapters.order(id: :asc).each do |chapter|
-      .flex.gap-2.items-center.bg-gray-200.border.border-gray-400.rounded-lg.p-2.mb-2
-        - if chapter.cover.attached?
-          = image_tag url_for(chapter.cover), class: 'w-64 rounded-lg'
-        div
-          h3.font-bold.mb-2= chapter.title
-          == chapter.content
-
-          p.text-sm.mt-2.italic
-            - if chapter.published?
-              span.text-green-600 Chapitre publié le #{l(chapter.published_at, format: :long)}
+        - if story.complete?
+          .flex.items-center.gap-2
+            - if story.chapters_count - 1 == story.chapters.published.count
+              - label = 'Publier le dernier chapitre'
+            - elsif !story.chapters.first.published?
+              - label = 'Publier le premier chapitre'
             - else
-              span.text-gray-500 Chapitre non publié
+              - label = 'Publier le chapitre suivant'
+
+            = button_to label,
+                        publish_next_story_chapters_path(story),
+                        method: :post,
+                        class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
+                        data: { turbo_confirm: "Voulez-vous #{label} ?" }
+
+            = button_to 'Publier tous les chapitres restant',
+                        publish_all_story_chapters_path(story),
+                        method: :post,
+                        class: 'bg-red-500 text-white rounded-lg p-2 cursor-pointer',
+                        data: { turbo_confirm: "Voulez-vous publier tous les chapitres non publiés ?" }
+
+        - else
+          .flex.items-center.gap-2
+            = button_to 'Générer et publier le chapitre suivant',
+                        story_chapters_path(story),
+                        method: :post,
+                        class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
+                        data: { turbo_confirm: "Voulez-vous générer et publier le chapitre suivant ?" }
+
+            - if story.chapters.first.published?
+              = button_to "Terminer l'aventure",
+                          story_chapters_path(story, force_end: true),
+                          method: :post,
+                          class: 'bg-red-500 text-white rounded-lg p-2 cursor-pointer',
+                          data: { turbo_confirm: "Voulez-vous générer et publier le dernier chapitre de cette aventure ?" }
+
+    #chapters.grid.grid-cols-4.gap-3
+      = render story.chapters.with_attached_cover.order(id: :asc)
 
 - if @stories.empty?
   .bg-red-100.border.border-red-200.rounded-lg.p-2

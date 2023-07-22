@@ -11,11 +11,26 @@ html
     = javascript_importmap_tags
 
   body
-    main.container.mx-auto.mt-12.px-5
-      header.mb-6
-        h1.text-3xl Nostorya
-        h2.text-xl Nostr + Story + IA
+    header.flex.items-center.justify-between.bg-black.px-4.py-3
+      h1.text-white.text-3xl Nostorya
 
+      div
+        - if params[:display_ended].to_bool
+          = link_to 'Aventure en cours', root_path, class: 'text-white underline'
+        - else
+          = link_to 'Aventure terminées', root_path(display_ended: true), class: 'text-white underline'
+
+      nav.flex.items-center.gap-3
+        = button_to "Générer une aventure complète",
+                    stories_path(mode: :complete),
+                    class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
+                    data: { turbo_confirm: "Voulez-vous générer une nouvelle aventure ? Celle-ci sera pré-générée de bout en bout avec l'illustration associée également à chaque chapitre." }
+        = button_to "Générer une aventure intéractive",
+                    stories_path(mode: :dropper),
+                    class: 'bg-blue-500 text-white rounded-lg p-2 cursor-pointer',
+                    data: { turbo_confirm: "Voulez-vous générer une nouvelle aventure intéractive ? Celle-ci ne contiendra que le premier chapitre et sera à générer au fur et à mesure (par exemple selon les résultats d'un sondage où les utilisateurs sont invités à s'exprimer sur la suite de l'histoire)." }
+
+    main.container.mx-auto.mt-12.px-5
       = render 'flash'
 
       = yield

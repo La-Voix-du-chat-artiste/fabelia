@@ -71,8 +71,12 @@ end
 gem 'action_policy'
 gem 'dotenv-rails'
 gem 'faker'
+gem 'human_attributes'
+gem 'lograge'
+gem 'nostr_ruby'
 gem 'openai_chatgpt'
 gem 'pg'
+gem 'rails-i18n'
 gem 'replicate-ruby'
 gem 'simple_form'
 gem 'slim-rails'
@@ -81,6 +85,7 @@ gem 'tailwindcss-rails'
 
 group :development do
   gem 'annotate'
+  gem 'bullet'
   gem 'chusaku', require: false
   gem 'letter_opener'
 end

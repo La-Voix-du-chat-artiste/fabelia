@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_15_140830) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_21_204048) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,10 +49,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_140830) do
     t.datetime "published_at"
     t.string "nostr_identifier"
     t.string "replicate_identifier"
-    t.json "raw_response_body", default: {}, null: false
+    t.json "replicate_raw_response_body", default: {}, null: false
     t.bigint "story_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "prompt"
+    t.json "chat_raw_response_body", default: {}, null: false
+    t.json "replicate_raw_request_body", default: {}, null: false
     t.index ["nostr_identifier"], name: "index_chapters_on_nostr_identifier", unique: true
     t.index ["replicate_identifier"], name: "index_chapters_on_replicate_identifier", unique: true
     t.index ["story_id"], name: "index_chapters_on_story_id"
@@ -65,6 +68,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_140830) do
     t.json "raw_response_body", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mode", default: 0, null: false
+    t.string "replicate_identifier"
+    t.json "replicate_raw_request_body", default: {}, null: false
+    t.json "replicate_raw_response_body", default: {}, null: false
+    t.index ["replicate_identifier"], name: "index_stories_on_replicate_identifier", unique: true
   end
 
   create_table "users", force: :cascade do |t|

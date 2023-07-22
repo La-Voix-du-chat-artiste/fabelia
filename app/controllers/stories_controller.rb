@@ -1,52 +1,23 @@
 class StoriesController < ApplicationController
-  before_action :set_story, only: :update
-
   # @route POST /stories (stories)
   def create
-    if !force_new_adventure? && Story.current?
-      # Find last non published chapter of current story
-      @story = Story.currents.last
-      @chapter = @story.chapters.where(published_at: nil).first
+    case mode
+    when :dropper
+      generate_dropper_story
+
+      flash[:notice] = 'Le premier chapitre de cette nouvelle aventure est en cours de création'
+    when :complete
+      GenerateFullStoryJob.perform_later(prompt)
+
+      flash[:notice] = "L'aventure complète est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
     else
-      # Generate a brand new story
-      json = ChatgptService.call(prompt)
-
-      ApplicationRecord.transaction do
-        @story = Story.create!(
-          title: json['title'],
-          adventure_ended_at: nil,
-          raw_response_body: json
-        )
-
-        json['chapters'].each do |chapter|
-          @story.chapters.create!(
-            title: chapter['title'],
-            content: chapter['content'],
-            summary: chapter['summary']
-          )
-        end
-      end
-
-      @chapter = @story.chapters.first
+      redirect_to root_path, alert: 'Unsupported story mode'
+      return
     end
 
-    ReplicateServices::Picture.call(@chapter, @chapter.summary)
-
-    redirect_to root_path, notice: "L'aventure va être publiée sur Nostr après réponse de l'API Replicate"
+    redirect_to root_path
   rescue OpenaiChatgpt::Error, StandardError => e
-    redirect_to root_path, alert: e.message
-  end
-
-  # @route PATCH /stories/:id (story)
-  # @route PUT /stories/:id (story)
-  def update
-    @chapter = @story.chapters.where(published_at: nil).first
-
-    ReplicateServices::Picture.call(@chapter, @chapter.summary)
-
-    redirect_to root_path, notice: "La suite de l'aventure va être publiée sur Nostr après réponse de l'API Replicate"
-  rescue OpenaiChatgpt::Error, StandardError => e
-    redirect_to root_path, alert: e.message
+    redirect_to root_path, alert: "#{e.message} => #{e.backtrace}"
   end
 
   private
@@ -55,15 +26,35 @@ class StoriesController < ApplicationController
     @story = Story.find(params[:id])
   end
 
-  def force_new_adventure?
-    params[:force_new_adventure].present? && params[:force_new_adventure] == 'true'
-  end
-
   def prompt
-    "Début de l'aventure #{thematics}"
+    "Début de l'aventure #{Story::THEMATICS.sample}"
   end
 
-  def thematics
-    ['médiévale', 'spatiale', 'maritime', 'en ville', 'dans la jungle', 'en bord de mer', "sous l'eau"].sample
+  def mode
+    params[:mode].presence&.to_sym || :complete
+  end
+
+  def generate_dropper_story
+    Retry.on(Net::ReadTimeout, JSON::ParserError) do
+      @json = ChatgptDropperService.call(prompt)
+    end
+
+    ApplicationRecord.transaction do
+      @story = Story.create!(
+        title: prompt,
+        adventure_ended_at: nil,
+        mode: :dropper
+      )
+
+      @chapter = @story.chapters.create!(
+        title: @json['title'],
+        content: @json['content'],
+        summary: @json['summary'],
+        prompt: prompt,
+        chat_raw_response_body: @json
+      )
+
+      ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
+    end
   end
 end

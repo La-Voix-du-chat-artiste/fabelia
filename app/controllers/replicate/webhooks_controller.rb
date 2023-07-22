@@ -4,42 +4,28 @@ module Replicate
 
     # @route POST /replicate/webhook (replicate_webhook)
     def event
-      chapter = ReplicateServices::Webhook.call(prediction)
-      story = chapter.story
+      model = ReplicateServices::Webhook.call(prediction, model_class)
 
-      # TODO: when live to production replace Replicate URL
-      # by our own server
-      cover = prediction.output.first
-      # cover = rails_storage_proxy_url(chapter.cover, port: nil, protocol: 'https')
-
-      if story.current?
-        last_published = chapter.last_published
-
-        @command = <<~COMMAND
-          noscl publish --reference #{last_published.nostr_identifier} "#{chapter.title}\n\n#{chapter.content}\n\n#{cover}"
-        COMMAND
-      else
-        @command = <<~COMMAND
-          noscl publish "#{story.title}\n\n#{chapter.title}\n\n#{chapter.content}\n\n#{cover}"
-        COMMAND
-      end
-
-      IO.popen(@command) do |pipe|
-        @output = pipe.readlines
-      end
-
-      event_id = @output.last.split[1]
-
-      chapter.update!(
-        nostr_identifier: event_id,
-        published_at: Time.current
-      )
-
-      story.ended! if chapter.last_published?
+      model.broadcast_chapter if model.is_a?(Chapter)
 
       head :ok
     rescue StandardError => e
-      Rails.logger.error { "========> #{e.message} <=======" }
+      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
+
+      head :unprocessable_entity
+    end
+
+    # @route POST /replicate/webhook/publish (replicate_webhook_publish)
+    def publish
+      chapter = ReplicateServices::Webhook.call(prediction, model_class)
+
+      NostrPublisherService.call(chapter)
+
+      chapter.broadcast_chapter
+
+      head :ok
+    rescue StandardError => e
+      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
 
       head :unprocessable_entity
     end
@@ -51,6 +37,10 @@ module Replicate
         Replicate.client,
         JSON.parse(request.body.read)
       )
+    end
+
+    def model_class
+      params[:model]
     end
   end
 end

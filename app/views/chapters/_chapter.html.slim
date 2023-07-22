@@ -1,0 +1,30 @@
+.bg-gray-200.border.rounded-lg.p-4.relative class=(chapter.published? ? 'border-green-600' : 'border-gray-400 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all') id=dom_id(chapter)
+  .absolute.inline-flex.items-center.justify-center.w-8.h-8.text-xs.font-bold.text-white.border-2.border-white.rounded-full.-top-2.-right-2 class=(chapter.published? ? 'bg-green-600' : 'bg-gray-400')
+    = chapter_counter + 1
+
+  .flex.flex-col.gap-3.items-start
+    - if chapter.cover.attached?
+      = image_tag url_for(chapter.cover), class: 'w-full rounded-lg mx-auto'
+    div
+      h3.font-bold.mb-2= chapter.title
+
+      .text-sm== chapter.content
+
+      - if chapter.story.dropper?
+        ul.mt-3.text-sm
+          - chapter.options.each do |option|
+            li.border-2.border-blue-700.bg-blue-200.p-2.rounded-lg.mb-1
+              = option
+
+  .mt-6
+    - if chapter.published?
+      p.text-xs.text-green-600 Chapitre publié le #{l(chapter.published_at)}
+    - else
+      p.text-xs.text-gray-500.mb-3 Chapitre non publié
+
+      - if chapter.story.dropper?
+        = button_to '⚠️ Publier le chapitre manuellement',
+            publish_story_chapter_path(chapter.story, chapter),
+            method: :post,
+            class: 'bg-orange-500 text-white rounded-lg p-2 cursor-pointer',
+            data: { turbo_confirm: 'Voulez-vous publier manuellement ce chapitre ?' }

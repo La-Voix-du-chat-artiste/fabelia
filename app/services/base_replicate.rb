@@ -3,20 +3,16 @@ class BaseReplicate < ApplicationService
 
   private
 
-  def model
+  def model_replicate
     Replicate.client.retrieve_model('stability-ai/stable-diffusion')
   end
 
   def version
-    model.latest_version
+    model_replicate.latest_version
   end
 
   def host
     Rails.application.config.action_controller.default_url_options[:host]
-  end
-
-  def webhook_url
-    replicate_webhook_url(host: host)
   end
 
   def default_keywords

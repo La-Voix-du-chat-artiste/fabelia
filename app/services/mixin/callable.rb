@@ -46,17 +46,17 @@ module Mixin
     extend ActiveSupport::Concern
 
     module ClassMethods
-      # @param args [Array<Object>] service parameters
-      def call(*args)
-        new(*args).call
+      # @param ... any service parameters
+      def call(...)
+        new(...).call
       end
 
-      # @param args [Array<Object>] service parameters
-      def call_later(*args)
+      # @param ... any service parameters
+      def call_later(...)
         options = {}
         options[:queue] = @queue if @queue
 
-        CallableJob.set(options).perform_later(name, *args)
+        CallableJob.set(options).perform_later(name, ...)
       end
 
       # @param queue [String, nil] the queue
