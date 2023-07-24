@@ -202,6 +202,7 @@ GEM
       version_gem (~> 1.1)
     openai_chatgpt (0.2.0)
       faraday (~> 2.5)
+    pagy (6.0.4)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
@@ -371,6 +372,7 @@ DEPENDENCIES
   lograge
   nostr_ruby
   openai_chatgpt
+  pagy
   pg
   puma (~> 5.0)
   rails (~> 7.0.6)

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --color-primary: #000;
+    --color-secondary: #7600FF;
+  }
+}
+
 /* Flash */
 #flash .flash__message {
   animation: appear-then-fade 10s both;
@@ -13,5 +20,37 @@
   }
   5%, 60% {
     opacity: 1
+  }
+}
+
+/* Pagy pagination style */
+
+.pagy-nav {
+  @apply flex space-x-2 justify-center my-8;
+}
+
+.pagy-nav .page a,
+.pagy-nav .page.active,
+.pagy-nav .page.prev.disabled,
+.pagy-nav .page.next.disabled {
+  @apply block rounded px-3 py-1 text-sm text-black hover:text-secondary-color;
+}
+
+.pagy-nav .page.prev.disabled,
+.pagy-nav .page.next.disabled {
+  @apply text-gray-400 cursor-default;
+  &:hover {
+    @apply text-gray-400 bg-gray-200;
+  }
+  &:active {
+    @apply text-gray-400 bg-gray-200;
+  }
+}
+
+.pagy-nav .page.active {
+  @apply text-white cursor-default bg-secondary-color hover:text-white hover:bg-primary-color;
+
+  &:active {
+    @apply text-white bg-primary-color;
   }
 }

@@ -6,6 +6,8 @@ h1.text-3xl.mb-6
   - else
     | Les aventures en cours
 
+== pagy_nav(@pagy) if @pagy.pages > 1
+
 - @stories.each do |story|
   .mb-6
     header.flex.items-center.justify-between.mb-3
@@ -65,6 +67,8 @@ h1.text-3xl.mb-6
 
     #chapters.grid.grid-cols-4.gap-3
       = render story.chapters.with_attached_cover.order(id: :asc)
+
+== pagy_nav(@pagy) if @pagy.pages > 1
 
 - if @stories.empty?
   .bg-red-100.border.border-red-200.rounded-lg.p-2

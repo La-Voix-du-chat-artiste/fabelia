@@ -7,7 +7,7 @@ class HomesController < ApplicationController
       Story.currents
     end
 
-    @stories = @stories.with_attached_cover.order(updated_at: :desc)
+    @pagy, @stories = pagy(@stories.with_attached_cover.order(updated_at: :desc), items: 3)
   end
 
   private
