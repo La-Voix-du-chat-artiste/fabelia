@@ -1,0 +1,27 @@
+header.flex.items-center.justify-between
+  h1.text-3xl.mb-6 Comptes Nostr
+
+  - if NostrUser.remaining_languages.any?
+    = link_to 'Ajouter un compte Nostr', new_nostr_user_path, class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300'
+
+#nostr_users.grid.grid-cols-2.gap-3
+  - @nostr_users.each do |nostr_user|
+    .bg-white.border.border-gray-200.rounded-lg.shadow
+      .flex.flex-col.items-center.py-10
+        h5.mb-1.text-xl.font-medium.text-gray-900
+          = nostr_user.name
+
+        span.text-sm.text-gray-500
+          = nostr_user.public_key
+
+        span.text-sm.text-gray-500
+          | *********
+
+        span.text-sm.text-gray-500
+          = nostr_user.relay_url
+
+        span.text-sm.text-gray-500
+          = nostr_user.language
+
+        .flex.mt-4.space-x-3.md:mt-6
+          = link_to 'Modifier', edit_nostr_user_path(nostr_user), class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300'

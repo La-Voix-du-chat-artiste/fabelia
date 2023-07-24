@@ -1,14 +1,15 @@
 module NostrServices
-  class PollEvent < NostrEvent
+  class ChapterPollEvent < NostrEvent
     EVENT_KIND = 6969 # NIP-69
     MINIMUM_SATS_VALUE = 42
     MAXIMUM_SATS_VALUE = 420
     POLL_END_OF_LIFE = 1.hour
 
-    attr_reader :chapter, :reference
+    attr_reader :chapter, :nostr_user, :reference
 
-    def initialize(chapter, reference)
+    def initialize(chapter, nostr_user, reference)
       @chapter = chapter
+      @nostr_user = nostr_user
       @reference = reference
     end
 

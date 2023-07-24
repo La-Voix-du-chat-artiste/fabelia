@@ -2,6 +2,7 @@ class Story < ApplicationRecord
   THEMATICS = ['médiévale', 'spatiale', 'maritime', 'en ville', 'dans la jungle', 'en bord de mer', "sous l'eau"].freeze
 
   enum mode: { complete: 0, dropper: 1 }
+  enum language: { french: 0, english: 1 }
 
   humanize :mode, enum: true
 
@@ -50,6 +51,7 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
+#  language                    :integer          default("french"), not null
 #
 # Indexes
 #

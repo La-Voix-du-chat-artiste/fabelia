@@ -1,8 +1,9 @@
 class ChatgptDropperService < ChatgptService
-  attr_reader :prompt, :story, :model
+  attr_reader :prompt, :language, :story, :model
 
-  def initialize(prompt, story = nil, model = 'gpt-3.5-turbo')
+  def initialize(prompt, language, story = nil, model = 'gpt-3.5-turbo')
     @prompt = prompt
+    @language = language
     @story = story
     @model = model
   end
@@ -33,7 +34,7 @@ class ChatgptDropperService < ChatgptService
 
   def system_prompt
     <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be progressive, generated one chapter at a time with a set of proposed options to continue the adventure. You reply in french only. Use "adventure_ended" boolean to inform that the story is considered as completed.
+      You act as a story book adventure narrator. The adventure should be progressive, generated one chapter at a time with a set of proposed options to continue the adventure. You reply in #{language} only. Use "adventure_ended" boolean to inform that the story is considered as completed.
 
       Provide a RFC 8259 compliant JSON response following this format without deviation:
 

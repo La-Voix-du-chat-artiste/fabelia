@@ -1,0 +1,10 @@
+h1 Editing nostr user
+
+== render "form", nostr_user: @nostr_user
+
+br
+
+div
+  => link_to "Show this nostr user", @nostr_user
+  '|
+  =< link_to "Back to nostr users", nostr_users_path

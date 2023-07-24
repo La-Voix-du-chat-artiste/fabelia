@@ -1,0 +1,16 @@
+div id="#{dom_id nostr_user}"
+  p
+    strong Name:
+    =< nostr_user.name
+  p
+    strong Public key:
+    =< nostr_user.public_key
+  p
+    strong> Private key:
+    | *******
+  p
+    strong Relay url:
+    =< nostr_user.relay_url
+  p
+    strong Language:
+    =< nostr_user.language

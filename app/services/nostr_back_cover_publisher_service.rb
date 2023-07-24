@@ -1,12 +1,13 @@
 class NostrBackCoverPublisherService < ApplicationService
-  attr_reader :reference
+  attr_reader :nostr_user, :reference
 
-  def initialize(reference)
+  def initialize(nostr_user, reference)
+    @nostr_user = nostr_user
     @reference = reference
   end
 
   def call
-    event = NostrServices::TextNoteEvent.call(nil, body, reference)
+    event = NostrServices::ManualTextNoteEvent.call(body, nostr_user, reference)
 
     debug_logger('Nostr Back cover', event.inspect, :green)
   end

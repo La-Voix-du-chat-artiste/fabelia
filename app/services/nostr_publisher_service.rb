@@ -7,13 +7,13 @@ class NostrPublisherService < ApplicationService
 
   def call
     reference = if chapter.first_to_publish?
-      NostrFrontCoverPublisherService.call(story)
+      NostrFrontCoverPublisherService.call(story, nostr_user)
     else
       chapter.last_published.nostr_identifier
     end
 
     nostr_event_identifier = NostrChapterPublisherService.call(
-      chapter, reference
+      chapter, nostr_user, reference
     )
 
     chapter.update!(
@@ -25,7 +25,7 @@ class NostrPublisherService < ApplicationService
 
     story.ended!
 
-    NostrBackCoverPublisherService.call(chapter.nostr_identifier)
+    NostrBackCoverPublisherService.call(nostr_user, chapter.nostr_identifier)
   end
 
   private
@@ -37,5 +37,9 @@ class NostrPublisherService < ApplicationService
   def adventure_ended?
     (story.complete? && chapter.last_published?) ||
       (story.dropper? && chapter.adventure_ended?)
+  end
+
+  def nostr_user
+    @nostr_user ||= NostrUser.find_by!(language: story.language)
   end
 end

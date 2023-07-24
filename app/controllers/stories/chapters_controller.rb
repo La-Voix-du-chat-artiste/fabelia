@@ -8,7 +8,7 @@ module Stories
       prompt = set_prompt
 
       Retry.on(Net::ReadTimeout, JSON::ParserError) do
-        @json = ChatgptDropperService.call(prompt, @story)
+        @json = ChatgptDropperService.call(prompt, @story.language, @story)
       end
 
       ApplicationRecord.transaction do

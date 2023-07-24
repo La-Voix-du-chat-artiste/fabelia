@@ -7,7 +7,7 @@ class StoriesController < ApplicationController
 
       flash[:notice] = 'Le premier chapitre de cette nouvelle aventure est en cours de création'
     when :complete
-      GenerateFullStoryJob.perform_later(prompt)
+      GenerateFullStoryJob.perform_later(prompt, language)
 
       flash[:notice] = "L'aventure complète est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
     else
@@ -36,14 +36,15 @@ class StoriesController < ApplicationController
 
   def generate_dropper_story
     Retry.on(Net::ReadTimeout, JSON::ParserError) do
-      @json = ChatgptDropperService.call(prompt)
+      @json = ChatgptDropperService.call(prompt, language)
     end
 
     ApplicationRecord.transaction do
       @story = Story.create!(
         title: prompt,
         adventure_ended_at: nil,
-        mode: :dropper
+        mode: :dropper,
+        language: language
       )
 
       @chapter = @story.chapters.create!(
@@ -56,5 +57,9 @@ class StoriesController < ApplicationController
 
       ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
     end
+  end
+
+  def language
+    params[:language].to_sym || :french
   end
 end

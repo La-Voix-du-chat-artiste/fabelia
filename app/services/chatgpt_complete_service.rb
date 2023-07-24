@@ -1,8 +1,9 @@
 class ChatgptCompleteService < ChatgptService
-  attr_reader :prompt, :model
+  attr_reader :prompt, :language, :model
 
-  def initialize(prompt, model = 'gpt-3.5-turbo')
+  def initialize(prompt, language, model = 'gpt-3.5-turbo')
     @prompt = prompt
+    @language = language
     @model = model
   end
 
@@ -27,7 +28,7 @@ class ChatgptCompleteService < ChatgptService
 
   def system_prompt
     <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each only in french language.
+      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each only in #{language} language.
 
       Provide a RFC 8259 compliant JSON response following this format without deviation:
 

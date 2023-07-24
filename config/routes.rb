@@ -18,4 +18,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :nostr_users, except: :show
 end

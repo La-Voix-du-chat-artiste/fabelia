@@ -1,0 +1,101 @@
+.navbar.flex.items-center.justify-between
+  = link_to 'Nostorya', root_path
+
+  nav
+    - if params[:display_ended].to_bool
+      = link_to 'Aventure en cours', root_path
+    - else
+      = link_to 'Aventure terminées', root_path(display_ended: true)
+
+    = link_to 'Comptes Nostr',
+              nostr_users_path,
+              class: ('active' if params[:controller] == 'nostr_users')
+
+    .dropdown
+      button.dropbtn Générateur d'aventures v
+      .dropdown-content
+        - NostrUser.distinct.pluck(:language).each do |language|
+          = button_to "Aventure complète (#{language})",
+                      stories_path(mode: :complete, language: language),
+                      class: 'cursor-pointer',
+                      data: { turbo_confirm: "Voulez-vous générer une nouvelle aventure ? Celle-ci sera pré-générée de bout en bout avec l'illustration associée également à chaque chapitre." }
+          = button_to "Aventure intéractive (#{language})",
+                      stories_path(mode: :dropper, language: language),
+                      class: 'cursor-pointer',
+                      data: { turbo_confirm: "Voulez-vous générer une nouvelle aventure intéractive ? Celle-ci ne contiendra que le premier chapitre et sera à générer au fur et à mesure (par exemple selon les résultats d'un sondage où les utilisateurs sont invités à s'exprimer sur la suite de l'histoire)." }
+
+css:
+   /* Navbar container */
+  .navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+  }
+
+  /* Links inside the navbar */
+  .navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  /* The dropdown container */
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+
+  /* Dropdown button */
+  .dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
+
+  /* Add a red background color to navbar links on hover */
+  .navbar a:hover,
+  .navbar a.active,
+  .dropdown:hover .dropbtn {
+    background-color: red;
+  }
+
+  /* Dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content a,
+  .dropdown-content button {
+    width: 100%;
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover,
+  .dropdown-content button:hover {
+    background-color: #ddd;
+  }
+
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }

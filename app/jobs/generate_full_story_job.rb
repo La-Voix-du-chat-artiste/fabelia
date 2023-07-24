@@ -1,7 +1,7 @@
 class GenerateFullStoryJob < ApplicationJob
-  def perform(prompt)
+  def perform(prompt, language)
     Retry.on(Net::ReadTimeout, JSON::ParserError) do
-      @json = ChatgptCompleteService.call(prompt)
+      @json = ChatgptCompleteService.call(prompt, language)
     end
 
     ApplicationRecord.transaction do
@@ -9,10 +9,11 @@ class GenerateFullStoryJob < ApplicationJob
         title: @json['title'],
         adventure_ended_at: nil,
         raw_response_body: @json,
-        mode: :complete
+        mode: :complete,
+        language: language
       )
 
-      story_cover_prompt = "#{@story.title}, book, adventure, cover, title"
+      story_cover_prompt = "#{@story.title}, book, adventure, cover, title, detailled, 4k"
       ReplicateServices::Picture.call(@story, story_cover_prompt)
 
       @json['chapters'].each_with_index do |row, _index|
