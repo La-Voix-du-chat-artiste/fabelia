@@ -3,7 +3,7 @@ class StoriesController < ApplicationController
   def create
     case mode
     when :dropper
-      generate_dropper_story
+      GenerateDropperStoryJob.perform_later(prompt, language)
 
       flash[:notice] = 'Le premier chapitre de cette nouvelle aventure est en cours de création'
     when :complete
@@ -27,36 +27,15 @@ class StoriesController < ApplicationController
   end
 
   def prompt
-    "Début de l'aventure #{Story::THEMATICS.sample}"
+    if language == :french
+      "Début de l'aventure #{Story::THEMATICS.sample}"
+    else
+      "Beginning of adventure #{Story::THEMATICS.sample}"
+    end
   end
 
   def mode
     params[:mode].presence&.to_sym || :complete
-  end
-
-  def generate_dropper_story
-    Retry.on(Net::ReadTimeout, JSON::ParserError) do
-      @json = ChatgptDropperService.call(prompt, language)
-    end
-
-    ApplicationRecord.transaction do
-      @story = Story.create!(
-        title: prompt,
-        adventure_ended_at: nil,
-        mode: :dropper,
-        language: language
-      )
-
-      @chapter = @story.chapters.create!(
-        title: @json['title'],
-        content: @json['content'],
-        summary: @json['summary'],
-        prompt: prompt,
-        chat_raw_response_body: @json
-      )
-
-      ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
-    end
   end
 
   def language

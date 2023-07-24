@@ -19,7 +19,7 @@ module Nostorya
     config.time_zone = 'Europe/Paris'
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.i18n.available_locales = :fr
+    config.i18n.available_locales = %i[fr en]
     config.i18n.default_locale = :fr
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}').to_s]
   end

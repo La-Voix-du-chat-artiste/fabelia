@@ -5,3 +5,6 @@ fr:
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
       hour: "%Hh%M"
+
+  chapter_poll:
+    poll_choice: Quelle doit être la suite de l'aventure ?

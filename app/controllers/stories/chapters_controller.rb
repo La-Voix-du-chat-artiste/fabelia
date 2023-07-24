@@ -7,7 +7,11 @@ module Stories
     def create
       prompt = set_prompt
 
-      Retry.on(Net::ReadTimeout, JSON::ParserError) do
+      Retry.on(
+        Net::ReadTimeout,
+        JSON::ParserError,
+        ChapterErrors::MissingPollOptions
+      ) do
         @json = ChatgptDropperService.call(prompt, @story.language, @story)
       end
 

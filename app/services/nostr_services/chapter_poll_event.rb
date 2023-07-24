@@ -54,12 +54,19 @@ module NostrServices
 
         #{chapter.replicate_cover}
 
-        Quelle doit être la suite de l'aventure ?
+        #{I18n.t('chapter_poll.poll_choice', locale: locale)}
       CONTENT
     end
 
     def options
       chapter.options
+    end
+
+    def locale
+      {
+        french: :fr,
+        english: :en
+      }[chapter.story.language.to_sym] || :fr
     end
   end
 end

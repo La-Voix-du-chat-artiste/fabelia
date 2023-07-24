@@ -5,6 +5,7 @@ class Story < ApplicationRecord
   enum language: { french: 0, english: 1 }
 
   humanize :mode, enum: true
+  humanize :language, enum: true
 
   has_many :chapters, dependent: :destroy
 

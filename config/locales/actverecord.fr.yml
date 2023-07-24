@@ -5,3 +5,6 @@ fr:
         modes:
           complete: Aventure pré-générée
           dropper: Aventure au fur et à mesure
+        languages:
+          french: Français
+          english: Anglais

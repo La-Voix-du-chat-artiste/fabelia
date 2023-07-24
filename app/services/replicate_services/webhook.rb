@@ -10,6 +10,8 @@ module ReplicateServices
     end
 
     def call
+      return model if model.cover.attached?
+
       model.update(replicate_raw_response_body: prediction.as_json)
 
       model.cover.attach(

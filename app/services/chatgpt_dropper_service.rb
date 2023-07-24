@@ -14,7 +14,11 @@ class ChatgptDropperService < ChatgptService
       model: model
     )
 
-    JSON.parse(response.results.first.content)
+    json = JSON.parse(response.results.first.content)
+
+    raise ChapterErrors::MissingPollOptions if json['options'].blank?
+
+    json
   end
 
   def messages

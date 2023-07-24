@@ -19,9 +19,10 @@ module Replicate
     def publish
       chapter = ReplicateServices::Webhook.call(prediction, model_class)
 
-      NostrPublisherService.call(chapter)
-
-      chapter.broadcast_chapter
+      unless chapter.published?
+        NostrPublisherService.call(chapter)
+        chapter.broadcast_chapter
+      end
 
       head :ok
     rescue StandardError => e
