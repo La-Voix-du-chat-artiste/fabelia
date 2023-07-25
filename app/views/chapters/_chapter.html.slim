@@ -1,6 +1,8 @@
-details.cursor-pointer.mb-2.hover:bg-gray-100.open:bg-gray-100.rounded-lg.transition-all class=(chapter.published? ? 'border-green-600' : 'border-gray-400 opacity-50 grayscale hover:opacity-100 hover:grayscale-0') id=dom_id(chapter)
+details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=(chapter.published? ? 'border-green-600' : 'border-gray-400 opacity-50 grayscale hover:opacity-100 hover:grayscale-0') id=dom_id(chapter)
   summary.flex.items-center.justify-between.p-2
     .flex.items-center.gap-3
+      span.text-gray-600 ##{chapter.position}
+
       - if chapter.cover.attached?
         = image_tag url_for(chapter.cover), class: 'w-12 rounded-lg'
       = chapter.title
@@ -19,7 +21,7 @@ details.cursor-pointer.mb-2.hover:bg-gray-100.open:bg-gray-100.rounded-lg.transi
 
       == chapter.content
 
-    - if chapter.story.dropper?
+    - if chapter.options.any?
       .grid.grid-cols-3.gap-3
         - chapter.options.each do |option|
           .border-2.border-blue-700.bg-blue-200.p-2.rounded-lg.flex.items-center

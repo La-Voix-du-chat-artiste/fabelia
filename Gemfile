@@ -69,6 +69,7 @@ group :test do
 end
 
 gem 'action_policy'
+gem 'acts_as_list'
 gem 'dotenv-rails'
 gem 'faker'
 gem 'human_attributes'

@@ -15,7 +15,7 @@
       button.dropbtn Générateur d'aventures v
       .dropdown-content
         - NostrUser.distinct.pluck(:language).each do |language|
-          = button_to "Aventure complète (#{language})",
+          = button_to "Aventure pré-générée (#{language})",
                       stories_path(mode: :complete, language: language),
                       class: 'cursor-pointer',
                       data: { turbo_confirm: "Voulez-vous générer une nouvelle aventure ? Celle-ci sera pré-générée de bout en bout avec l'illustration associée également à chaque chapitre." }

@@ -28,7 +28,7 @@ class ChatgptCompleteService < ChatgptService
 
   def system_prompt
     <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each only in #{language} language.
+      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in #{language} language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter.
 
       Provide a RFC 8259 compliant JSON response following this format without deviation:
 
@@ -45,12 +45,22 @@ class ChatgptCompleteService < ChatgptService
         {
           title: 'Chapter title',
           content: 'Chapter story narration',
-          summary: 'Chapter, summary, commas, separated, english'
+          summary: 'Chapter, summary, commas, separated, english',
+          options: [
+            'First option',
+            'Second option',
+            'Third option'
+          ]
         },
         {
           title: 'Another chapter title',
           content: 'Another chapter story narration',
-          summary: 'another, chapter, summary, commas, separated, english'
+          summary: 'another, chapter, summary, commas, separated, english',
+          options: [
+            'Another first option',
+            'Another second option',
+            'Another third option'
+          ]
         }
       ]
     }

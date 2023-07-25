@@ -9,7 +9,7 @@ class StoriesController < ApplicationController
     when :complete
       GenerateFullStoryJob.perform_later(prompt, language)
 
-      flash[:notice] = "L'aventure complète est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
+      flash[:notice] = "L'aventure pré-générée est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
     else
       redirect_to root_path, alert: 'Unsupported story mode'
       return

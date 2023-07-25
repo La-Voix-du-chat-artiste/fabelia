@@ -5,6 +5,9 @@ class Chapter < ApplicationRecord
 
   scope :published, -> { where.not(published_at: nil) }
   scope :not_published, -> { where(published_at: nil) }
+  scope :by_position, -> { order(:position) }
+
+  acts_as_list scope: :story
 
   def first_to_publish?
     story.chapters.published.blank? && self == story.chapters.first
@@ -24,7 +27,7 @@ class Chapter < ApplicationRecord
   end
 
   def options
-    chat_raw_response_body['options']
+    chat_raw_response_body['options'] || []
   end
 
   def adventure_ended?
@@ -66,6 +69,7 @@ end
 #  prompt                      :text
 #  chat_raw_response_body      :json             not null
 #  replicate_raw_request_body  :json             not null
+#  position                    :integer          default(1), not null
 #
 # Indexes
 #

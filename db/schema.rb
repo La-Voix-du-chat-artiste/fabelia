@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_23_213745) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_25_122950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_23_213745) do
     t.text "prompt"
     t.json "chat_raw_response_body", default: {}, null: false
     t.json "replicate_raw_request_body", default: {}, null: false
+    t.integer "position", default: 1, null: false
     t.index ["nostr_identifier"], name: "index_chapters_on_nostr_identifier", unique: true
     t.index ["replicate_identifier"], name: "index_chapters_on_replicate_identifier", unique: true
     t.index ["story_id"], name: "index_chapters_on_story_id"

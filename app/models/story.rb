@@ -11,6 +11,10 @@ class Story < ApplicationRecord
 
   has_one_attached :cover
 
+  after_create_commit do
+    broadcast_prepend_to :stories
+  end
+
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
 

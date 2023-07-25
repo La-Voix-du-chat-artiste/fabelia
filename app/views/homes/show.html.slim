@@ -1,3 +1,4 @@
+= turbo_stream_from :stories
 = turbo_stream_from :chapters
 
 h1.text-3xl.mb-6
@@ -8,65 +9,7 @@ h1.text-3xl.mb-6
 
 == pagy_nav(@pagy) if @pagy.pages > 1
 
-- @stories.each do |story|
-  .flex.justify-between.mb-6
-    .w-2/5.p-3.flex.flex-col.items-center.bg-stone-700.text-white.rounded-l-lg
-      header.flex.items-center.gap-2.mb-1
-        h2.text-lg.font-bold= story.title
-
-        span.text-sm
-          - if story.complete?
-            =< "(#{story.chapters.published.count}/#{story.chapters_count})"
-          - else
-            =< "(#{story.chapters.published.count}/X)"
-
-      .flex.items-center.gap-3.mb-3
-        p.inline-block.text-xs.font-medium.py-1.rounded class="px-2.5 #{story.complete? ? 'bg-orange-100 text-orange-800' : 'bg-purple-100 text-purple-800' }"
-          = story.human_mode
-
-        p.inline-block.text-xs.font-medium.py-1.rounded.bg-gray-100.text-gray-800 class="px-2.5"
-          = story.human_language
-
-      = image_tag polymorphic_path(story.cover), class: 'w-72 rounded-lg mb-3 border-2' if story.cover.attached?
-
-    .w-3/5.p-3.bg-stone-200.rounded-r-lg
-      #chapters
-        = render story.chapters.with_attached_cover.order(id: :asc)
-
-      footer.flex.items-center.justify-center.gap-2.mt-6
-        - if story.complete?
-          - if story.chapters_count - 1 == story.chapters.published.count
-            - label = 'Publier le dernier chapitre'
-          - elsif !story.chapters.first.published?
-            - label = 'Publier le premier chapitre'
-          - else
-            - label = 'Publier le chapitre suivant'
-
-          = button_to label,
-                      publish_next_story_chapters_path(story),
-                      method: :post,
-                      class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-                      data: { turbo_confirm: "Voulez-vous #{label} ?" }
-
-          = button_to 'Publier tous les chapitres restant',
-                      publish_all_story_chapters_path(story),
-                      method: :post,
-                      class: 'bg-red-500 text-white rounded-lg p-2 cursor-pointer',
-                      data: { turbo_confirm: "Voulez-vous publier tous les chapitres non publiés ?" }
-
-        - else
-          = button_to 'Générer et publier le chapitre suivant',
-                      story_chapters_path(story),
-                      method: :post,
-                      class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-                      data: { turbo_confirm: "Voulez-vous générer et publier le chapitre suivant ?" }
-
-          - if story.chapters.first.published?
-            = button_to "Terminer l'aventure",
-                        story_chapters_path(story, force_end: true),
-                        method: :post,
-                        class: 'bg-red-500 text-white rounded-lg p-2 cursor-pointer',
-                        data: { turbo_confirm: "Voulez-vous générer et publier le dernier chapitre de cette aventure ?" }
+#stories= render @stories
 
 == pagy_nav(@pagy) if @pagy.pages > 1
 
