@@ -27,11 +27,7 @@ class StoriesController < ApplicationController
   end
 
   def prompt
-    if language == :french
-      "Début de l'aventure #{Story::THEMATICS.sample}"
-    else
-      "Beginning of adventure #{Story::THEMATICS.sample}"
-    end
+    I18n.t('begin_adventure', theme: Story::THEMATICS.sample, locale: language.to_s.first(2))
   end
 
   def mode

@@ -1,3 +1,5 @@
 en:
   chapter_poll:
     poll_choice: What should be the continuation of the adventure ?
+
+  begin_adventure: Beginning of adventure %{theme}

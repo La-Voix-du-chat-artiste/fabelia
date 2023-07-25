@@ -83,6 +83,7 @@ gem 'simple_form'
 gem 'slim-rails'
 gem 'sorcery'
 gem 'tailwindcss-rails'
+gem 'whenever', require: false
 
 group :development do
   gem 'annotate'
