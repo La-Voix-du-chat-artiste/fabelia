@@ -3,6 +3,7 @@ class GenerateDropperStoryJob < ApplicationJob
     Retry.on(
       Net::ReadTimeout,
       JSON::ParserError,
+      ChapterErrors::EmptyPollOptions,
       ChapterErrors::MissingPollOptions
     ) do
       @json = ChatgptDropperService.call(prompt, language)

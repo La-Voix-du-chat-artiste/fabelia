@@ -1,0 +1,5 @@
+fr:
+  exceptions:
+    chapter_errors:
+      empty_poll_options: Options de réponses au sondage manquantes
+      missing_poll_options: 2 réponses minimum sont requises pour les options de sondage

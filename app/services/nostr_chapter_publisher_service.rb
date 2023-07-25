@@ -8,7 +8,7 @@ class NostrChapterPublisherService < ApplicationService
   end
 
   def call
-    event = if story.dropper?
+    event = if story.dropper? && !chapter.adventure_ended?
       NostrServices::ChapterPollEvent.call(chapter, nostr_user, reference)
     else
       NostrServices::ChapterTextNoteEvent.call(chapter, nostr_user, reference)

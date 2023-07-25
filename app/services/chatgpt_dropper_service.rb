@@ -16,7 +16,10 @@ class ChatgptDropperService < ChatgptService
 
     json = JSON.parse(response.results.first.content)
 
-    raise ChapterErrors::MissingPollOptions if json['options'].blank?
+    return json if json['adventure_ended'].to_bool
+
+    raise ChapterErrors::EmptyPollOptions if json['options'].blank?
+    raise ChapterErrors::MissingPollOptions if json['options'].size <= 1
 
     json
   end

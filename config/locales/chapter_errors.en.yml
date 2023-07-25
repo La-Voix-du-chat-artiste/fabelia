@@ -1,0 +1,5 @@
+en:
+  exceptions:
+    chapter_errors:
+      empty_poll_options: Missing poll options
+      missing_poll_options: Poll options size must be at least 2

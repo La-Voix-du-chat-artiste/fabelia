@@ -10,6 +10,7 @@ module Stories
       Retry.on(
         Net::ReadTimeout,
         JSON::ParserError,
+        ChapterErrors::EmptyPollOptions,
         ChapterErrors::MissingPollOptions
       ) do
         @json = ChatgptDropperService.call(prompt, @story.language, @story)
