@@ -1,5 +1,5 @@
 .flex.justify-between.mb-6 class="max-h-[30rem]" id=dom_id(story)
-  .w-2/5.p-3.flex.flex-col.items-center.bg-stone-700.text-white.rounded-l-lg
+  .w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-l-lg class="px-2.5 #{story.complete? ? 'bg-blue-600' : 'bg-yellow-600' }"
     header.flex.items-center.gap-2.mb-1
       h2.text-lg.font-bold= story.title
 
@@ -18,7 +18,7 @@
 
     = image_tag polymorphic_path(story.cover), class: 'w-72 rounded-lg mb-3 border-2' if story.cover.attached?
 
-  .w-3/5.p-3.bg-stone-200.rounded-r-lg.overflow-y-auto
+  .w-3/5.p-3.bg-stone-700.rounded-r-lg.overflow-y-auto
     #chapters
       = render story.chapters.with_attached_cover.order(id: :asc)
 
