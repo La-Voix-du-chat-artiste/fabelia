@@ -1,5 +1,7 @@
 .flex.justify-between.mb-6 class="max-h-[30rem]" id=dom_id(story)
-  .w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-l-lg class="px-2.5 #{story.complete? ? 'bg-blue-600' : 'bg-yellow-600' }"
+  .w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-l-lg.relative class="px-2.5 #{story.complete? ? 'bg-blue-600' : 'bg-yellow-600' }"
+    = render 'stories/menu', story: story
+
     header.flex.items-center.gap-2.mb-1
       h2.text-lg.font-bold= story.title
 
@@ -21,38 +23,3 @@
   .w-3/5.p-3.bg-stone-700.rounded-r-lg.overflow-y-auto
     #chapters
       = render story.chapters.with_attached_cover.order(id: :asc)
-
-    footer.flex.items-center.justify-center.gap-2.mt-6
-      - if story.complete?
-        - if story.chapters_count - 1 == story.chapters.published.count
-          - label = 'Publier le dernier chapitre'
-        - elsif !story.chapters.first.published?
-          - label = 'Publier le premier chapitre'
-        - else
-          - label = 'Publier le chapitre suivant'
-
-        = button_to label,
-                    publish_next_story_chapters_path(story),
-                    method: :post,
-                    class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-                    data: { turbo_confirm: "Voulez-vous #{label} ?" }
-
-        = button_to 'Publier tous les chapitres restant',
-                    publish_all_story_chapters_path(story),
-                    method: :post,
-                    class: 'bg-red-500 text-white rounded-lg p-2 cursor-pointer',
-                    data: { turbo_confirm: "Voulez-vous publier tous les chapitres non publiés ?" }
-
-      - else
-        = button_to 'Générer et publier le chapitre suivant',
-                    story_chapters_path(story),
-                    method: :post,
-                    class: 'bg-green-500 text-white rounded-lg p-2 cursor-pointer',
-                    data: { turbo_confirm: "Voulez-vous générer et publier le chapitre suivant ?" }
-
-        - if story.chapters.first.published?
-          = button_to "Terminer l'aventure",
-                      story_chapters_path(story, force_end: true),
-                      method: :post,
-                      class: 'bg-red-500 text-white rounded-lg p-2 cursor-pointer',
-                      data: { turbo_confirm: "Voulez-vous générer et publier le dernier chapitre de cette aventure ?" }

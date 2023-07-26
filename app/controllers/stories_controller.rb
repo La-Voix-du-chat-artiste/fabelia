@@ -1,4 +1,6 @@
 class StoriesController < ApplicationController
+  before_action :set_story, only: :destroy
+
   # @route POST /stories (stories)
   def create
     case mode
@@ -18,6 +20,13 @@ class StoriesController < ApplicationController
     redirect_to root_path
   rescue OpenaiChatgpt::Error, StandardError => e
     redirect_to root_path, alert: "#{e.message} => #{e.backtrace}"
+  end
+
+  # @route DELETE /stories/:id (story)
+  def destroy
+    @story.destroy
+
+    redirect_to root_path, notice: "L'aventure a bien été supprimée"
   end
 
   private
