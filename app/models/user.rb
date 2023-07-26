@@ -1,5 +1,26 @@
 class User < ApplicationRecord
+  EMAIL_REGEX = /\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+/
+
+  has_one_attached :avatar
+
   authenticates_with_sorcery!
+
+  encrypts :email, deterministic: true, downcase: true
+
+  validates :email, presence: true,
+                    format: { with: EMAIL_REGEX },
+                    uniqueness: { case_sensitive: false }
+  validates :password, length: { minimum: 8 },
+                       presence: true,
+                       confirmation: true,
+                       if: :validate_password?
+  validates :password_confirmation, presence: true, if: :validate_password?
+
+  private
+
+  def validate_password?
+    new_record? || changes[:crypted_password] || reset_password_token_changed?
+  end
 end
 
 # == Schema Information

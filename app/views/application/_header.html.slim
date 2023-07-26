@@ -1,7 +1,7 @@
 .navbar.flex.items-center.justify-between
   = link_to 'Nostorya', root_path
 
-  nav
+  nav.flex.items-center
     - if params[:display_ended].to_bool
       = link_to 'Aventure en cours', root_path
     - else
@@ -24,12 +24,19 @@
                       class: 'cursor-pointer',
                       data: { turbo_confirm: "Voulez-vous générer une nouvelle aventure intéractive ? Celle-ci ne contiendra que le premier chapitre et sera à générer au fur et à mesure (par exemple selon les résultats d'un sondage où les utilisateurs sont invités à s'exprimer sur la suite de l'histoire)." }
 
+    .dropdown
+      button.dropbtn
+        = image_tag polymorphic_path(current_user.avatar), class: 'w-10 h-10 rounded-full'
+      .dropdown-content
+        = link_to 'Déconnexion',
+                  sessions_path,
+                  data: { turbo_method: :delete }
+
 css:
    /* Navbar container */
   .navbar {
     overflow: hidden;
     background-color: #333;
-    font-family: Arial;
   }
 
   /* Links inside the navbar */

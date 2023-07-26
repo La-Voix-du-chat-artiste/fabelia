@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   post '/replicate/webhook', to: 'replicate/webhooks#event'
   post '/replicate/webhook/publish', to: 'replicate/webhooks#publish'
 
+  resource :sessions, only: %i[new create destroy]
+  resources :password_resets, only: %i[new create edit update]
+
   resources :stories, only: %i[create destroy] do
     scope module: :stories do
       resources :chapters, only: %i[create] do
