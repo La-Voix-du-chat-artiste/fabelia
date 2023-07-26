@@ -18,7 +18,8 @@
       p.inline-block.text-xs.font-medium.py-1.rounded.bg-gray-100.text-gray-800 class="px-2.5"
         = story.human_language
 
-    = image_tag polymorphic_path(story.cover), class: 'w-72 rounded-lg mb-3 border-2' if story.cover.attached?
+    div id=dom_id(story, 'cover')
+      = render 'stories/cover', story: story
 
   .w-3/5.p-3.bg-stone-700.rounded-r-lg.overflow-y-auto
     #chapters

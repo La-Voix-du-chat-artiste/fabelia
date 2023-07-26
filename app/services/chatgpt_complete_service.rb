@@ -21,7 +21,7 @@ class ChatgptCompleteService < ChatgptService
       { role: 'system', content: system_prompt }
     ]
 
-    array << { role: 'user', content: prompt }
+    array << { role: 'user', content: prompt + reminder }
 
     array
   end
@@ -64,5 +64,9 @@ class ChatgptCompleteService < ChatgptService
         }
       ]
     }
+  end
+
+  def reminder
+    'Ensure the story is complete and have a real coherent ending. Also reply in JSON RFC 8259 compliant format as instructed'
   end
 end

@@ -1,8 +1,8 @@
 class Story < ApplicationRecord
-  THEMATICS = ['médiévale', 'spatiale', 'maritime', 'en ville', 'dans la jungle', 'en bord de mer', "sous l'eau"].freeze
-
   enum mode: { complete: 0, dropper: 1 }
   enum language: { french: 0, english: 1 }
+
+  belongs_to :thematic, counter_cache: true
 
   humanize :mode, enum: true
   humanize :language, enum: true
@@ -34,6 +34,12 @@ class Story < ApplicationRecord
     update(adventure_ended_at: Time.current)
   end
 
+  def broadcast_cover
+    broadcast_replace_to :stories,
+                         target: "cover_story_#{id}",
+                         partial: 'stories/cover'
+  end
+
   def replicate_cover
     replicate_raw_response_body['data']['output'].first
   rescue StandardError
@@ -57,8 +63,14 @@ end
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
 #  language                    :integer          default("french"), not null
+#  thematic_id                 :bigint(8)
 #
 # Indexes
 #
 #  index_stories_on_replicate_identifier  (replicate_identifier) UNIQUE
+#  index_stories_on_thematic_id           (thematic_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (thematic_id => thematics.id)
 #

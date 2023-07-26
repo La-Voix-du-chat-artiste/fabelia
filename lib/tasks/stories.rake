@@ -5,8 +5,7 @@ namespace :stories do
       @story = Story.complete.currents.where(language: language).first
 
       if @story.blank?
-        prompt = I18n.t('begin_adventure', theme: Story::THEMATICS.sample, locale: language.first(2))
-        GenerateFullStoryJob.perform_now(prompt, language, publish: true)
+        GenerateFullStoryJob.perform_now(language, publish: true)
       else
         @chapter = @story.chapters.not_published.first
 

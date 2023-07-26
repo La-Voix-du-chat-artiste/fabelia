@@ -3,3 +3,4 @@ fr:
     chapter_errors:
       empty_poll_options: Options de réponses au sondage manquantes
       missing_poll_options: 2 réponses minimum sont requises pour les options de sondage
+      full_story_missing_chapters: 3 chapitres minimum sont requis pour pré-générer l'aventure

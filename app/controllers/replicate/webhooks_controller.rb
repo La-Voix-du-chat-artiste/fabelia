@@ -1,5 +1,6 @@
 module Replicate
   class WebhooksController < ApplicationController
+    skip_before_action :require_login
     skip_before_action :verify_authenticity_token
 
     # @route POST /replicate/webhook (replicate_webhook)
@@ -7,6 +8,7 @@ module Replicate
       model = ReplicateServices::Webhook.call(prediction, model_class)
 
       model.broadcast_chapter if model.is_a?(Chapter)
+      model.broadcast_cover if model.is_a?(Story)
 
       head :ok
     rescue StandardError => e

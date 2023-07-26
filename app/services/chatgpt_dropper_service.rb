@@ -53,6 +53,7 @@ class ChatgptDropperService < ChatgptService
 
   def json_format
     {
+      story_title: 'Story title',
       title: 'Chapter title',
       content: 'Chapter story narration',
       summary: 'Chapter, summary, commas, separated, english',

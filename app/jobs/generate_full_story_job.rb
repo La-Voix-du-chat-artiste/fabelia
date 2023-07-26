@@ -1,7 +1,18 @@
 class GenerateFullStoryJob < ApplicationJob
-  def perform(prompt, language, publish: false)
-    Retry.on(Net::ReadTimeout, JSON::ParserError) do
+  def perform(language, publish: false)
+    thematic = Thematic.enabled.sample
+
+    description = thematic.send("description_#{language.to_s.first(2)}")
+    prompt = I18n.t('begin_adventure', description: description)
+
+    Retry.on(
+      Net::ReadTimeout,
+      JSON::ParserError,
+      ChapterErrors::FullStoryMissingChapters
+    ) do
       @json = ChatgptCompleteService.call(prompt, language)
+
+      raise ChapterErrors::FullStoryMissingChapters if @json['chapters'].count < 3
     end
 
     ApplicationRecord.transaction do
@@ -10,10 +21,11 @@ class GenerateFullStoryJob < ApplicationJob
         adventure_ended_at: nil,
         raw_response_body: @json,
         mode: :complete,
-        language: language
+        language: language,
+        thematic: thematic
       )
 
-      story_cover_prompt = "#{@story.title}, book, adventure, cover, title, detailled, 4k"
+      story_cover_prompt = "detailed book illustration, #{@story.title}, #{description}"
       ReplicateServices::Picture.call(@story, story_cover_prompt)
 
       @json['chapters'].each_with_index do |row, index|

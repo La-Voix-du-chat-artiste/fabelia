@@ -1,0 +1,14 @@
+= simple_form_for(@thematic) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :identifier
+    = f.input :name_fr
+    = f.input :name_en
+    = f.input :description_fr
+    = f.input :description_en
+    = f.input :enabled
+
+  .form-actions
+    = f.button :submit

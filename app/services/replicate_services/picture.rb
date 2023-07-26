@@ -16,7 +16,7 @@ module ReplicateServices
       prediction = version.predict({
         prompt: prompt + default_keywords,
         num_inference_steps: 20,
-        width: model.is_a?(Story) ? 768 : 1024,
+        width: 1024,
         height: model.is_a?(Story) ? 1024 : 768
       }, webhook_url)
 

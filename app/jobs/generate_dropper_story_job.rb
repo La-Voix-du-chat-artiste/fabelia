@@ -1,5 +1,10 @@
 class GenerateDropperStoryJob < ApplicationJob
-  def perform(prompt, language)
+  def perform(language)
+    thematic = Thematic.enabled.sample
+
+    description = thematic.send("description_#{language.to_s.first(2)}")
+    prompt = I18n.t('begin_adventure', description: description)
+
     Retry.on(
       Net::ReadTimeout,
       JSON::ParserError,
@@ -11,13 +16,14 @@ class GenerateDropperStoryJob < ApplicationJob
 
     ApplicationRecord.transaction do
       @story = Story.create!(
-        title: prompt,
+        title: @json['story_title'],
         adventure_ended_at: nil,
         mode: :dropper,
-        language: language
+        language: language,
+        thematic: thematic
       )
 
-      story_cover_prompt = "#{@story.title}, book, adventure, cover, title, detailled, 4k"
+      story_cover_prompt = "detailed book illustration, #{@story.title}, #{description}"
       ReplicateServices::Picture.call(@story, story_cover_prompt, publish: false)
 
       @chapter = @story.chapters.create!(
@@ -27,8 +33,6 @@ class GenerateDropperStoryJob < ApplicationJob
         prompt: prompt,
         chat_raw_response_body: @json
       )
-
-      sleep 3
 
       ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
     end

@@ -5,11 +5,11 @@ class StoriesController < ApplicationController
   def create
     case mode
     when :dropper
-      GenerateDropperStoryJob.perform_later(prompt, language)
+      GenerateDropperStoryJob.perform_later(language)
 
       flash[:notice] = 'Le premier chapitre de cette nouvelle aventure est en cours de création'
     when :complete
-      GenerateFullStoryJob.perform_later(prompt, language)
+      GenerateFullStoryJob.perform_later(language)
 
       flash[:notice] = "L'aventure pré-générée est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
     else
@@ -33,10 +33,6 @@ class StoriesController < ApplicationController
 
   def set_story
     @story = Story.find(params[:id])
-  end
-
-  def prompt
-    I18n.t('begin_adventure', theme: Story::THEMATICS.sample, locale: language.to_s.first(2))
   end
 
   def mode

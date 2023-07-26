@@ -3,3 +3,4 @@ en:
     chapter_errors:
       empty_poll_options: Missing poll options
       missing_poll_options: Poll options size must be at least 2
+      full_story_missing_chapters: 3 chapters are the minimum required to generate the adventure

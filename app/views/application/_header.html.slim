@@ -11,6 +11,10 @@
               nostr_users_path,
               class: ('active' if params[:controller] == 'nostr_users')
 
+    = link_to 'Thématiques',
+              thematics_path,
+              class: ('active' if params[:controller] == 'thematics')
+
     .dropdown
       button.dropbtn Générateur d'aventures v
       .dropdown-content

@@ -9,4 +9,4 @@ fr:
   chapter_poll:
     poll_choice: Quelle doit être la suite de l'aventure ?
 
-  begin_adventure: Début de l'aventure %{theme}
+  begin_adventure: "%{description} : Début de l'aventure"

@@ -35,7 +35,8 @@ class Chapter < ApplicationRecord
   end
 
   def broadcast_chapter
-    broadcast_replace_to :chapters, locals: { chapter_counter: story.chapters.count }
+    broadcast_replace_to :chapters,
+                         locals: { chapter_counter: story.chapters.count }
   end
 
   def replicate_cover
