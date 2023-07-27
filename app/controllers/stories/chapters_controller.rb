@@ -60,7 +60,7 @@ module Stories
     private
 
     def set_story
-      @story = Story.find(params[:story_id])
+      @story = Story.enabled.find(params[:story_id])
     end
 
     def set_chapter

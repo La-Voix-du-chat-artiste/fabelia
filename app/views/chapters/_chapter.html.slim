@@ -17,7 +17,7 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
   .p-2
     .flex.gap-3.mb-3
       - if chapter.cover.attached?
-        = image_tag url_for(chapter.cover), class: 'w-72 rounded-lg'
+        = image_tag url_for(chapter.cover), class: 'w-72 object-cover rounded-lg'
 
       == chapter.content
 

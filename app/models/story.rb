@@ -17,6 +17,7 @@ class Story < ApplicationRecord
 
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
+  scope :enabled, -> { where(enabled: true) }
 
   def self.current?
     exists?(adventure_ended_at: nil)
@@ -64,6 +65,7 @@ end
 #  replicate_raw_response_body :json             not null
 #  language                    :integer          default("french"), not null
 #  thematic_id                 :bigint(8)
+#  enabled                     :boolean          default(TRUE), not null
 #
 # Indexes
 #

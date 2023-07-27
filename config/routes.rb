@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resource :sessions, only: %i[new create destroy]
   resources :password_resets, only: %i[new create edit update]
 
-  resources :stories, only: %i[create destroy] do
+  resources :stories, only: %i[create update destroy] do
     scope module: :stories do
       resources :chapters, only: %i[create] do
         collection do

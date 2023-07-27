@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_26_153833) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_193016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,6 +87,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_153833) do
     t.json "replicate_raw_response_body", default: {}, null: false
     t.integer "language", default: 0, null: false
     t.bigint "thematic_id"
+    t.boolean "enabled", default: true, null: false
     t.index ["replicate_identifier"], name: "index_stories_on_replicate_identifier", unique: true
     t.index ["thematic_id"], name: "index_stories_on_thematic_id"
   end

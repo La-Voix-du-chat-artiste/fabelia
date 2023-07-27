@@ -1,5 +1,5 @@
 class StoriesController < ApplicationController
-  before_action :set_story, only: :destroy
+  before_action :set_story, only: %i[update destroy]
 
   # @route POST /stories (stories)
   def create
@@ -20,6 +20,14 @@ class StoriesController < ApplicationController
     redirect_to root_path
   rescue OpenaiChatgpt::Error, StandardError => e
     redirect_to root_path, alert: "#{e.message} => #{e.backtrace}"
+  end
+
+  # @route PATCH /stories/:id (story)
+  # @route PUT /stories/:id (story)
+  def update
+    @story.toggle!(:enabled)
+
+    redirect_to root_path, notice: "L'aventure a bien été mise à jour"
   end
 
   # @route DELETE /stories/:id (story)

@@ -1,4 +1,4 @@
-.flex.justify-between.mb-6 class="max-h-[30rem]" id=dom_id(story)
+.flex.justify-between.mb-6 class=('opacity-75' unless story.enabled?) class="max-h-[30rem]" id=dom_id(story)
   .w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-l-lg.relative class="px-2.5 #{story.complete? ? 'bg-blue-600' : 'bg-yellow-600' }"
     = render 'stories/menu', story: story
 
