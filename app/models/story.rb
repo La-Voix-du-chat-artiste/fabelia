@@ -46,6 +46,18 @@ class Story < ApplicationRecord
   rescue StandardError
     nil
   end
+
+  def thematic_name
+    french? ? thematic.name_fr.to_s : thematic.name_en.to_s
+  end
+
+  def thematic_description
+    french? ? thematic.description_fr.to_s : thematic.description_en.to_s
+  end
+
+  def summary
+    "detailed book illustration, #{title}, #{thematic_description}"
+  end
 end
 
 # == Schema Information

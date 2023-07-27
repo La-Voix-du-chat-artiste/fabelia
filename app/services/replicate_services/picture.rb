@@ -20,6 +20,8 @@ module ReplicateServices
         height: model.is_a?(Story) ? 1024 : 768
       }, webhook_url)
 
+      debug_logger('Prediction', prediction.inspect, :magenta)
+
       model.update!(
         replicate_identifier: prediction.id,
         replicate_raw_request_body: prediction

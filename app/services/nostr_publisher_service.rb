@@ -21,6 +21,8 @@ class NostrPublisherService < ApplicationService
       published_at: Time.current
     )
 
+    sleep 1
+
     return unless adventure_ended?
 
     story.ended!
@@ -35,7 +37,7 @@ class NostrPublisherService < ApplicationService
   end
 
   def adventure_ended?
-    (story.complete? && chapter.last_published?) ||
+    (story.complete? && chapter.last_to_publish?) ||
       (story.dropper? && chapter.adventure_ended?)
   end
 

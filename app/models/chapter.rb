@@ -13,7 +13,7 @@ class Chapter < ApplicationRecord
     story.chapters.published.blank? && self == story.chapters.first
   end
 
-  def last_published?
+  def last_to_publish?
     story.chapters.published.count == story.chapters_count &&
       self == last_published
   end

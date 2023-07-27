@@ -34,7 +34,7 @@ end
 
 private
 
-def set_logger(file: STDOUT, level: Logger::INFO)
+def set_logger(file: $stdout, level: Logger::INFO)
   logger           = ActiveSupport::TaggedLogging.new(Logger.new(file))
   logger.level     = level
   logger.formatter = Rails.logger.formatter

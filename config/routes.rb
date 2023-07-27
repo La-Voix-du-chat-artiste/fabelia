@@ -9,7 +9,13 @@ Rails.application.routes.draw do
 
   resources :stories, only: %i[create update destroy] do
     scope module: :stories do
+      resource :covers, only: %i[update]
+
       resources :chapters, only: %i[create] do
+        scope module: :chapters do
+          resource :covers, only: %i[update]
+        end
+
         collection do
           post :publish_next
           post :publish_all

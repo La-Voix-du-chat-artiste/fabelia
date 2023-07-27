@@ -23,8 +23,7 @@ class GenerateDropperStoryJob < ApplicationJob
         thematic: thematic
       )
 
-      story_cover_prompt = "detailed book illustration, #{@story.title}, #{description}"
-      ReplicateServices::Picture.call(@story, story_cover_prompt, publish: false)
+      ReplicateServices::Picture.call(@story, @story.summary)
 
       @chapter = @story.chapters.create!(
         title: @json['title'],

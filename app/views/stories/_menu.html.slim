@@ -43,6 +43,13 @@
                             class: 'hover:bg-gray-100 text-gray-500 cursor-pointer p-3 w-full text-sm bg-white',
                             data: { turbo_confirm: "Voulez-vous générer et publier le dernier chapitre de cette aventure ?" }
 
+            - if story.chapters.published.none?
+              = button_to "Regénérer la couverture de l'aventure",
+                          story_covers_path(story),
+                          method: :patch,
+                          class: 'bg-blue-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-blue-400',
+                          data: { turbo_confirm: "Voulez-vous générer une nouvelle couverture pour cette aventure ?" }
+
             = button_to "Mettre en pause l'aventure",
                         story_path(story),
                         method: :patch,

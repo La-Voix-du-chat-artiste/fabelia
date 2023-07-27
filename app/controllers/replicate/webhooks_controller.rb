@@ -11,10 +11,20 @@ module Replicate
       model.broadcast_cover if model.is_a?(Story)
 
       head :ok
-    rescue StandardError => e
-      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
+    rescue Replicate::Error => e
+      model = ReplicateServices::Webhook.new(prediction, model_class).model
 
-      head :unprocessable_entity
+      Rails.logger.error do
+        ActiveSupport::LogSubscriber.new.send(:color, "#{e.message} / #{model.inspect}", :red)
+      end
+
+      ReplicateServices::Picture.call(model, model.summary)
+
+      head :ok
+    rescue StandardError => e
+      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, "#{e.message} === #{e.backtrace}", :red) }
+
+      head :ok
     end
 
     # @route POST /replicate/webhook/publish (replicate_webhook_publish)
@@ -27,10 +37,20 @@ module Replicate
       end
 
       head :ok
+    rescue Replicate::Error => e
+      model = ReplicateServices::Webhook.new(prediction, model_class).model
+
+      Rails.logger.error do
+        ActiveSupport::LogSubscriber.new.send(:color, "#{e.message} / #{model.inspect}", :red)
+      end
+
+      ReplicateServices::Picture.call(model, model.summary)
+
+      head :ok
     rescue StandardError => e
       Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
 
-      head :unprocessable_entity
+      head :ok
     end
 
     private
