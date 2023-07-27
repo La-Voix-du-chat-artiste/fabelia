@@ -6,10 +6,12 @@ class NostrPublisherService < ApplicationService
   end
 
   def call
-    reference = if chapter.first_to_publish?
-      NostrFrontCoverPublisherService.call(story, nostr_user)
+    if chapter.first_to_publish?
+      reference = NostrFrontCoverPublisherService.call(story, nostr_user)
+      story.nostr_identifier = reference
+      story.save!
     else
-      chapter.last_published.nostr_identifier
+      reference = chapter.last_published.nostr_identifier
     end
 
     nostr_event_identifier = NostrChapterPublisherService.call(

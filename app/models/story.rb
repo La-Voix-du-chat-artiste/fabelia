@@ -78,9 +78,11 @@ end
 #  language                    :integer          default("french"), not null
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
+#  nostr_identifier            :string
 #
 # Indexes
 #
+#  index_stories_on_nostr_identifier      (nostr_identifier) UNIQUE
 #  index_stories_on_replicate_identifier  (replicate_identifier) UNIQUE
 #  index_stories_on_thematic_id           (thematic_id)
 #

@@ -63,6 +63,12 @@
                         class: 'rounded-t-lg bg-green-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-green-400',
                         data: { turbo_confirm: "Voulez-vous réactiver cette aventure ? Vous pourrez à nouveau publier des chapitres" }
 
+        - if story.current?
+          = link_to "Voir l'aventure en ligne",
+                     nostr_client_story_url(story),
+                     class: 'block rounded-md bg-gray-500 text-white p-3 w-full text-sm hover:bg-gray-400 text-center',
+                     target: :_blank
+
         = button_to "Supprimer l'aventure",
                     story_path(story),
                     method: :delete,
