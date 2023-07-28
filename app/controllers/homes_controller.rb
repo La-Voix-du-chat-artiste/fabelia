@@ -7,6 +7,11 @@ class HomesController < ApplicationController
       Story.currents
     end
 
+    @active_stories = [
+      Story.complete.currents.enabled.french.first,
+      Story.complete.currents.enabled.english.first
+    ].compact
+
     @pagy, @stories = pagy(@stories.with_attached_cover.order(updated_at: :desc), items: 6)
   end
 

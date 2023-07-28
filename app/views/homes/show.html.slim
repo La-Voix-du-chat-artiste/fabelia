@@ -7,6 +7,9 @@ h1.text-3xl.mb-6
   - else
     | Les aventures en cours
 
+section
+  = render 'homes/quick_look_active_stories', stories: @active_stories
+
 == pagy_nav(@pagy) if @pagy.pages > 1
 
 #stories= render @stories
