@@ -1,8 +1,9 @@
 class GenerateFullStoryJob < ApplicationJob
   def perform(language, publish: false)
     thematic = Thematic.enabled.sample
+    lang = language.to_s.first(2)
 
-    description = thematic.send("description_#{language.to_s.first(2)}")
+    description = thematic.send("description_#{lang}")
     prompt = I18n.t('begin_adventure', description: description)
 
     Retry.on(
@@ -16,13 +17,16 @@ class GenerateFullStoryJob < ApplicationJob
     end
 
     ApplicationRecord.transaction do
+      nostr_user = NostrUser.find_sole_by(language: language)
+
       @story = Story.create!(
         title: @json['title'],
         adventure_ended_at: nil,
         raw_response_body: @json,
         mode: :complete,
         language: language,
-        thematic: thematic
+        thematic: thematic,
+        nostr_user: nostr_user
       )
 
       story_cover_prompt = "detailed book illustration, #{@story.title}, #{description}"

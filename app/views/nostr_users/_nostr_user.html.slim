@@ -1,16 +1,23 @@
-div id="#{dom_id nostr_user}"
-  p
-    strong Name:
-    =< nostr_user.name
-  p
-    strong Public key:
-    =< nostr_user.public_key
-  p
-    strong> Private key:
-    | *******
-  p
-    strong Relay url:
-    =< nostr_user.relay_url
-  p
-    strong Language:
-    =< nostr_user.language
+.bg-white.border.border-gray-200.rounded-lg.shadow
+  .flex.flex-col.items-center.py-10
+    header.mb-2
+      - if nostr_user.avatar.attached?
+        = image_tag polymorphic_path(nostr_user.avatar), class: 'w-32 mx-auto mb-1 rounded-full'
+
+      h5.text-xl.font-medium.text-gray-900
+        = nostr_user.name
+
+    span.text-sm.text-gray-500
+      = nostr_user.public_key
+
+    span.text-sm.text-gray-500
+      | *********
+
+    span.text-sm.text-gray-500
+      = nostr_user.relay_url
+
+    span.text-sm.text-gray-500
+      = nostr_user.language
+
+    .flex.mt-4.space-x-3.md:mt-6
+      = link_to 'Modifier', edit_nostr_user_path(nostr_user), class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300'

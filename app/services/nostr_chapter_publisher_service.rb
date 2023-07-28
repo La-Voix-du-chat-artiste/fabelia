@@ -1,17 +1,16 @@
 class NostrChapterPublisherService < ApplicationService
-  attr_reader :chapter, :nostr_user, :reference
+  attr_reader :chapter, :reference
 
-  def initialize(chapter, nostr_user, reference)
+  def initialize(chapter, reference)
     @chapter = chapter
-    @nostr_user = nostr_user
     @reference = reference
   end
 
   def call
     event = if story.dropper? && !chapter.adventure_ended?
-      NostrServices::ChapterPollEvent.call(chapter, nostr_user, reference)
+      NostrServices::ChapterPollEvent.call(chapter, reference)
     else
-      NostrServices::ChapterTextNoteEvent.call(chapter, nostr_user, reference)
+      NostrServices::ChapterTextNoteEvent.call(chapter, reference)
     end
 
     debug_logger('Nostr Chapter', event.inspect, :green)

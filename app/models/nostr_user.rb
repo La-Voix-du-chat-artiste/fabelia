@@ -1,6 +1,8 @@
 class NostrUser < ApplicationRecord
   enum language: { french: 0, english: 1 }
 
+  has_one_attached :avatar
+
   encrypts :public_key, :private_key
 
   validates :name, presence: true
@@ -17,14 +19,15 @@ end
 #
 # Table name: nostr_users
 #
-#  id          :bigint(8)        not null, primary key
-#  name        :string
-#  public_key  :string
-#  private_key :string
-#  relay_url   :string
-#  language    :integer          default("french"), not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id            :bigint(8)        not null, primary key
+#  name          :string
+#  public_key    :string
+#  private_key   :string
+#  relay_url     :string
+#  language      :integer          default("french"), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  stories_count :integer          default(0), not null
 #
 # Indexes
 #

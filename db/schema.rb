@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_27_200735) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_28_121526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_200735) do
     t.integer "language", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "stories_count", default: 0, null: false
     t.index ["private_key"], name: "index_nostr_users_on_private_key", unique: true
     t.index ["public_key"], name: "index_nostr_users_on_public_key", unique: true
   end
@@ -89,7 +90,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_200735) do
     t.bigint "thematic_id"
     t.boolean "enabled", default: true, null: false
     t.string "nostr_identifier"
+    t.bigint "nostr_user_id"
     t.index ["nostr_identifier"], name: "index_stories_on_nostr_identifier", unique: true
+    t.index ["nostr_user_id"], name: "index_stories_on_nostr_user_id"
     t.index ["replicate_identifier"], name: "index_stories_on_replicate_identifier", unique: true
     t.index ["thematic_id"], name: "index_stories_on_thematic_id"
   end
@@ -127,5 +130,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_200735) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "stories"
+  add_foreign_key "stories", "nostr_users"
   add_foreign_key "stories", "thematics"
 end

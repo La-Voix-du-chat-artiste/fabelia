@@ -63,6 +63,6 @@ class NostrUsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def nostr_user_params
-    params.require(:nostr_user).permit(:name, :public_key, :private_key, :relay_url, :language)
+    params.require(:nostr_user).permit(:name, :public_key, :private_key, :relay_url, :language, :avatar)
   end
 end

@@ -1,10 +1,9 @@
 module NostrServices
   class ChapterTextNoteEvent < TextNoteEvent
-    attr_reader :chapter, :nostr_user, :reference
+    attr_reader :chapter, :reference
 
-    def initialize(chapter, nostr_user, reference = nil)
+    def initialize(chapter, reference = nil)
       @chapter = chapter
-      @nostr_user = nostr_user
       @reference = reference
     end
 
@@ -36,6 +35,10 @@ module NostrServices
 
         Pour le savoir, ne rate pas le prochain chapitre ! 📖
       EXTRABODY
+    end
+
+    def nostr_user
+      story.nostr_user
     end
   end
 end

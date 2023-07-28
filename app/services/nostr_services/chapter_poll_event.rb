@@ -5,11 +5,10 @@ module NostrServices
     MAXIMUM_SATS_VALUE = 420
     POLL_END_OF_LIFE = 1.hour
 
-    attr_reader :chapter, :nostr_user, :reference
+    attr_reader :chapter, :reference
 
-    def initialize(chapter, nostr_user, reference)
+    def initialize(chapter, reference)
       @chapter = chapter
-      @nostr_user = nostr_user
       @reference = reference
     end
 
@@ -67,6 +66,10 @@ module NostrServices
         french: :fr,
         english: :en
       }[chapter.story.language.to_sym] || :fr
+    end
+
+    def nostr_user
+      chapter.story.nostr_user
     end
   end
 end

@@ -1,9 +1,8 @@
 class NostrFrontCoverPublisherService < ApplicationService
-  attr_reader :story, :nostr_user
+  attr_reader :story
 
-  def initialize(story, nostr_user)
+  def initialize(story)
     @story = story
-    @nostr_user = nostr_user
   end
 
   def call
@@ -22,5 +21,9 @@ class NostrFrontCoverPublisherService < ApplicationService
 
       #{story.replicate_cover}
     FRONTCOVER
+  end
+
+  def nostr_user
+    story.nostr_user
   end
 end

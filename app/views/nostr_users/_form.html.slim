@@ -14,5 +14,10 @@
               collection: NostrUser.remaining_languages,
               include_blank: false
 
+    = f.input :avatar, as: :file
+
+    - if f.object.avatar.attached?
+      = image_tag polymorphic_path(f.object.avatar), class: 'w-64'
+
   .form-actions
     = f.button :submit

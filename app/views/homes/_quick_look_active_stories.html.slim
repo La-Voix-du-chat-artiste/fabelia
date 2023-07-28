@@ -5,7 +5,7 @@
         - active_chapter = story.chapters.not_published.first
 
         li.p-4.hover:bg-gray-100.transition-colors
-          .flex.gap-6
+          .flex.items-center.gap-6
             .flex-shrink-0
               = image_tag polymorphic_path(story.cover), class: 'w-32 rounded-lg' if story.cover.attached?
             .flex-1.min-w-0
@@ -21,8 +21,11 @@
                   .text-sm
                     = active_chapter.summary
 
-            .inline-flex.items-center.text-base.font-semibold.text-gray-900
-              = story.human_language
+            .text-base.font-semibold.text-gray-900
+              - if story.nostr_user.avatar.attached?
+                = image_tag polymorphic_path(story.nostr_user.avatar), class: 'w-24 mx-auto mb-1 rounded-full'
+
+              p= story.nostr_user.name
 
       - if stories.count < 2
         li.py-4

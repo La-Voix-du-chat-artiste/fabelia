@@ -22,7 +22,7 @@ module Replicate
 
       head :ok
     rescue StandardError => e
-      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, "#{e.message} === #{e.backtrace}", :red) }
+      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
 
       head :ok
     end

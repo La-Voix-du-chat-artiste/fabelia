@@ -1,9 +1,8 @@
 class NostrBackCoverPublisherService < ApplicationService
-  attr_reader :nostr_user, :reference
+  attr_reader :chapter
 
-  def initialize(nostr_user, reference)
-    @nostr_user = nostr_user
-    @reference = reference
+  def initialize(chapter)
+    @chapter = chapter
   end
 
   def call
@@ -25,5 +24,13 @@ class NostrBackCoverPublisherService < ApplicationService
 
       https://flownaely.cafe
     BACKCOVER
+  end
+
+  def nostr_user
+    chapter.story.nostr_user
+  end
+
+  def reference
+    chapter.nostr_identifier
   end
 end

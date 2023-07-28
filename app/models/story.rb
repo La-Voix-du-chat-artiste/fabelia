@@ -3,6 +3,7 @@ class Story < ApplicationRecord
   enum language: { french: 0, english: 1 }
 
   belongs_to :thematic, counter_cache: true
+  belongs_to :nostr_user, counter_cache: true
 
   humanize :mode, enum: true
   humanize :language, enum: true
