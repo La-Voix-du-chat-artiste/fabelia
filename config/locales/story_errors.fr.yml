@@ -1,0 +1,4 @@
+fr:
+  exceptions:
+    story_errors:
+      missing_cover: La couverture de l'aventure est manquante, vous ne pouvez pas publier avant de la régénérer

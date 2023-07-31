@@ -1,0 +1,50 @@
+ul.divide-y.divide-gray-200#quick_look role="list"
+  - stories.each do |language, story|
+    - if story.nil?
+      li.p-4
+        .flex.items-center.gap-6
+          .flex-1.min-w-0
+            p.bg-green-500.p-2.rounded-lg.italic.text-white Une nouvelle aventure sera créée à la prochaine exécution de la tâche
+
+          .text-base.font-semibold.text-gray-900
+            - nostr_user = NostrUser.find_sole_by(language: language)
+            - if nostr_user.avatar.attached?
+              = image_tag polymorphic_path(nostr_user.avatar), class: 'w-24 mx-auto mb-1 rounded-full'
+            p= nostr_user.name
+
+    - else
+      - active_chapter = story.chapters.not_published.first
+
+      li.p-4.hover:bg-gray-100.transition-colors.flex.items-center.justify-between.gap-6
+        .flex.items-center.gap-6
+          = image_tag polymorphic_path(story.cover), class: 'w-32 rounded-lg' if story.cover.attached?
+
+          div
+            p.text-md.font-bold.text-gray-900.truncate.mb-1
+              = story.title
+
+            .flex.items-center.gap-3.p-2.bg-gray-100.rounded-lg.border.border-gray-300
+              - if active_chapter.cover.attached?
+                p= image_tag polymorphic_path(active_chapter.cover), class: 'w-32 rounded-lg'
+
+              div
+                p Prochain chapitre:
+                p.text-gray-500.font-bold
+                  = "[##{active_chapter.position}] #{active_chapter.title}"
+                .text-sm
+                  = active_chapter.summary
+
+            - unless story.cover.attached?
+              p.mt-1.text-sm.text-orange-600
+                | ⚠️ L'aventure ne sera pas publiée car la couverture est manquante, veuillez la
+                =< link_to 'régénérer',
+                            story_covers_path(story),
+                            class: 'underline',
+                            data: { turbo_method: :patch, turbo_confirm: "Voulez-vous générer une nouvelle couverture pour cette aventure ?" }
+                |.
+
+        .text-base.font-semibold.text-gray-900
+          - if story.nostr_user.avatar.attached?
+            = image_tag polymorphic_path(story.nostr_user.avatar), class: 'w-24 mx-auto mb-1 rounded-full'
+
+          p.text-center= story.nostr_user.name

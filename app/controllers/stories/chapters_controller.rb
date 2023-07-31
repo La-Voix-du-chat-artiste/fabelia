@@ -33,6 +33,8 @@ module Stories
 
     # @route POST /stories/:story_id/chapters/publish_next (publish_next_story_chapters)
     def publish_next
+      raise StoryErrors::MissingCover unless @story.cover.attached?
+
       @chapter = @story.chapters.not_published.first
 
       NostrPublisherService.call(@chapter)
@@ -42,6 +44,8 @@ module Stories
 
     # @route POST /stories/:story_id/chapters/publish_all (publish_all_story_chapters)
     def publish_all
+      raise StoryErrors::MissingCover unless @story.cover.attached?
+
       @story.chapters.not_published.order(id: :asc).each do |chapter|
         NostrPublisherService.call(chapter)
         sleep 3

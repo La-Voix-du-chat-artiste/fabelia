@@ -1,0 +1,4 @@
+en:
+  exceptions:
+    story_errors:
+      missing_cover: Adventure cover is missing, you cannot publish until you generate the cover again.

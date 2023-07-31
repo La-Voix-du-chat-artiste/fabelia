@@ -1,4 +1,6 @@
 class Story < ApplicationRecord
+  include NSFWCoverable
+
   enum mode: { complete: 0, dropper: 1 }
   enum language: { french: 0, english: 1 }
 
@@ -19,6 +21,15 @@ class Story < ApplicationRecord
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
   scope :enabled, -> { where(enabled: true) }
+
+  def self.publishable(language: nil)
+    scope = complete.currents.enabled
+                    .joins(:chapters)
+                    .merge(Chapter.not_published)
+
+    scope = scope.where(language: language) if language.present?
+    scope
+  end
 
   def self.current?
     exists?(adventure_ended_at: nil)
@@ -42,6 +53,18 @@ class Story < ApplicationRecord
                          partial: 'stories/cover'
   end
 
+  def broadcast_next_quick_look_story
+    broadcast_replace_to :active_stories,
+                         partial: 'homes/stories',
+                         target: 'quick_look',
+                         locals: {
+                           stories: {
+                             french: Story.publishable.french.first,
+                             english: Story.publishable.english.first
+                           }
+                         }
+  end
+
   def replicate_cover
     replicate_raw_response_body['data']['output'].first
   rescue StandardError
@@ -58,6 +81,10 @@ class Story < ApplicationRecord
 
   def summary
     "detailed book illustration, #{title}, #{thematic_description}"
+  end
+
+  def publishable_story?
+    Story.publishable(language: language).first == self
   end
 end
 

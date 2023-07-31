@@ -1,0 +1,4 @@
+en:
+  exceptions:
+    cover_errors:
+      nsfw_detected: NSFW cover detected, please generate it again

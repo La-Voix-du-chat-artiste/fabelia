@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :require_login
 
   rescue_from ActionPolicy::Unauthorized, with: :unauthorized_access
+  rescue_from StoryErrors, with: :redirect_to_root
 
   private
 
@@ -17,5 +18,9 @@ class ApplicationController < ActionController::Base
     message = t "#{policy_name}.#{e.rule}", scope: 'action_policy', default: :default
 
     redirect_back_or_to root_path, alert: message
+  end
+
+  def redirect_to_root(e)
+    redirect_to root_path, alert: e.message
   end
 end

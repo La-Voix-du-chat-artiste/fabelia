@@ -40,7 +40,11 @@ class GenerateFullStoryJob < ApplicationJob
           chat_raw_response_body: row
         )
 
-        ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: (publish && index.zero?))
+        ReplicateServices::Picture.call(
+          @chapter,
+          @chapter.summary,
+          publish: publish == :all || (publish && index.zero?)
+        )
       end
     end
   end

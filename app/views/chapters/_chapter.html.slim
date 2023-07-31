@@ -28,11 +28,11 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
                          target: :_blank
 
             - else
-              = button_to "Regénérer la couverture de l'aventure",
+              = button_to "Regénérer la couverture du chapitre",
                           story_chapter_covers_path(chapter.story, chapter),
                           method: :patch,
                           class: 'bg-blue-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-blue-400',
-                          data: { turbo_confirm: "Voulez-vous générer une nouvelle couverture pour cette aventure ?" }
+                          data: { turbo_confirm: "Voulez-vous générer une nouvelle couverture pour ce chapitre ?" }
 
   .p-2
     .flex.gap-3.mb-3

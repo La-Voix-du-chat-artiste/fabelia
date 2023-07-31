@@ -10,14 +10,23 @@ module ReplicateServices
     end
 
     def call
+      validate!
+      process!
+
+      model
+    end
+
+    def validate!
+      raise CoverErrors::NSFWDetected if model.nsfw_prediction?
+    end
+
+    def process!
       model.update(replicate_raw_response_body: prediction.as_json)
 
       model.cover.attach(
         io: URI.parse(prediction.output.last).open,
         filename: prediction.id
       )
-
-      model
     end
 
     def model

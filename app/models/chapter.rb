@@ -1,4 +1,6 @@
 class Chapter < ApplicationRecord
+  include NSFWCoverable
+
   belongs_to :story, counter_cache: true, touch: true
 
   has_one_attached :cover
