@@ -14,6 +14,7 @@ html
     = render 'header'
 
     main.container.mx-auto.p-5
-      = render 'flash'
+      = turbo_stream_from :flashes
+      #flashes= render 'flashes'
 
       = yield

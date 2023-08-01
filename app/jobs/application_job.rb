@@ -1,7 +1,17 @@
 class ApplicationJob < ActiveJob::Base
-  # Automatically retry jobs that encountered a deadlock
-  # retry_on ActiveRecord::Deadlocked
+  rescue_from StandardError, with: :broadcast_flash_alert
 
-  # Most jobs are safe to ignore if the underlying records are no longer available
-  # discard_on ActiveJob::DeserializationError
+  private
+
+  def broadcast_flash_alert(e)
+    Turbo::StreamsChannel.broadcast_prepend_to(
+      :flashes,
+      target: 'flashes',
+      partial: 'flash',
+      locals: {
+        flash_type: :alert,
+        message: e.message
+      }
+    )
+  end
 end
