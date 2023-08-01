@@ -20,11 +20,13 @@ module Stories
         @chapter = @story.chapters.create!(
           title: @json['title'],
           content: @json['content'],
-          summary: @json['summary'],
           prompt: prompt,
           chat_raw_response_body: @json
         )
 
+        # Call ChatGPT to make an accurate chapter summary
+        chapter_cover_prompt = ChatgptSummaryService.call(@chapter.content)
+        @chapter.update(summary: chapter_cover_prompt)
         ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
       end
 

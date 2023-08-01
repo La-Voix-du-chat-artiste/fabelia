@@ -34,6 +34,13 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
                           class: 'bg-blue-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-blue-400',
                           data: { turbo_confirm: "Voulez-vous générer une nouvelle couverture pour ce chapitre ?" }
 
+              - if chapter.story.dropper?
+                = button_to '⚠️ Publier le chapitre manuellement',
+                    publish_story_chapter_path(chapter.story, chapter),
+                    method: :post,
+                    class: 'bg-orange-500 rounded-md text-white cursor-pointer p-3 w-full text-sm hover:bg-orange-400',
+                    data: { turbo_confirm: 'Voulez-vous publier manuellement ce chapitre ?' }
+
   .p-2
     .flex.gap-3.mb-3
       - if chapter.cover.attached?
@@ -46,10 +53,3 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
         - chapter.options.each do |option|
           .border-2.border-blue-700.bg-blue-200.p-2.rounded-lg.flex.items-center
             = option
-
-    - if chapter.story.dropper? && !chapter.published?
-      = button_to '⚠️ Publier le chapitre manuellement',
-          publish_story_chapter_path(chapter.story, chapter),
-          method: :post,
-          class: 'mt-3 bg-orange-500 text-white rounded-lg p-2 cursor-pointer',
-          data: { turbo_confirm: 'Voulez-vous publier manuellement ce chapitre ?' }

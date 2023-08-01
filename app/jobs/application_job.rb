@@ -9,8 +9,20 @@ class ApplicationJob < ActiveJob::Base
       target: 'flashes',
       partial: 'flash',
       locals: {
-        flash_type: :alert,
+        flash_type: 'alert',
         message: e.message
+      }
+    )
+  end
+
+  def broadcast_flash_notice(message)
+    Turbo::StreamsChannel.broadcast_prepend_to(
+      :flashes,
+      target: 'flashes',
+      partial: 'flash',
+      locals: {
+        flash_type: 'notice',
+        message: message
       }
     )
   end

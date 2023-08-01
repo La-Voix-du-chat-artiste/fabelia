@@ -17,7 +17,7 @@ module ReplicateServices
     end
 
     def validate!
-      raise CoverErrors::NSFWDetected if model.nsfw_prediction?
+      raise CoverErrors::NSFWDetected.new(model.summary, prediction.as_json) if model.nsfw_prediction?
     end
 
     def process!

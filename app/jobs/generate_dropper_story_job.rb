@@ -27,16 +27,21 @@ class GenerateDropperStoryJob < ApplicationJob
         nostr_user: nostr_user
       )
 
-      ReplicateServices::Picture.call(@story, @story.summary)
+      # Call ChatGPT to make an accurate story summary
+      story_cover_prompt = ChatgptSummaryService.call("#{@story.title}, #{description}")
+      @story.update(summary: story_cover_prompt)
+      ReplicateServices::Picture.call(@story, story_cover_prompt)
 
       @chapter = @story.chapters.create!(
         title: @json['title'],
         content: @json['content'],
-        summary: @json['summary'],
         prompt: prompt,
         chat_raw_response_body: @json
       )
 
+      # Call ChatGPT to make an accurate chapter summary
+      chapter_cover_prompt = ChatgptSummaryService.call(@chapter.content)
+      @chapter.update(summary: chapter_cover_prompt)
       ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
     end
   end

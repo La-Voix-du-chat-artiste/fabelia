@@ -79,10 +79,6 @@ class Story < ApplicationRecord
     french? ? thematic.description_fr.to_s : thematic.description_en.to_s
   end
 
-  def summary
-    "detailed book illustration, #{title}, #{thematic_description}"
-  end
-
   def publishable_story?
     Story.publishable(language: language).first == self
   end
@@ -107,14 +103,18 @@ end
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string
+#  nostr_user_id               :bigint(8)
+#  summary                     :string
 #
 # Indexes
 #
 #  index_stories_on_nostr_identifier      (nostr_identifier) UNIQUE
+#  index_stories_on_nostr_user_id         (nostr_user_id)
 #  index_stories_on_replicate_identifier  (replicate_identifier) UNIQUE
 #  index_stories_on_thematic_id           (thematic_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (nostr_user_id => nostr_users.id)
 #  fk_rails_...  (thematic_id => thematics.id)
 #

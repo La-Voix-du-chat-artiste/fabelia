@@ -30,7 +30,9 @@ class GenerateFullStoryJob < ApplicationJob
         nostr_user: nostr_user
       )
 
-      story_cover_prompt = "detailed book illustration, #{@story.title}, #{description}"
+      # Call ChatGPT to make an accurate story summary
+      story_cover_prompt = ChatgptSummaryService.call("#{@story.title}, #{description}")
+      @story.update(summary: story_cover_prompt)
       ReplicateServices::Picture.call(@story, story_cover_prompt)
 
       @json['chapters'].each_with_index do |row, index|
@@ -40,6 +42,10 @@ class GenerateFullStoryJob < ApplicationJob
           summary: row['summary'],
           chat_raw_response_body: row
         )
+
+        # Call ChatGPT to make an accurate chapter summary
+        chapter_cover_prompt = ChatgptSummaryService.call(@chapter.content)
+        @chapter.update(summary: chapter_cover_prompt)
 
         ReplicateServices::Picture.call(
           @chapter,

@@ -1,4 +1,4 @@
 fr:
   exceptions:
     cover_errors:
-      nsfw_detected: La couverture est NSFW, veuillez la générer à nouveau
+      nsfw_detected: "La couverture est NSFW, veuillez la générer à nouveau [prompt utilisé: %{prompt}] [prediction: %{prediction}]"

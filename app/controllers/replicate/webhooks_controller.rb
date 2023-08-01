@@ -3,6 +3,12 @@ module Replicate
     skip_before_action :require_login
     skip_before_action :verify_authenticity_token
 
+    rescue_from StandardError do |e|
+      broadcast_flash_alert(e)
+
+      head :ok
+    end
+
     # @route POST /replicate/webhook (replicate_webhook)
     def event
       model = ReplicateServices::Webhook.call(prediction, model_class)
@@ -15,19 +21,10 @@ module Replicate
 
       head :ok
     rescue Replicate::Error, CoverErrors::NSFWDetected => e
+      broadcast_flash_alert(e)
+
       model = ReplicateServices::Webhook.new(prediction, model_class).model
-
-      Rails.logger.tagged(e.class) do
-        Rails.logger.error do
-          ActiveSupport::LogSubscriber.new.send(:color, "#{e.message} / #{model.inspect}", :red)
-        end
-      end
-
       ReplicateServices::Picture.call(model, model.summary)
-
-      head :ok
-    rescue StandardError => e
-      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
 
       head :ok
     end
@@ -37,32 +34,21 @@ module Replicate
       chapter = ReplicateServices::Webhook.call(prediction, model_class)
       story = chapter.story
 
-      if !chapter.published? && chapter.story.cover.attached?
+      raise StoryErrors::MissingCover unless story.cover.attached?
+
+      unless chapter.published?
         NostrPublisherService.call(chapter)
         chapter.broadcast_chapter
 
         story.broadcast_next_quick_look_story if story.publishable_story?
-      else
-        Rails.logger.tagged("[##{story.id}] #{story.title}") do
-          Rails.logger.error do
-            ActiveSupport::LogSubscriber.new.send(:color, "Couverture manquante, l'aventure n'a pas été publiée / #{story.inspect}", :red)
-          end
-        end
       end
 
       head :ok
     rescue Replicate::Error, CoverErrors::NSFWDetected => e
+      broadcast_flash_alert(e)
+
       model = ReplicateServices::Webhook.new(prediction, model_class).model
-
-      Rails.logger.error do
-        ActiveSupport::LogSubscriber.new.send(:color, "#{e.message} / #{model.inspect}", :red)
-      end
-
       ReplicateServices::Picture.call(model, model.summary)
-
-      head :ok
-    rescue StandardError => e
-      Rails.logger.error { ActiveSupport::LogSubscriber.new.send(:color, e.message, :red) }
 
       head :ok
     end
@@ -78,6 +64,24 @@ module Replicate
 
     def model_class
       params[:model]
+    end
+
+    def broadcast_flash_alert(e)
+      Rails.logger.tagged(e.class) do
+        Rails.logger.error do
+          ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+        end
+      end
+
+      Turbo::StreamsChannel.broadcast_prepend_to(
+        :flashes,
+        target: 'flashes',
+        partial: 'flash',
+        locals: {
+          flash_type: 'alert',
+          message: "#{I18n.l(Time.current)} :: #{e.message}"
+        }
+      )
     end
   end
 end

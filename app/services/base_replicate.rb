@@ -16,6 +16,6 @@ class BaseReplicate < ApplicationService
   end
 
   def default_keywords
-    '. fantasy, very very beautiful, elegant, highly detailed, realistic, depth'
+    '. Very very beautiful, elegant, highly detailed, realistic, depth'
   end
 end
