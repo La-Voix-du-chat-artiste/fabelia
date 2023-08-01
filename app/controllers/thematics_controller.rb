@@ -19,7 +19,7 @@ class ThematicsController < ApplicationController
 
     respond_to do |format|
       if @thematic.save
-        format.html { redirect_to thematic_url(@thematic), notice: 'Thematic was successfully created.' }
+        format.html { redirect_to thematic_path(@thematic), notice: 'Thematic was successfully created.' }
         format.json { render :show, status: :created, location: @thematic }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -43,7 +43,7 @@ class ThematicsController < ApplicationController
   def update
     respond_to do |format|
       if @thematic.update(thematic_params)
-        format.html { redirect_to thematic_url(@thematic), notice: 'Thematic was successfully updated.' }
+        format.html { redirect_to thematic_path(@thematic), notice: 'Thematic was successfully updated.' }
         format.json { render :show, status: :ok, location: @thematic }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,7 +58,7 @@ class ThematicsController < ApplicationController
     @thematic.destroy
 
     respond_to do |format|
-      format.html { redirect_to thematics_url, notice: 'Thematic was successfully destroyed.' }
+      format.html { redirect_to thematics_path, notice: 'Thematic was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

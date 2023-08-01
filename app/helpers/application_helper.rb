@@ -9,6 +9,11 @@ module ApplicationHelper
     "#{nostr_client_url}/e/#{story.nostr_identifier}"
   end
 
+  def select_options_for(klass, enum_name)
+    enum = klass.send(enum_name)
+    enum.keys.map { |k| [klass.human_enum_name(enum_name, k), k] }
+  end
+
   private
 
   def nostr_client_url

@@ -1,8 +1,8 @@
 class GenerateDropperStoryJob < ApplicationJob
-  def perform(language)
-    thematic = Thematic.enabled.sample
-    lang = language.to_s.first(2)
+  def perform(language, thematic = nil)
+    thematic ||= Thematic.enabled.sample
 
+    lang = language.to_s.first(2)
     description = thematic.send("description_#{lang}")
     prompt = I18n.t('begin_adventure', description: description)
 

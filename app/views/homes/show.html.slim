@@ -1,11 +1,23 @@
 = turbo_stream_from :stories
 = turbo_stream_from :chapters
 
-h1.text-3xl.mb-6
-  - if params[:display_ended].to_bool
-    | Les aventures terminées
-  - else
-    | Les aventures en cours
+details.bg-gray-200.rounded-lg.mb-6
+  summary.p-2.cursor-pointer Générateur d'aventures
+  = render 'quick_custom_story_generator', stories: @active_stories
+
+header.flex.justify-between.mb-8
+  h1.text-3xl
+    - if params[:display_ended].to_bool
+      | Les aventures terminées
+    - else
+      | Les aventures en cours
+
+  p.text-sm
+    - if params[:display_ended].to_bool
+      = link_to 'Voir les aventures en cours', root_path, class: 'underline'
+    - else
+      = link_to 'Voir les aventures terminées', root_path(display_ended: true), class: 'underline'
+
 
 section
   = render 'homes/quick_look_active_stories', stories: @active_stories

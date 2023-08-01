@@ -1,15 +1,16 @@
 class GenerateFullStoryJob < ApplicationJob
-  def perform(language, publish: false)
-    thematic = Thematic.enabled.sample
-    lang = language.to_s.first(2)
+  def perform(language, thematic = nil, publish: false)
+    thematic ||= Thematic.enabled.sample
 
+    lang = language.to_s.first(2)
     description = thematic.send("description_#{lang}")
     prompt = I18n.t('begin_adventure', description: description)
 
     Retry.on(
       Net::ReadTimeout,
       JSON::ParserError,
-      ChapterErrors::FullStoryMissingChapters
+      ChapterErrors::FullStoryMissingChapters,
+      times: 5
     ) do
       @json = ChatgptCompleteService.call(prompt, language)
 
