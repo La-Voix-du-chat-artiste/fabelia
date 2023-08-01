@@ -16,15 +16,12 @@ class GenerateDropperStoryJob < ApplicationJob
     end
 
     ApplicationRecord.transaction do
-      nostr_user = NostrUser.find_sole_by(language: language)
-
       @story = Story.create!(
         title: @json['story_title'],
         adventure_ended_at: nil,
         mode: :dropper,
         language: language,
-        thematic: thematic,
-        nostr_user: nostr_user
+        thematic: thematic
       )
 
       # Call ChatGPT to make an accurate story summary

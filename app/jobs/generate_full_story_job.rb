@@ -18,16 +18,13 @@ class GenerateFullStoryJob < ApplicationJob
     end
 
     ApplicationRecord.transaction do
-      nostr_user = NostrUser.find_sole_by(language: language)
-
       @story = Story.create!(
         title: @json['title'],
         adventure_ended_at: nil,
         raw_response_body: @json,
         mode: :complete,
         language: language,
-        thematic: thematic,
-        nostr_user: nostr_user
+        thematic: thematic
       )
 
       # Call ChatGPT to make an accurate story summary

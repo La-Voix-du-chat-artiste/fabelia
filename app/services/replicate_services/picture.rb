@@ -22,10 +22,9 @@ module ReplicateServices
 
       debug_logger('Prediction', prediction.inspect, :magenta)
 
-      model.update!(
-        replicate_identifier: prediction.id,
-        replicate_raw_request_body: prediction
-      )
+      model.replicate_identifier = prediction.id
+      model.replicate_raw_request_body = prediction
+      model.save!
     end
 
     private

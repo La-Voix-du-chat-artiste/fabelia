@@ -14,6 +14,8 @@ class Story < ApplicationRecord
 
   has_one_attached :cover
 
+  before_validation :assign_nostr_user, on: :create
+
   after_create_commit do
     broadcast_prepend_to :stories
   end
@@ -81,6 +83,10 @@ class Story < ApplicationRecord
 
   def publishable_story?
     Story.publishable(language: language).first == self
+  end
+
+  def assign_nostr_user
+    self.nostr_user = NostrUser.find_sole_by(language: language)
   end
 end
 
