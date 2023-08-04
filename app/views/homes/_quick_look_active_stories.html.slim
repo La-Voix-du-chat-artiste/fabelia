@@ -1,7 +1,8 @@
 = turbo_stream_from :active_stories
 
-.w-full.bg-white.border.border-gray-200.rounded-lg.shadow.mb-2
-  .flow-root
-    = render 'homes/stories', stories: stories
+- if stories.present?
+  .w-full.bg-white.border.border-gray-200.rounded-lg.shadow.mb-2
+    .flow-root
+      = render 'homes/stories', stories: stories
 
-p.italic.text-sm.text-gray-500 Ces aventures sont celles utilisées par la publication automatisée
+  p.italic.text-sm.text-gray-500 Ces aventures sont celles utilisées par la publication automatisée

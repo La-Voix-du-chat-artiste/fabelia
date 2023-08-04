@@ -2,16 +2,16 @@ require 'open-uri'
 
 puts 'Seeding users...'
 
+avatar = Faker::LoremFlickr.image(size: '300x300', search_terms: ['avatar'])
+
 user = User.create!(
   email: 'admin@test.test',
   password: 'password',
-  password_confirmation: 'password'
-)
-
-avatar = Faker::LoremFlickr.image(size: '300x300', search_terms: ['avatar'])
-user.avatar.attach(
-  io: URI.parse(avatar).open,
-  filename: 'user_avatar'
+  password_confirmation: 'password',
+  avatar: {
+    io: URI.parse(avatar).open,
+    filename: 'user_avatar'
+  }
 )
 
 puts 'Seeding thematics...'

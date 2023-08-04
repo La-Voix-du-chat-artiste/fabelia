@@ -9,10 +9,10 @@ class HomesController < ApplicationController
 
     @publishable_stories = Story.publishable
 
-    @active_stories = {
-      french: @publishable_stories.french.first,
-      english: @publishable_stories.english.first
-    }
+    @active_stories = {}
+    NostrUser.pluck(:language).each do |language|
+      @active_stories[language] = @publishable_stories.by_language(language).first
+    end
 
     @pagy, @stories = pagy(@stories.with_attached_cover.order(updated_at: :desc), items: 6)
   end

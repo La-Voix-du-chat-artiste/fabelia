@@ -19,8 +19,14 @@ header.flex.justify-between.mb-8
       = link_to 'Voir les aventures terminées', root_path(display_ended: true), class: 'underline'
 
 
-section
-  = render 'homes/quick_look_active_stories', stories: @active_stories
+section.mb-6
+  - if NostrUser.any?
+    = render 'homes/quick_look_active_stories', stories: @active_stories
+  - else
+    p.bg-orange-100.border.border-orange-200.rounded-lg.p-2
+      | Vous devez
+      =<> link_to 'configurer un compte Nostr', new_nostr_users_path, class: 'underline'
+      | avant de créer une aventure
 
 == pagy_nav(@pagy) if @pagy.pages > 1
 

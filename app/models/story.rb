@@ -23,6 +23,7 @@ class Story < ApplicationRecord
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
   scope :enabled, -> { where(enabled: true) }
+  scope :by_language, ->(language) { where(language: language) }
 
   def self.publishable(language: nil)
     scope = complete.currents.enabled

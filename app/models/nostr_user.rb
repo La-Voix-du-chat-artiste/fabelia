@@ -6,7 +6,7 @@ class NostrUser < ApplicationRecord
   encrypts :public_key, :private_key
 
   validates :name, presence: true
-  validates :public_key, presence: true
+  # validates :public_key, presence: true
   validates :private_key, presence: true
   validates :relay_url, presence: true
 
