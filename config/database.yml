@@ -4,22 +4,22 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= ENV.fetch("POSTGRES_HOST") { "127.0.0.1" } %>
   port: <%= ENV.fetch("POSTGRES_PORT") { "5432" } %>
-  username: <%= ENV.fetch("POSTGRES_USER") { "nostorya" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "nostorya" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "fabelia" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "fabelia" } %>
   timeout: 5000
 
 development:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "nostorya_development" } %>
+  database: <%= ENV.fetch("POSTGRES_DB") { "fabelia_development" } %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "nostorya_test" } %>
+  database: <%= ENV.fetch("POSTGRES_DB") { "fabelia_test" } %>
   port: <%= ENV.fetch("POSTGRES_TEST_PORT") { "5432" } %>
 
 production:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "nostorya_production" } %>
+  database: <%= ENV.fetch("POSTGRES_DB") { "fabelia_production" } %>

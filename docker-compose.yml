@@ -1,29 +1,29 @@
 version: '3.5'
 services:
-  pg_nostorya:
+  pg_fabelia:
     image: postgres:14-alpine
     restart: always
     shm_size: 1g
     environment:
-      - POSTGRES_USER=nostorya
-      - POSTGRES_PASSWORD=nostorya
-      - POSTGRES_DB=nostorya_development
+      - POSTGRES_USER=fabelia
+      - POSTGRES_PASSWORD=fabelia
+      - POSTGRES_DB=fabelia_development
     volumes:
-      - pg_nostorya:/var/lib/postgresql/data
+      - pg_fabelia:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
 
-  redis_nostorya:
+  redis_fabelia:
     image: redis:7-alpine
     restart: always
     ports:
       - "${REDIS_PORT:-6379}:6379"
     networks:
-      - nostorya
+      - fabelia
 
 networks:
-  nostorya:
-    name: nostorya
+  fabelia:
+    name: fabelia
 
 volumes:
-  pg_nostorya:
+  pg_fabelia:
