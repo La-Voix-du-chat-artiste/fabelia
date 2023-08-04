@@ -14,6 +14,22 @@ user = User.create!(
   }
 )
 
+puts 'Seeding nostr users...'
+
+NostrUser.create!(
+  name: 'Fabelia FR',
+  private_key: 'secret',
+  relay_url: 'ws://umbrel.local:4848',
+  language: :french
+)
+
+NostrUser.create!(
+  name: 'Fabelia EN',
+  private_key: 'secret',
+  relay_url: 'ws://umbrel.local:4848',
+  language: :english
+)
+
 puts 'Seeding thematics...'
 
 thematics = [
