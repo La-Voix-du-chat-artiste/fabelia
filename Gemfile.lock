@@ -102,6 +102,7 @@ GEM
     chusaku (1.0.0)
       railties (>= 3.0)
     concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.3)
     debug (1.8.0)
@@ -252,6 +253,8 @@ GEM
     rainbow (3.1.1)
     rake (13.0.6)
     redis (4.8.1)
+    redis-client (0.14.1)
+      connection_pool
     regexp_parser (2.8.1)
     reline (0.3.7)
       io-console (~> 0.5)
@@ -291,6 +294,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sidekiq (7.1.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.14.0)
     simple_form (5.2.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -389,6 +397,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   selenium-webdriver
+  sidekiq
   simple_form
   slim-rails
   sorcery

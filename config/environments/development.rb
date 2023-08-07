@@ -79,6 +79,8 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
+  config.active_job.queue_adapter = :sidekiq
+
   config.hosts << ENV['HOST'] if ENV['HOST'].present?
 
   config.after_initialize do

@@ -12,7 +12,7 @@ module Replicate
     rescue_from CoverErrors::NSFWDetected do |e|
       broadcast_flash_alert(e)
 
-      ReplicateServices::Picture.call(e.model, summary)
+      ReplicateServices::Picture.call(e.model, e.model.summary)
 
       head :ok
     end
