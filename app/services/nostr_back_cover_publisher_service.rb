@@ -9,6 +9,8 @@ class NostrBackCoverPublisherService < ApplicationService
     event = NostrServices::ManualTextNoteEvent.call(body, nostr_user, reference)
 
     debug_logger('Nostr Back cover', event.inspect, :green)
+
+    event.last['id']
   end
 
   private
