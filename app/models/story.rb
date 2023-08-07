@@ -2,7 +2,7 @@ class Story < ApplicationRecord
   include NSFWCoverable
 
   enum mode: { complete: 0, dropper: 1 }
-  enum language: { french: 0, english: 1 }
+  enum language: { fr: 0, en: 1 }
 
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
@@ -116,7 +116,7 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
-#  language                    :integer          default("french"), not null
+#  language                    :integer          default("fr"), not null
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string

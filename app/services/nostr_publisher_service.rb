@@ -6,7 +6,7 @@ class NostrPublisherService < ApplicationService
   end
 
   def call
-    I18n.with_locale(story.language.first(2)) do
+    I18n.with_locale(story.language) do
       if chapter.first_to_publish?
         reference = NostrFrontCoverPublisherService.call(story)
         story.nostr_identifier = reference

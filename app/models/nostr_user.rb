@@ -1,5 +1,5 @@
 class NostrUser < ApplicationRecord
-  enum language: { french: 0, english: 1 }
+  enum language: { fr: 0, en: 1 }
 
   has_one_attached :avatar
 
@@ -24,7 +24,7 @@ end
 #  public_key    :string
 #  private_key   :string
 #  relay_url     :string
-#  language      :integer          default("french"), not null
+#  language      :integer          default("fr"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  stories_count :integer          default(0), not null
