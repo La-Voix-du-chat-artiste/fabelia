@@ -2,7 +2,7 @@
   <img src="public/banner.png" alt="Fabelia banner"/>
 </p>
 
-# <img align="left" width="50" src="public/logo.png" alt="Fabelia logo" />&nbsp;Fabelia
+# <img align="left" width="50" src="public/logo.png" alt="Fabelia logo" />&nbsp; Fabelia
 
 Fabelia is a Nostr bot that publish AI generated stories to relays.
 
@@ -69,6 +69,19 @@ To setup the development project, follow these instructions:
 
 Note: To be able to publish a story, you must configure a `NostrUser` with a private key and a relay URL at http://localhost:3000/nostr_users
 
+## Rake tasks
+
+Fabelia provide several rake tasks to easily manage stories publications:
+
+- `$ bin/rails stories:publish_next_chapter`:
+  Publish the next chapter of the current active story for any configured `NostrUser` languages. If the story is ended, a new one will be generated.
+- `$ bin/rails stories:publish_all_chapters`:
+  Publish all remaining chapters of the current active story for any configured `NostrUser` languages. If the story is ended, new story won't be generated
+- `$ bin/rails stories:generate_and_publish_full_story[<language>]`:
+  Generate and publish a full story for a given language.
+
+Note: for a complete automation of stories publication, configure a CRON job that will run any of these tasks to a specified recurrence.
+
 ## Roadmap
 
 Fabelia is still in early development, here are some of planned enhancements:
@@ -82,6 +95,8 @@ Fabelia is still in early development, here are some of planned enhancements:
 - [ ] Extract texts to I18n
 - [ ] When removing a story from interface, send a deletion event to Nostr relays
 - [ ] Add an option in interface to ask if adventure should be published immediately
-- [ ] Improve design rendering
+- [ ] Improve design rendering and responsive
 - [ ] Handle more relays configuration to published to
 - [ ] Switch IA tools to open source equivalent
+- [ ] Add CI actions (Rubocop, RSpec)
+- [ ] Fix more hidden bugs ! 🤓
