@@ -1,5 +1,5 @@
 module NostrJobs
-  class StoryDeletionJob < ApplicationJob
+  class StoryDeletionJob < NostrJob
     def perform(story)
       NostrServices::StoryDeletionEvent.call(story)
 

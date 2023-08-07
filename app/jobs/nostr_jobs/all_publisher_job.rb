@@ -1,5 +1,5 @@
 module NostrJobs
-  class AllPublisherJob < ApplicationJob
+  class AllPublisherJob < NostrJob
     def perform(story)
       raise StoryErrors::MissingCover unless story.cover.attached?
 

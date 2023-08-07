@@ -1,5 +1,5 @@
 module NostrJobs
-  class SinglePublisherJob < ApplicationJob
+  class SinglePublisherJob < NostrJob
     def perform(chapter)
       story = chapter.story
 
