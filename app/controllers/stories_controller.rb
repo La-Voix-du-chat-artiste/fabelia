@@ -32,9 +32,9 @@ class StoriesController < ApplicationController
 
   # @route DELETE /stories/:id (story)
   def destroy
-    @story.destroy
+    NostrJobs::StoryDeletionJob.perform_later(@story)
 
-    redirect_to root_path, notice: "L'aventure a bien été supprimée"
+    redirect_to root_path, notice: "L'aventure est en cours de suppression"
   end
 
   private

@@ -91,6 +91,14 @@ class Story < ApplicationRecord
   def assign_nostr_user
     self.nostr_user = NostrUser.find_sole_by(language: language)
   end
+
+  def front_cover_pubished?
+    nostr_identifier.present?
+  end
+
+  def back_cover_published?
+    back_cover_nostr_identifier.present?
+  end
 end
 
 # == Schema Information
@@ -114,13 +122,15 @@ end
 #  nostr_identifier            :string
 #  nostr_user_id               :bigint(8)
 #  summary                     :string
+#  back_cover_nostr_identifier :string
 #
 # Indexes
 #
-#  index_stories_on_nostr_identifier      (nostr_identifier) UNIQUE
-#  index_stories_on_nostr_user_id         (nostr_user_id)
-#  index_stories_on_replicate_identifier  (replicate_identifier) UNIQUE
-#  index_stories_on_thematic_id           (thematic_id)
+#  index_stories_on_back_cover_nostr_identifier  (back_cover_nostr_identifier) UNIQUE
+#  index_stories_on_nostr_identifier             (nostr_identifier) UNIQUE
+#  index_stories_on_nostr_user_id                (nostr_user_id)
+#  index_stories_on_replicate_identifier         (replicate_identifier) UNIQUE
+#  index_stories_on_thematic_id                  (thematic_id)
 #
 # Foreign Keys
 #

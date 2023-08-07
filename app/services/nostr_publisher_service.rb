@@ -25,11 +25,15 @@ class NostrPublisherService < ApplicationService
 
     sleep 1
 
-    return unless adventure_ended?
+    if adventure_ended?
+      story.ended!
 
-    story.ended!
+      reference = NostrBackCoverPublisherService.call(chapter)
+      story.back_cover_nostr_identifier = reference
+      story.save!
+    end
 
-    NostrBackCoverPublisherService.call(chapter)
+    true
   end
 
   private
