@@ -17,6 +17,8 @@ class Story < ApplicationRecord
   before_validation :assign_nostr_user, on: :create
 
   after_create_commit do
+    ReplicateServices::Picture.call(self, summary)
+
     broadcast_prepend_to :stories
   end
 

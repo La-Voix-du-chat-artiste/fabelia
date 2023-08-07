@@ -50,7 +50,7 @@ namespace :stories do
       next if @story.nil?
       raise StoryErrors::MissingCover unless @story.cover.attached?
 
-      @story.chapters.not_published.each do |chapter|
+      @story.chapters.not_published.by_position.each do |chapter|
         Rails.logger.tagged(language) do
           Rails.logger.info do
             ActiveSupport::LogSubscriber.new.send(:color, "Publication du chapitre [##{chapter.position}] de l'aventure \"#{@story.title}\"", :green)

@@ -5,6 +5,10 @@ class Chapter < ApplicationRecord
 
   has_one_attached :cover
 
+  after_create_commit do
+    ReplicateServices::Picture.call(self, summary, publish: publish)
+  end
+
   scope :published, -> { where.not(published_at: nil) }
   scope :not_published, -> { where(published_at: nil) }
   scope :by_position, -> { order(:position) }
@@ -73,6 +77,7 @@ end
 #  chat_raw_response_body      :json             not null
 #  replicate_raw_request_body  :json             not null
 #  position                    :integer          default(1), not null
+#  publish                     :boolean          default(FALSE), not null
 #
 # Indexes
 #

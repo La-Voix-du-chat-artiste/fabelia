@@ -10,7 +10,7 @@ class ApplicationJob < ActiveJob::Base
       partial: 'flash',
       locals: {
         flash_type: 'alert',
-        message: e.message
+        message: "#{e.message} // #{e.backtrace}"
       }
     )
   end

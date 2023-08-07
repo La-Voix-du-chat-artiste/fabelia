@@ -3,8 +3,16 @@ module Replicate
     skip_before_action :require_login
     skip_before_action :verify_authenticity_token
 
-    rescue_from StandardError do |e|
+    rescue_from StandardError, Replicate::Error do |e|
       broadcast_flash_alert(e)
+
+      head :ok
+    end
+
+    rescue_from CoverErrors::NSFWDetected do |e|
+      broadcast_flash_alert(e)
+
+      ReplicateServices::Picture.call(e.model, summary)
 
       head :ok
     end
@@ -20,13 +28,6 @@ module Replicate
       story.broadcast_next_quick_look_story if story.publishable_story?
 
       head :ok
-    rescue Replicate::Error, CoverErrors::NSFWDetected => e
-      broadcast_flash_alert(e)
-
-      model = ReplicateServices::Webhook.new(prediction, model_class).model
-      ReplicateServices::Picture.call(model, model.summary)
-
-      head :ok
     end
 
     # @route POST /replicate/webhook/publish (replicate_webhook_publish)
@@ -34,21 +35,16 @@ module Replicate
       chapter = ReplicateServices::Webhook.call(prediction, model_class)
       story = chapter.story
 
-      raise StoryErrors::MissingCover unless story.cover.attached?
+      Retry.on(StoryErrors::MissingCover, times: 10) do
+        raise StoryErrors::MissingCover unless story.cover.attached?
+      end
 
       unless chapter.published?
         NostrPublisherService.call(chapter)
-        chapter.broadcast_chapter
 
+        chapter.broadcast_chapter
         story.broadcast_next_quick_look_story if story.publishable_story?
       end
-
-      head :ok
-    rescue Replicate::Error, CoverErrors::NSFWDetected => e
-      broadcast_flash_alert(e)
-
-      model = ReplicateServices::Webhook.new(prediction, model_class).model
-      ReplicateServices::Picture.call(model, model.summary)
 
       head :ok
     end

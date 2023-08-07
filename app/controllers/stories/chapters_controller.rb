@@ -35,32 +35,25 @@ module Stories
 
     # @route POST /stories/:story_id/chapters/publish_next (publish_next_story_chapters)
     def publish_next
-      raise StoryErrors::MissingCover unless @story.cover.attached?
-
       @chapter = @story.chapters.not_published.first
 
-      NostrPublisherService.call(@chapter)
+      NostrJobs::SinglePublisherJob.perform_later(@chapter)
 
-      redirect_to root_path, notice: 'Le chapitre va être publié sur Nostr'
+      redirect_to root_path, notice: 'Le chapitre est en cours de publication sur Nostr'
     end
 
     # @route POST /stories/:story_id/chapters/publish_all (publish_all_story_chapters)
     def publish_all
-      raise StoryErrors::MissingCover unless @story.cover.attached?
+      NostrJobs::AllPublisherJob.perform_later(@story)
 
-      @story.chapters.not_published.order(id: :asc).each do |chapter|
-        NostrPublisherService.call(chapter)
-        sleep 3
-      end
-
-      redirect_to root_path, notice: 'Tous les chapitres vont être publiés sur Nostr'
+      redirect_to root_path, notice: 'Tous les chapitres sont en cours de publication sur Nostr'
     end
 
     # @route POST /stories/:story_id/chapters/:id/publish (publish_story_chapter)
     def publish
-      NostrPublisherService.call(@chapter)
+      NostrJobs::SinglePublisherJob.perform_later(@chapter)
 
-      redirect_to root_path, notice: 'Le chapitre va être publié sur Nostr'
+      redirect_to root_path, notice: 'Le chapitre est en cours de publication sur Nostr'
     end
 
     private

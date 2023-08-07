@@ -12,7 +12,7 @@
             - if story.complete?
               - if story.chapters_count - 1 == story.chapters.published.count
                 - label = 'Publier le dernier chapitre'
-              - elsif !story.chapters.first.published?
+              - elsif !story.chapters.first&.published?
                 - label = 'Publier le premier chapitre'
               - else
                 - label = 'Publier le chapitre suivant'

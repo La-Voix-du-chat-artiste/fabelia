@@ -16,23 +16,24 @@ ul.divide-y.divide-gray-200#quick_look role="list"
       - active_chapter = story.chapters.not_published.first
 
       li.p-4.hover:bg-gray-100.transition-colors.flex.items-center.justify-between.gap-6
-        .flex.items-center.gap-6
-          = image_tag polymorphic_path(story.cover), class: 'w-32 rounded-lg' if story.cover.attached?
+        .flex.items-center.gap-6.w-full
+          = image_tag polymorphic_path(story.cover), class: 'w-48 rounded-lg' if story.cover.attached?
 
-          div
-            p.text-md.font-bold.text-gray-900.truncate.mb-1
+          .w-full
+            p.text-lg.font-bold.text-gray-900.truncate.mb-1
               = story.title
+
+            p.mb-1 Prochain chapitre:
 
             .flex.items-center.gap-3.p-2.bg-gray-100.rounded-lg.border.border-gray-300
               - if active_chapter.cover.attached?
-                p= image_tag polymorphic_path(active_chapter.cover), class: 'w-32 rounded-lg'
+                p.flex-none= image_tag polymorphic_path(active_chapter.cover), class: 'w-40 rounded-lg'
 
               div
-                p Prochain chapitre:
                 p.text-gray-500.font-bold
                   = "[##{active_chapter.position}] #{active_chapter.title}"
-                .text-sm
-                  = active_chapter.summary
+                .text-sm.w-full
+                  = active_chapter.content
 
             - unless story.cover.attached?
               p.mt-1.text-sm.text-orange-600

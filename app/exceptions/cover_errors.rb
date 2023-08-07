@@ -1,10 +1,13 @@
 class CoverErrors < BaseErrors
   NSFWDetected = Class.new(self) do
-    def initialize(prompt, prediction)
+    attr_reader :model
+
+    def initialize(prompt, prediction, model)
       super()
 
       @prompt = prompt
       @prediction = prediction
+      @model = model
     end
 
     def message

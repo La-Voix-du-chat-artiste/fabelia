@@ -20,15 +20,29 @@ class ChatgptSummaryService < ChatgptService
       { role: 'system', content: system_prompt }
     ]
 
-    array << { role: 'user', content: prompt }
+    array << { role: 'user', content: user_prompt + reminder }
 
     array
   end
 
   def system_prompt
     <<~STRING.strip
-      Make an accurate and detailed response using maximum ten keywords adjective and nouns.
-      Keywords must be english comma separated from the given prompt.
+      You act as a storyteller that write stories summaries.
     STRING
+  end
+
+  def user_prompt
+    <<~STRING.strip
+      Make a summary of the prompt using maximum ten adjectives.
+      Keywords must be english comma separated from the given prompt.
+      Removes any NSFW words that could be misinterpreted.
+
+      Here is the prompt: #{prompt}
+
+    STRING
+  end
+
+  def reminder
+    'Reply only with a list of adjectives. Do not deviate from this instruction.'
   end
 end
