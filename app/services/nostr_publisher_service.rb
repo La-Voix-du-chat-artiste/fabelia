@@ -6,31 +6,33 @@ class NostrPublisherService < ApplicationService
   end
 
   def call
-    if chapter.first_to_publish?
-      reference = NostrFrontCoverPublisherService.call(story)
-      story.nostr_identifier = reference
-      story.save!
-    else
-      reference = chapter.last_published.nostr_identifier
-    end
+    I18n.with_locale(story.language.first(2)) do
+      if chapter.first_to_publish?
+        reference = NostrFrontCoverPublisherService.call(story)
+        story.nostr_identifier = reference
+        story.save!
+      else
+        reference = chapter.last_published.nostr_identifier
+      end
 
-    nostr_event_identifier = NostrChapterPublisherService.call(
-      chapter, reference
-    )
+      nostr_event_identifier = NostrChapterPublisherService.call(
+        chapter, reference
+      )
 
-    chapter.update!(
-      nostr_identifier: nostr_event_identifier,
-      published_at: Time.current
-    )
+      chapter.update!(
+        nostr_identifier: nostr_event_identifier,
+        published_at: Time.current
+      )
 
-    sleep 1
+      sleep 1
 
-    if adventure_ended?
-      story.ended!
+      if adventure_ended?
+        story.ended!
 
-      reference = NostrBackCoverPublisherService.call(chapter)
-      story.back_cover_nostr_identifier = reference
-      story.save!
+        reference = NostrBackCoverPublisherService.call(chapter)
+        story.back_cover_nostr_identifier = reference
+        story.save!
+      end
     end
 
     true
