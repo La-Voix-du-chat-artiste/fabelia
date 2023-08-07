@@ -19,10 +19,7 @@ class NostrBackCoverPublisherService < ApplicationService
     <<~BACKCOVER
       🔥 📖 🤖
 
-      Si cette histoire vous a plu, n'hésitez pas à:
-
-      - suivre ce compte sur Nostr pour ne rater aucune nouvelle aventure
-      - aller faire un tour sur flownaely.cafe ☕
+      #{I18n.t('chapters.back_cover.content')}
 
       https://flownaely.cafe
     BACKCOVER
