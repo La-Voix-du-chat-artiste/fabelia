@@ -71,12 +71,12 @@ namespace :stories do
     end
   end
 
-  # @example $ bin/rails stories:generate_and_publish_full_story[french|english]
+  # @example $ bin/rails stories:generate_and_publish_full_story[fr|en]
   desc 'Generate and publish a full story in once'
   task :generate_and_publish_full_story, [:language] => :environment do |_, args|
     set_logger
 
-    language = Story.languages.include?(args[:language]) ? args[:language] : :french
+    language = Story.languages.include?(args[:language]) ? args[:language] : 'fr'
 
     Rails.logger.tagged(language) do
       Rails.logger.info do

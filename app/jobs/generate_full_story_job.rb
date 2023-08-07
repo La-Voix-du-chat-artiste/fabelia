@@ -1,9 +1,13 @@
 class GenerateFullStoryJob < ApplicationJob
+  # TODO: Validate that a nostr_user is enabled for a language or raise
+  # TODO: Validate that thematic is properly enabled or raise
+  # @param language [String] Language code based on ISO 639-1 standard
+  # @param thematic [Thematic|NilClass] Story's thematic or nil
+  # @param publish [Boolean] Should the {Chapter} be published ?
   def perform(language, thematic = nil, publish: false)
     thematic ||= Thematic.enabled.sample
 
-    lang = language.to_s.first(2)
-    description = thematic.send("description_#{lang}")
+    description = thematic.send("description_#{language}")
     prompt = I18n.t('begin_adventure', description: description)
 
     Retry.on(

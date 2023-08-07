@@ -53,19 +53,12 @@ module NostrServices
 
         #{chapter.replicate_cover}
 
-        #{I18n.t('chapter_poll.poll_choice', locale: locale)}
+        #{I18n.t('chapter_poll.poll_choice')}
       CONTENT
     end
 
     def options
       chapter.options
-    end
-
-    def locale
-      {
-        french: :fr,
-        english: :en
-      }[chapter.story.language.to_sym] || :fr
     end
 
     def nostr_user

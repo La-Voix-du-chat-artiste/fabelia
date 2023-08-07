@@ -4,7 +4,7 @@ puts 'Seeding users...'
 
 avatar = Faker::LoremFlickr.image(size: '300x300', search_terms: ['avatar'])
 
-user = User.create!(
+User.create!(
   email: 'admin@test.test',
   password: 'password',
   password_confirmation: 'password',
@@ -20,14 +20,14 @@ NostrUser.create!(
   name: 'Fabelia FR',
   private_key: 'secret',
   relay_url: 'ws://umbrel.local:4848',
-  language: :french
+  language: :fr
 )
 
 NostrUser.create!(
   name: 'Fabelia EN',
   private_key: 'secret',
   relay_url: 'ws://umbrel.local:4848',
-  language: :english
+  language: :en
 )
 
 puts 'Seeding thematics...'

@@ -52,7 +52,7 @@ class StoriesController < ApplicationController
   end
 
   def language
-    story_params[:language].presence.to_sym || :french
+    story_params[:language].presence || 'fr'
   end
 
   def thematic
