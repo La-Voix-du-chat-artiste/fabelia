@@ -3,14 +3,13 @@ class NostrUser < ApplicationRecord
 
   has_one_attached :avatar
 
-  encrypts :public_key, :private_key
+  encrypts :private_key
 
   humanize :language, enum: true
 
   scope :enabled, -> { where(enabled: true) }
 
   validates :name, presence: true
-  # validates :public_key, presence: true
   validates :private_key, presence: true
   validates :relay_url, presence: true
 
@@ -25,7 +24,6 @@ end
 #
 #  id            :bigint(8)        not null, primary key
 #  name          :string
-#  public_key    :string
 #  private_key   :string
 #  relay_url     :string
 #  language      :integer          not null
@@ -37,5 +35,4 @@ end
 # Indexes
 #
 #  index_nostr_users_on_private_key  (private_key) UNIQUE
-#  index_nostr_users_on_public_key   (public_key) UNIQUE
 #

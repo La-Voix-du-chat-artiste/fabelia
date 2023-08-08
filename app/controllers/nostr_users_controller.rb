@@ -65,8 +65,8 @@ class NostrUsersController < ApplicationController
   def nostr_user_params
     params.require(:nostr_user)
           .permit(
-            :name, :public_key, :private_key,
-            :relay_url, :language, :avatar, :enabled
+            :name, :private_key, :relay_url,
+            :language, :avatar, :enabled
           )
   end
 end

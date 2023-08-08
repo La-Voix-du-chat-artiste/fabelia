@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_08_071551) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_08_161207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,7 +65,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_071551) do
 
   create_table "nostr_users", force: :cascade do |t|
     t.string "name"
-    t.string "public_key"
     t.string "private_key"
     t.string "relay_url"
     t.integer "language", null: false
@@ -74,7 +73,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_071551) do
     t.integer "stories_count", default: 0, null: false
     t.boolean "enabled", default: true, null: false
     t.index ["private_key"], name: "index_nostr_users_on_private_key", unique: true
-    t.index ["public_key"], name: "index_nostr_users_on_public_key", unique: true
   end
 
   create_table "stories", force: :cascade do |t|
