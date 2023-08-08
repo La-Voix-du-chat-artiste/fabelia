@@ -1,18 +1,46 @@
-header.flex.items-center.justify-between.bg-gray-800.text-white.px-5
-  = link_to 'Fabelia', root_path, class: 'p-2'
+/ @see: https://play.tailwindcss.com/3Tox96tRmY
+header.relative.z-20.border-b.bg-slate-800
+  .px-6.md:px-12.py-3.lg:container.lg:mx-auto.lg:px-6.lg:py-2
+    .flex.items-center.justify-between
+      .relative.z-20
+        = link_to root_path, class: 'flex items-center gap-3 px-2 py-1 hover:rounded-lg hover:bg-white/25 transition-colors' do
+          = image_tag '/logo.png', class: 'w-12 lg:w-16'
+          div
+            h1.text-lg.lg:text-2xl.text-white Fabelia
+            h2.text-sm.lg:text-md.text-gray-300 Contes générés par IA
 
-  nav.flex.items-center.gap-3
-    = link_to 'Comptes Nostr',
-              nostr_users_path,
-              class: "p-2 hover:bg-secondary-color transition-colors #{'bg-secondary-color' if params[:controller] == 'nostr_users'}"
+      .flex.items-center.justify-end.border-l.lg:border-l-0
+        input#hamburger.peer.hidden type="checkbox" name="hamburger" hidden="hidden"
 
-    = link_to 'Thématiques',
-              thematics_path,
-              class: "p-2 hover:bg-secondary-color transition-colors #{'bg-secondary-color' if params[:controller] == 'thematics'}"
+        label.peer-checked:hamburger.block.relative.z-20.p-6.-mr-6.cursor-pointer.md:-mr-12.lg:hidden for="hamburger"
+          .m-auto.w-6.rounded.bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
+          .m-auto.mt-2.w-6.rounded.bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
 
-  .flex.items-center.gap-3.p-2
-    - if current_user.avatar.attached?
-      = image_tag polymorphic_path(current_user.avatar), class: 'w-8 h-8 rounded-full'
-    .text-sm.text-white
-      p= current_user.email
-      p= link_to 'Déconnexion', sessions_path, data: { turbo_method: :delete }
+        .peer-checked:translate-x-0.fixed.inset-0.bg-slate-800.border-r.shadow-xl.transition.duration-300.lg:border-r-0.lg:w-auto.lg:static.lg:shadow-none.lg:translate-x-0 class="w-[calc(100%-4.5rem)] translate-x-[-100%]"
+          .flex.flex-col.h-full.justify-between.lg:items-center.lg:flex-row
+            ul.px-6.pt-32.text-gray-700.space-y-8.md:px-12.lg:space-y-0.lg:flex.lg:space-x-12.lg:pt-0
+              - link_class = 'group relative before:absolute before:inset-x-0 before:-bottom-2 before:h-2 before:origin-right before:scale-x-0 before:bg-white before:transition before:duration-200 hover:before:origin-left hover:before:scale-x-100 text-white'
+              li
+                = link_to root_path, class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'homes'}" do
+                  span.relative.group-hover:text-white Accueil
+
+              li
+                = link_to nostr_users_path,
+                          class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'nostr_users'}" do
+                  span.relative.group-hover:text-white Comptes Nostr
+
+              li
+                = link_to thematics_path,
+                          class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'thematics'}" do
+                  span.relative.group-hover:text-white Thématiques
+
+            .border-t.py-8.px-6.md:px-12.md:py-16.lg:border-t-0.lg:border-l.lg:py-0.lg:pr-0.lg:pl-6
+              .flex.items-center.gap-3.p-2
+                - if current_user.avatar.attached?
+                  = image_tag polymorphic_path(current_user.avatar), class: 'w-12 h-12 rounded-full'
+                .text-sm.text-white
+                  p= current_user.email
+                  p= link_to 'Déconnexion',
+                             sessions_path,
+                             data: { turbo_method: :delete },
+                             class: 'text-gray-500'

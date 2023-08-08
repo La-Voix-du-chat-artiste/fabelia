@@ -1,5 +1,5 @@
 details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacity-50 grayscale hover:opacity-100 hover:grayscale-0' unless chapter.published?) id=dom_id(chapter)
-  summary.flex.items-center.justify-between.p-2
+  summary.flex.items-center.gap-3.justify-between.p-2
     .flex.items-center.gap-3
       span.text-gray-600 ##{chapter.position}
 
@@ -42,9 +42,9 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
                     data: { turbo_confirm: 'Voulez-vous publier manuellement ce chapitre ?' }
 
   .p-2
-    .flex.gap-3.mb-3
+    .flex.flex-col.lg:flex-row.gap-3.mb-3
       - if chapter.cover.attached?
-        = image_tag url_for(chapter.cover), class: 'w-72 object-cover rounded-lg'
+        = image_tag url_for(chapter.cover), class: 'w-full lg:w-72 object-cover rounded-lg'
 
       == chapter.content
 
