@@ -22,6 +22,10 @@ class Story < ApplicationRecord
     broadcast_prepend_to :stories
   end
 
+  after_destroy_commit do
+    broadcast_remove_to :stories
+  end
+
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
   scope :enabled, -> { where(enabled: true) }
