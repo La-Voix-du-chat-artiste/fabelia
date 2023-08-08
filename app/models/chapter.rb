@@ -56,6 +56,10 @@ class Chapter < ApplicationRecord
   def most_voted_option
     options.sample
   end
+
+  def previous
+    story.chapters.find_by(position: position - 1)
+  end
 end
 
 # == Schema Information

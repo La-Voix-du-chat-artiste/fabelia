@@ -33,18 +33,13 @@ module Replicate
     # @route POST /replicate/webhook/publish (replicate_webhook_publish)
     def publish
       chapter = ReplicateServices::Webhook.call(prediction, model_class)
-      story = chapter.story
 
-      Retry.on(StoryErrors::MissingCover, times: 10) do
-        raise StoryErrors::MissingCover unless story.cover.attached?
-      end
+      NostrJobs::SinglePublisherJob.perform_later(chapter)
 
-      unless chapter.published?
-        NostrPublisherService.call(chapter)
-
-        chapter.broadcast_chapter
-        story.broadcast_next_quick_look_story if story.publishable_story?
-      end
+      head :ok
+    rescue ChapterErrors::PreviousChapterNotPublished,
+           StoryErrors::MissingCover => e
+      broadcast_flash_alert(e)
 
       head :ok
     end
@@ -75,7 +70,7 @@ module Replicate
         partial: 'flash',
         locals: {
           flash_type: 'alert',
-          message: "#{I18n.l(Time.current)} :: #{e.message}"
+          message: "[#{e.class}] #{I18n.l(Time.current)} :: #{e.message}"
         }
       )
     end

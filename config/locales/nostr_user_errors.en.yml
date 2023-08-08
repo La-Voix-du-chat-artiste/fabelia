@@ -1,0 +1,5 @@
+en:
+  exceptions:
+    nostr_user_errors:
+      bot_missing: "No bot exists to handle \"%{language}\" language, please configure one to publish"
+      bot_disabled: "%{name} bot is disabled for \"%{language}\", you cannot published until you enabled it"

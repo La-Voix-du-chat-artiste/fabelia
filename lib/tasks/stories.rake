@@ -1,34 +1,97 @@
 namespace :stories do
-  # @example $ bin/rails stories:publish_next_chapter
+  # @example $ bin/rails stories:publish_next_chapter[fr/en]
   desc 'Publish next chapter from current complete story'
-  task publish_next_chapter: :environment do
+  task :publish_next_chapter, [:language] => :environment do |_, args|
     set_logger
 
-    NostrUser.distinct.pluck(:language).each do |language|
-      @story = Story.publishable(language: language).first
+    langs = args[:language]&.split('/') || []
+    langs = langs.uniq
+
+    bots = if langs.empty?
+      NostrUser.all.enabled
+    elsif langs.length == 1 # Only one lang
+      nostr_user = NostrUser.find_by(language: langs.first)
+
+      if nostr_user.nil?
+        e = NostrUserErrors::BotMissing.new(language: langs.first)
+
+        Rails.logger.tagged(e.class) do
+          Rails.logger.info do
+            ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+          end
+        end
+
+        []
+      elsif !nostr_user.enabled?
+        e = NostrUserErrors::BotDisabled.new(nostr_user: nostr_user)
+
+        Rails.logger.tagged(e.class) do
+          Rails.logger.info do
+            ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+          end
+        end
+
+        []
+      else
+        [nostr_user]
+      end
+    else # More than one language
+      nostr_users = []
+
+      langs.each do |lang|
+        nostr_user = NostrUser.find_by(language: lang)
+
+        if nostr_user.nil?
+          e = NostrUserErrors::BotMissing.new(language: lang)
+
+          Rails.logger.tagged(e.class) do
+            Rails.logger.info do
+              ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+            end
+          end
+
+          []
+        elsif !nostr_user.enabled?
+          e = NostrUserErrors::BotDisabled.new(nostr_user: nostr_user)
+
+          Rails.logger.tagged(e.class) do
+            Rails.logger.info do
+              ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+            end
+          end
+
+          []
+        else
+          nostr_users << nostr_user
+        end
+      end
+
+      nostr_users
+    end
+
+    bots.compact.each do |bot|
+      @story = Story.publishable(language: bot.language).first
 
       if @story.blank?
-        Rails.logger.tagged(language) do
+        Rails.logger.tagged(bot.language) do
           Rails.logger.info do
             ActiveSupport::LogSubscriber.new.send(:color, "Génération et publication d'une nouvelle aventure !", :green)
           end
         end
 
-        GenerateFullStoryJob.perform_now(language, publish: true)
+        GenerateFullStoryJob.perform_now(bot.language, publish: true)
       else
         raise StoryErrors::MissingCover unless @story.cover.attached?
 
         @chapter = @story.chapters.not_published.first
 
-        Rails.logger.tagged(language) do
+        Rails.logger.tagged(bot.language) do
           Rails.logger.info do
             ActiveSupport::LogSubscriber.new.send(:color, "Publication du chapitre [##{@chapter.position}] de l'aventure \"#{@story.title}\"", :green)
           end
         end
 
         NostrPublisherService.call(@chapter)
-        @chapter.broadcast_chapter
-        @story.broadcast_next_quick_look_story
       end
     rescue StandardError => e
       Rails.logger.tagged(e.class) do
@@ -58,10 +121,7 @@ namespace :stories do
         end
 
         NostrPublisherService.call(chapter)
-        chapter.broadcast_chapter
       end
-
-      @story.broadcast_next_quick_look_story
     rescue StandardError => e
       Rails.logger.tagged(e.class) do
         Rails.logger.error do
@@ -76,15 +136,35 @@ namespace :stories do
   task :generate_and_publish_full_story, [:language] => :environment do |_, args|
     set_logger
 
-    language = Story.languages.include?(args[:language]) ? args[:language] : 'fr'
+    lang = args[:language].presence || 'fr'
 
-    Rails.logger.tagged(language) do
-      Rails.logger.info do
-        ActiveSupport::LogSubscriber.new.send(:color, "Génération et publication intégrale d'une nouvelle aventure !", :green)
+    nostr_user = NostrUser.find_by(language: lang)
+
+    if nostr_user.nil?
+      e = NostrUserErrors::BotMissing.new(language: lang)
+
+      Rails.logger.tagged(e.class) do
+        Rails.logger.info do
+          ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+        end
       end
-    end
+    elsif !nostr_user.enabled?
+      e = NostrUserErrors::BotDisabled.new(nostr_user: nostr_user)
 
-    GenerateFullStoryJob.perform_now(language, publish: :all)
+      Rails.logger.tagged(e.class) do
+        Rails.logger.info do
+          ActiveSupport::LogSubscriber.new.send(:color, e.message, :red)
+        end
+      end
+    else
+      Rails.logger.tagged(lang) do
+        Rails.logger.info do
+          ActiveSupport::LogSubscriber.new.send(:color, "Génération et publication intégrale d'une nouvelle aventure !", :green)
+        end
+      end
+
+      GenerateFullStoryJob.perform_now(lang, publish: :all)
+    end
   end
 end
 
