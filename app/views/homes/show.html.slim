@@ -5,7 +5,7 @@ details.bg-gray-200.rounded-lg.mb-6
   summary.p-2.cursor-pointer Générateur d'aventures
   = render 'quick_custom_story_generator', stories: @active_stories
 
-header.flex.justify-between.mb-8
+header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
   h1.text-3xl
     - if params[:display_ended].to_bool
       | Les aventures terminées

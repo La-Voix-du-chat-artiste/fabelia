@@ -9,6 +9,15 @@
   }
 }
 
+@layer components {
+  .hamburger div:first-child {
+    @apply rotate-45 translate-y-1.5;
+  }
+  .hamburger div:last-child {
+    @apply -rotate-45 -translate-y-1;
+  }
+}
+
 /* Flash */
 #flash .flash__message {
   animation: appear-then-fade 10s both;
