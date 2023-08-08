@@ -1,6 +1,10 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  def render_turbo_stream_flash_messages
+    turbo_stream.prepend 'flashes', partial: 'flashes'
+  end
+
   def nostr_client_chapter_url(chapter)
     "#{nostr_client_url}/e/#{chapter.nostr_identifier}"
   end

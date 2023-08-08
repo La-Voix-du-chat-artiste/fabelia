@@ -34,7 +34,12 @@ class StoriesController < ApplicationController
   def destroy
     NostrJobs::StoryDeletionJob.perform_later(@story)
 
-    redirect_to root_path, notice: "L'aventure est en cours de suppression"
+    respond_to do |format|
+      notice = "L'aventure est en cours de suppression"
+
+      format.html { redirect_to root_path, notice: notice }
+      format.turbo_stream { flash.now[:notice] = notice }
+    end
   end
 
   private
