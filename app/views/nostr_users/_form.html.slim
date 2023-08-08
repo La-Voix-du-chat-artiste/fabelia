@@ -4,7 +4,6 @@
 
   .form-inputs
     = f.input :name
-    = f.input :public_key, as: :string
     = f.input :private_key,
               as: :password,
               input_html: { value: f.object.private_key }
