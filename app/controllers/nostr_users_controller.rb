@@ -17,7 +17,7 @@ class NostrUsersController < ApplicationController
 
     respond_to do |format|
       if @nostr_user.save
-        format.html { redirect_to nostr_users_path(@nostr_user), notice: 'Nostr user was successfully created.' }
+        format.html { redirect_to nostr_users_path, notice: 'Nostr user was successfully created.' }
         format.json { render :show, status: :created, location: @nostr_user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -35,7 +35,7 @@ class NostrUsersController < ApplicationController
   def update
     respond_to do |format|
       if @nostr_user.update(nostr_user_params)
-        format.html { redirect_to nostr_users_path(@nostr_user), notice: 'Nostr user was successfully updated.' }
+        format.html { redirect_to nostr_users_path, notice: 'Nostr user was successfully updated.' }
         format.json { render :show, status: :ok, location: @nostr_user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -63,6 +63,10 @@ class NostrUsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def nostr_user_params
-    params.require(:nostr_user).permit(:name, :public_key, :private_key, :relay_url, :language, :avatar)
+    params.require(:nostr_user)
+          .permit(
+            :name, :public_key, :private_key,
+            :relay_url, :language, :avatar, :enabled
+          )
   end
 end

@@ -1,13 +1,17 @@
 module NostrJobs
   class SinglePublisherJob < NostrJob
+    retry_on StoryErrors::MissingCover,
+             ChapterErrors::PreviousChapterNotPublished,
+             wait: 10.seconds,
+             jitter: 0.30,
+             attempts: 25
+
     def perform(chapter)
       story = chapter.story
 
       raise StoryErrors::MissingCover unless story.cover.attached?
 
       NostrPublisherService.call(chapter)
-      chapter.broadcast_chapter
-      story.broadcast_next_quick_look_story if story.publishable_story?
     end
   end
 end

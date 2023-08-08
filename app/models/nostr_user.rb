@@ -5,6 +5,10 @@ class NostrUser < ApplicationRecord
 
   encrypts :public_key, :private_key
 
+  humanize :language, enum: true
+
+  scope :enabled, -> { where(enabled: true) }
+
   validates :name, presence: true
   # validates :public_key, presence: true
   validates :private_key, presence: true
@@ -28,6 +32,7 @@ end
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  stories_count :integer          default(0), not null
+#  enabled       :boolean          default(TRUE), not null
 #
 # Indexes
 #
