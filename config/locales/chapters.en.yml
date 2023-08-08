@@ -6,3 +6,11 @@ en:
 
         - follow this account on Nostr so you don't miss any new adventures
         - check out flownaely.cafe ☕
+
+    text_note:
+      complete_extra_body_content: |-
+        How will the adventure continue?
+
+        %{options}
+
+        To find out, don't miss the next chapter! 📖

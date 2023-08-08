@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_155236) do
     t.string "public_key"
     t.string "private_key"
     t.string "relay_url"
-    t.integer "language", default: 0, null: false
+    t.integer "language", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stories_count", default: 0, null: false
@@ -87,7 +87,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_07_155236) do
     t.string "replicate_identifier"
     t.json "replicate_raw_request_body", default: {}, null: false
     t.json "replicate_raw_response_body", default: {}, null: false
-    t.integer "language", default: 0, null: false
+    t.integer "language", null: false
     t.bigint "thematic_id"
     t.boolean "enabled", default: true, null: false
     t.string "nostr_identifier"

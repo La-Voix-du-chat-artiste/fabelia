@@ -6,3 +6,11 @@ fr:
 
         - suivre ce compte sur Nostr pour ne rater aucune nouvelle aventure
         - aller faire un tour sur flownaely.cafe ☕
+
+    text_note:
+      complete_extra_body_content: |-
+        Comment l'aventure va-t-elle continuer ?
+
+        %{options}
+
+        Pour le savoir, ne rate pas le prochain chapitre ! 📖

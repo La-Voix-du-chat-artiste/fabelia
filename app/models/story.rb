@@ -64,8 +64,8 @@ class Story < ApplicationRecord
                          target: 'quick_look',
                          locals: {
                            stories: {
-                             french: Story.publishable.french.first,
-                             english: Story.publishable.english.first
+                             fr: Story.publishable.fr.first,
+                             en: Story.publishable.en.first
                            }
                          }
   end
@@ -77,11 +77,11 @@ class Story < ApplicationRecord
   end
 
   def thematic_name
-    french? ? thematic.name_fr.to_s : thematic.name_en.to_s
+    fr? ? thematic.name_fr.to_s : thematic.name_en.to_s
   end
 
   def thematic_description
-    french? ? thematic.description_fr.to_s : thematic.description_en.to_s
+    fr? ? thematic.description_fr.to_s : thematic.description_en.to_s
   end
 
   def publishable_story?
@@ -116,7 +116,7 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
-#  language                    :integer          default("fr"), not null
+#  language                    :integer          not null
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string

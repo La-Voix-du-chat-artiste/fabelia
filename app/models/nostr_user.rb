@@ -24,7 +24,7 @@ end
 #  public_key    :string
 #  private_key   :string
 #  relay_url     :string
-#  language      :integer          default("fr"), not null
+#  language      :integer          not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  stories_count :integer          default(0), not null

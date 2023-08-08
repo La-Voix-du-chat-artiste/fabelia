@@ -28,13 +28,11 @@ module NostrServices
       return if chapter == story.chapters.last
       return if chapter.options.blank?
 
-      <<~EXTRABODY
+      I18n.t('chapters.text_note.complete_extra_body_content', options: formatted_options, locale: story.language)
+    end
 
-        Comment l'aventure va-t-elle continuer ?
-        #{chapter.options.map { |v| "• #{v}" }.join("\n")}
-
-        Pour le savoir, ne rate pas le prochain chapitre ! 📖
-      EXTRABODY
+    def formatted_options
+      chapter.options.map { |v| "• #{v}" }.join("\n")
     end
 
     def nostr_user
