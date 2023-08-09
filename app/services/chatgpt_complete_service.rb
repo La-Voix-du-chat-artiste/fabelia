@@ -16,6 +16,8 @@ class ChatgptCompleteService < ChatgptService
     JSON.parse(response.results.first.content)
   end
 
+  private
+
   def messages
     array = [
       { role: 'system', content: system_prompt }
@@ -28,15 +30,13 @@ class ChatgptCompleteService < ChatgptService
 
   def system_prompt
     <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in #{language} language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter.
+      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in #{Story.human_enum_name(:language, language, locale: :en)}language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter.
 
       Provide a RFC 8259 compliant JSON response following this format without deviation:
 
       #{json_format.to_json}
     STRING
   end
-
-  private
 
   def json_format
     {
