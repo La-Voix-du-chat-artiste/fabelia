@@ -10,12 +10,20 @@ module NostrServices
     end
 
     def call
+      validate!
+
       nostr.build_event(payload).tap do |event|
-        nostr.test_post_event(event, relay_url)
+        relay_urls.each do |relay_url|
+          nostr.test_post_event(event, relay_url)
+        end
       end
     end
 
     private
+
+    def validate!
+      raise NostrUserErrors::MissingAssociatedRelay if relay_urls.empty?
+    end
 
     def payload
       @payload ||= {

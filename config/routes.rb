@@ -33,5 +33,6 @@ Rails.application.routes.draw do
   end
 
   resources :nostr_users, except: :show
+  resources :relays, except: :show
   resources :thematics
 end

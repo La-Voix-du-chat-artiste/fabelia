@@ -3,20 +3,20 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :name
     = f.input :private_key,
               as: :password,
               input_html: { value: f.object.private_key }
 
-    = f.input :relay_url
     = f.input :language,
-              collection: NostrUser.remaining_languages,
+              as: :select,
+              collection: NostrUser.languages.map { |l| [l[0], l[0]] },
               include_blank: false
 
-    = f.input :avatar, as: :file
-
-    - if f.object.avatar.attached?
-      = image_tag polymorphic_path(f.object.avatar), class: 'w-64'
+    = f.association :relays,
+                    collection: Relay.enabled,
+                    as: :check_boxes,
+                    wrapper_html: { class: 'mb-5' },
+                    input_html: { class: 'ml-4 mr-1' }
 
     = f.input :enabled, as: :boolean
 

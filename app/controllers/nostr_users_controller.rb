@@ -15,14 +15,10 @@ class NostrUsersController < ApplicationController
   def create
     @nostr_user = NostrUser.new(nostr_user_params)
 
-    respond_to do |format|
-      if @nostr_user.save
-        format.html { redirect_to nostr_users_path, notice: 'Nostr user was successfully created.' }
-        format.json { render :show, status: :created, location: @nostr_user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @nostr_user.errors, status: :unprocessable_entity }
-      end
+    if @nostr_user.save
+      redirect_to nostr_users_path, notice: 'Nostr user was successfully created.'
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -33,14 +29,10 @@ class NostrUsersController < ApplicationController
   # @route PATCH /nostr_users/:id (nostr_user)
   # @route PUT /nostr_users/:id (nostr_user)
   def update
-    respond_to do |format|
-      if @nostr_user.update(nostr_user_params)
-        format.html { redirect_to nostr_users_path, notice: 'Nostr user was successfully updated.' }
-        format.json { render :show, status: :ok, location: @nostr_user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @nostr_user.errors, status: :unprocessable_entity }
-      end
+    if @nostr_user.update(nostr_user_params)
+      redirect_to nostr_users_path, notice: 'Nostr user was successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -48,25 +40,17 @@ class NostrUsersController < ApplicationController
   def destroy
     @nostr_user.destroy
 
-    respond_to do |format|
-      format.html { redirect_to nostr_users_path, notice: 'Nostr user was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to nostr_users_path, notice: 'Nostr user was successfully destroyed.'
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_nostr_user
     @nostr_user = NostrUser.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def nostr_user_params
     params.require(:nostr_user)
-          .permit(
-            :name, :private_key, :relay_url,
-            :language, :avatar, :enabled
-          )
+          .permit(:private_key, :language, :enabled, relay_ids: [])
   end
 end

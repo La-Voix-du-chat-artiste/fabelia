@@ -1,7 +1,13 @@
 class NostrUser < ApplicationRecord
   enum language: { fr: 0, en: 1 }
 
-  has_one_attached :avatar
+  has_many :nostr_users_relays, dependent: :nullify
+  has_many :relays, through: :nostr_users_relays
+
+  validates :private_key, presence: true
+  validates :relays, presence: true
+
+  before_save :fetch_metadata, if: :private_key_changed?
 
   encrypts :private_key
 
@@ -9,12 +15,33 @@ class NostrUser < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  validates :name, presence: true
-  validates :private_key, presence: true
-  validates :relay_url, presence: true
+  def public_key
+    Nostr.new(private_key: private_key).keys[:public_key]
+  end
 
-  def self.remaining_languages
-    languages.keys - distinct.pluck(:language)
+  # TODO: Extract metadata logic to a dedicated class
+  def content
+    @content ||= JSON.parse(metadata_response.last['content'])
+  rescue StandardError
+    {}
+  end
+
+  def name
+    content['display_name'].presence || content['name'].presence || 'John Doe'
+  end
+
+  def picture
+    content['picture']
+  end
+
+  def banner
+    content['banner']
+  end
+
+  private
+
+  def fetch_metadata
+    self.metadata_response = NostrServices::FetchProfile.call(self)
   end
 end
 
@@ -22,15 +49,14 @@ end
 #
 # Table name: nostr_users
 #
-#  id            :bigint(8)        not null, primary key
-#  name          :string
-#  private_key   :string
-#  relay_url     :string
-#  language      :integer          not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  stories_count :integer          default(0), not null
-#  enabled       :boolean          default(TRUE), not null
+#  id                :bigint(8)        not null, primary key
+#  private_key       :string
+#  language          :integer          default("fr"), not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  stories_count     :integer          default(0), not null
+#  enabled           :boolean          default(TRUE), not null
+#  metadata_response :json             not null
 #
 # Indexes
 #

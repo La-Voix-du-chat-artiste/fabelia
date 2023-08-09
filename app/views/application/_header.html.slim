@@ -30,6 +30,11 @@ header.relative.z-20.border-b.bg-slate-800
                   span.relative.group-hover:text-white Comptes Nostr
 
               li
+                = link_to relays_path,
+                          class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'relays'}" do
+                  span.relative.group-hover:text-white Relays
+
+              li
                 = link_to thematics_path,
                           class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'thematics'}" do
                   span.relative.group-hover:text-white Thématiques
