@@ -32,7 +32,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :nostr_users, except: :show
+  resources :nostr_users, except: :show do
+    scope module: :nostr_users do
+      member do
+        resource :refresh_profiles, only: :create
+      end
+    end
+  end
+
   resources :relays, except: :show
   resources :thematics
 end

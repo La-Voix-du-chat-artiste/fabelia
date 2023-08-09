@@ -18,3 +18,8 @@
 
     .flex.mt-4.space-x-3.md:mt-6
       = link_to 'Modifier', edit_nostr_user_path(nostr_user), class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200'
+
+      = button_to 'Rafraîchir les métadonnées',
+                  refresh_profiles_path(nostr_user),
+                  class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-orange-500 border border-orange-300 rounded-lg hover:bg-orange-100 focus:ring-4 focus:outline-none focus:ring-orange-200',
+                  data: { turbo_confirm: 'Voulez-vous rafraîchir les métadonnées ?' }
