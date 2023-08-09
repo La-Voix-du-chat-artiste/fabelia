@@ -1,0 +1,10 @@
+h1 Editing relay
+
+== render "form", relay: @relay
+
+br
+
+div
+  => link_to "Show this relay", @relay
+  '|
+  =< link_to "Back to relays", relays_path

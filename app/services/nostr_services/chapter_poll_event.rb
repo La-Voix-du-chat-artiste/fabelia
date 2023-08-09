@@ -13,12 +13,20 @@ module NostrServices
     end
 
     def call
+      validate!
+
       nostr.build_event(payload).tap do |event|
-        nostr.test_post_event(event, relay_url)
+        relay_urls.each do |relay_url|
+          nostr.test_post_event(event, relay_url)
+        end
       end
     end
 
     private
+
+    def validate!
+      raise NostrUserErrors::MissingAssociatedRelay if relay_urls.empty?
+    end
 
     def payload
       @payload ||= {
@@ -32,12 +40,12 @@ module NostrServices
 
     def tags
       [
-        ['p', public_key, relay_url],
+        ['p', public_key],
         ['value_minimum', MINIMUM_SATS_VALUE.to_s],
         ['value_maximum', MAXIMUM_SATS_VALUE.to_s],
         ['closed_at', POLL_END_OF_LIFE.from_now.utc.to_i.to_s]
       ].tap do |data|
-        data.push ['e', reference, relay_url] if reference
+        data.push ['e', reference] if reference
 
         options.each_with_index do |option, index|
           data.push ['poll_option', index.to_s, option]

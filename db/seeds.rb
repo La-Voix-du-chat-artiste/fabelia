@@ -14,20 +14,25 @@ User.create!(
   }
 )
 
+puts 'Seeding relays...'
+
+relay = Relay.create!(
+  url: 'ws://umbrel.local:4848',
+  description: 'Testing relay'
+)
+
 puts 'Seeding nostr users...'
 
 NostrUser.create!(
-  name: 'Fabelia FR',
-  private_key: 'secret',
-  relay_url: 'ws://umbrel.local:4848',
-  language: :fr
+  private_key: ENV.fetch('NOSTR_USER_FR_PRIVATE_KEY', Faker::Crypto.sha256),
+  language: :fr,
+  relays: [relay]
 )
 
 NostrUser.create!(
-  name: 'Fabelia EN',
-  private_key: 'secret',
-  relay_url: 'ws://umbrel.local:4848',
-  language: :en
+  private_key: ENV.fetch('NOSTR_USER_EN_PRIVATE_KEY', Faker::Crypto.sha256),
+  language: :en,
+  relays: [relay]
 )
 
 puts 'Seeding thematics...'

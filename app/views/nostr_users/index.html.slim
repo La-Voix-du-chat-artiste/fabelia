@@ -1,8 +1,20 @@
 header.flex.items-center.justify-between
   h1.text-3xl.mb-6 Comptes Nostr
 
-  - if NostrUser.remaining_languages.any?
-    = link_to 'Ajouter un compte Nostr', new_nostr_user_path, class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300'
+  = link_to 'Ajouter un compte Nostr', new_nostr_user_path, class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300'
 
-#nostr_users.grid.grid-cols-2.gap-3
-  = render @nostr_users
+- if Relay.none?
+  p.bg-red-200.border.border-red-600.p-2.rounded-lg
+    | Vous devez
+    =<> link_to 'configurer', new_relay_path, class: 'underline'
+    | au moins un relay pour gérer un compte Nostr
+
+- elsif Relay.any? && Relay.enabled.none?
+  p.bg-red-200.border.border-red-600.p-2.rounded-lg
+    | Vous devez
+    =<> link_to 'activer', relays_path, class: 'underline'
+    | au moins un relay pour gérer un compte Nostr
+
+- else
+  #nostr_users.grid.grid-cols-2.gap-3
+    = render @nostr_users

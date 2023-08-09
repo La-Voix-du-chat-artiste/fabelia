@@ -113,7 +113,7 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
-#  language                    :integer          not null
+#  language                    :integer          default("fr"), not null
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string

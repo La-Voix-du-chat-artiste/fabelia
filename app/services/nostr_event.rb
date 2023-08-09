@@ -14,7 +14,11 @@ class NostrEvent < ApplicationService
   end
 
   def relay_url
-    nostr_user.relay_url
+    relay_urls.first
+  end
+
+  def relay_urls
+    nostr_user.relays.enabled.map(&:url)
   end
 
   def created_at

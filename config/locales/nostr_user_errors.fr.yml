@@ -3,3 +3,4 @@ fr:
     nostr_user_errors:
       bot_missing: "Aucun bot n'existe pour gérer la langue \"%{language}\", veuillez en configurer un pour publier"
       bot_disabled: "%{name} bot est désactivé pour la langue \"%{language}\", vous ne pourrez pas publier avant de le réactiver"
+      missing_associated_relay: Au moins un relais est requis pour publier une note avec ce bot

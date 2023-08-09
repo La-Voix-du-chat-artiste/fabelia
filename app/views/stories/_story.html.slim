@@ -23,8 +23,8 @@
         = render 'stories/cover', story: story
 
       .absolute.-bottom-4.-right-5
-        - if story.nostr_user.avatar.attached?
-          = image_tag polymorphic_path(story.nostr_user.avatar), class: 'w-20 mx-auto mb-1 rounded-full border-2'
+        - if story.nostr_user.picture
+          = image_tag story.nostr_user.picture, class: 'w-20 mx-auto mb-1 rounded-full border-2'
 
     span.text-sm= l(story.created_at)
 

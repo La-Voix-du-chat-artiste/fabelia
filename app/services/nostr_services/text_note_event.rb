@@ -3,12 +3,20 @@ module NostrServices
     EVENT_KIND = 1 # NIP-1
 
     def call
+      validate!
+
       nostr.build_event(payload).tap do |event|
-        nostr.test_post_event(event, relay_url)
+        relay_urls.each do |relay_url|
+          nostr.test_post_event(event, relay_url)
+        end
       end
     end
 
     private
+
+    def validate!
+      raise NostrUserErrors::MissingAssociatedRelay if relay_urls.empty?
+    end
 
     def payload
       @payload ||= {
@@ -22,9 +30,9 @@ module NostrServices
 
     def tags
       [
-        ['p', public_key, relay_url]
+        ['p', public_key, '']
       ].tap do |data|
-        data.push ['e', reference, relay_url] if reference
+        data.push ['e', reference, ''] if reference
       end
     end
   end

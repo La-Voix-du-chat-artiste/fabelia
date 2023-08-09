@@ -1,0 +1,9 @@
+h1 Relays
+
+#relays
+  - @relays.each do |relay|
+    == render relay
+    p
+      = link_to "Show this relay", relay
+
+= link_to "New relay", new_relay_path

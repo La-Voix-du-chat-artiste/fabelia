@@ -8,8 +8,8 @@ ul.divide-y.divide-gray-200#quick_look role="list"
 
           .text-base.font-semibold.text-gray-900
             - nostr_user = NostrUser.find_sole_by(language: language)
-            - if nostr_user.avatar.attached?
-              = image_tag polymorphic_path(nostr_user.avatar), class: 'w-24 mx-auto mb-1 rounded-full'
+            - if nostr_user.picture
+              = image_tag nostr_user.picture, class: 'w-24 mx-auto mb-1 rounded-full'
             p= nostr_user.name
 
     - else
@@ -45,7 +45,6 @@ ul.divide-y.divide-gray-200#quick_look role="list"
                 |.
 
         .text-base.font-semibold.text-gray-900
-          - if story.nostr_user.avatar.attached?
-            = image_tag polymorphic_path(story.nostr_user.avatar), class: 'w-24 mx-auto mb-1 rounded-full'
-
-          p.text-center= story.nostr_user.name
+          - if story.nostr_user.picture
+            = image_tag story.nostr_user.picture, class: 'w-24 mx-auto mb-1 rounded-full'
+          p= story.nostr_user.name

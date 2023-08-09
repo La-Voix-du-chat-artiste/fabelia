@@ -8,3 +8,7 @@ fr:
         languages:
           fr: Français
           en: Anglais
+      nostr_user:
+        languages:
+          fr: Français
+          en: Anglais
