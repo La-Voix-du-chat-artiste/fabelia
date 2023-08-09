@@ -1,1 +1,1 @@
-= image_tag polymorphic_path(story.cover), class: 'w-72 rounded-lg mb-3 border-2' if story.cover.attached?
+= image_tag polymorphic_path(story.cover.variant(:small)), class: 'w-72 rounded-lg mb-3 border-2' if story.cover.attached?

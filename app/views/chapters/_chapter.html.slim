@@ -4,7 +4,7 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
       span.text-gray-600 ##{chapter.position}
 
       - if chapter.cover.attached?
-        = image_tag url_for(chapter.cover), class: 'w-12 rounded-lg'
+        = image_tag url_for(chapter.cover.variant(:thumb)), class: 'w-12 rounded-lg'
       = chapter.title
 
     .flex.items-center.gap-3
@@ -44,7 +44,7 @@ details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacit
   .p-2
     .flex.flex-col.lg:flex-row.gap-3.mb-3
       - if chapter.cover.attached?
-        = image_tag url_for(chapter.cover), class: 'w-full lg:w-72 object-cover rounded-lg'
+        = image_tag url_for(chapter.cover.variant(:small)), class: 'w-full lg:w-72 object-cover rounded-lg'
 
       == chapter.content
 

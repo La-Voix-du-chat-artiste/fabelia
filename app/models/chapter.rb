@@ -1,9 +1,8 @@
 class Chapter < ApplicationRecord
+  include Coverable
   include NSFWCoverable
 
   belongs_to :story, counter_cache: true, touch: true
-
-  has_one_attached :cover
 
   after_create_commit do
     ReplicateServices::Picture.call(self, summary, publish: publish)
@@ -43,12 +42,6 @@ class Chapter < ApplicationRecord
   def broadcast_chapter
     broadcast_replace_to :chapters,
                          locals: { chapter_counter: story.chapters.count }
-  end
-
-  def replicate_cover
-    replicate_raw_response_body['data']['output'].first
-  rescue StandardError
-    nil
   end
 
   # Simulate the most voted option waiting to implement
