@@ -10,6 +10,7 @@ gem 'bootsnap', require: false
 gem 'dotenv-rails'
 gem 'faker'
 gem 'human_attributes'
+gem 'image_processing'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'lograge'

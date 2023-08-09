@@ -17,7 +17,7 @@ ul.divide-y.divide-gray-200#quick_look role="list"
 
       li.p-4.hover:bg-gray-100.transition-colors.flex.flex-col.lg:flex-row.items-center.justify-between.gap-6
         .flex.flex-col.lg:flex-row.items-center.gap-6.w-full
-          = image_tag polymorphic_path(story.cover), class: 'w-48 rounded-lg' if story.cover.attached?
+          = image_tag polymorphic_path(story.cover.variant(:small)), class: 'w-48 rounded-lg' if story.cover.attached?
 
           .w-full
             p.text-lg.font-bold.text-gray-900.truncate.mb-1
@@ -27,7 +27,7 @@ ul.divide-y.divide-gray-200#quick_look role="list"
 
             .flex.flex-col.lg:flex-row.items-center.gap-3.p-2.bg-gray-100.rounded-lg.border.border-gray-300
               - if active_chapter.cover.attached?
-                p.flex-none= image_tag polymorphic_path(active_chapter.cover), class: 'w-40 rounded-lg'
+                p.flex-none= image_tag polymorphic_path(active_chapter.cover.variant(:small)), class: 'w-40 rounded-lg'
 
               div
                 p.text-gray-500.font-bold

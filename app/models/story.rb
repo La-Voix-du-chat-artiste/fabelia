@@ -1,4 +1,5 @@
 class Story < ApplicationRecord
+  include Coverable
   include NSFWCoverable
 
   enum mode: { complete: 0, dropper: 1 }
@@ -11,8 +12,6 @@ class Story < ApplicationRecord
   humanize :language, enum: true
 
   has_many :chapters, dependent: :destroy
-
-  has_one_attached :cover
 
   before_validation :assign_nostr_user, on: :create
 
@@ -72,12 +71,6 @@ class Story < ApplicationRecord
                              en: Story.publishable.en.first
                            }
                          }
-  end
-
-  def replicate_cover
-    replicate_raw_response_body['data']['output'].first
-  rescue StandardError
-    nil
   end
 
   def thematic_name
