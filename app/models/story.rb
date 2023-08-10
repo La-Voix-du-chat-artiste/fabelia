@@ -19,16 +19,37 @@ class Story < ApplicationRecord
     ReplicateServices::Picture.call(self, summary)
 
     broadcast_prepend_to :stories
+
+    Story.hide_placeholder
+    hide_empty_stories if Story.current?
   end
 
   after_destroy_commit do
     broadcast_remove_to :stories
+
+    display_empty_stories unless Story.current?
   end
 
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
   scope :enabled, -> { where(enabled: true) }
   scope :by_language, ->(language) { where(language: language) }
+
+  def self.display_placeholder
+    Turbo::StreamsChannel.broadcast_update_to(
+      %i[stories current],
+      target: 'placeholder_story',
+      partial: 'stories/placeholder'
+    )
+  end
+
+  def self.hide_placeholder
+    Turbo::StreamsChannel.broadcast_update_to(
+      %i[stories current],
+      target: 'placeholder_story',
+      html: ''
+    )
+  end
 
   def self.publishable(language: nil)
     scope = complete.currents.enabled
@@ -71,6 +92,23 @@ class Story < ApplicationRecord
                              en: Story.publishable.en.first
                            }
                          }
+  end
+
+  def broadcast_move_from_current_to_ended
+    broadcast_remove_to %i[stories current]
+    broadcast_prepend_to %i[stories ended]
+  end
+
+  def display_empty_stories
+    broadcast_replace_to %i[stories current],
+                         target: 'empty_stories',
+                         partial: 'homes/empty_stories'
+  end
+
+  def hide_empty_stories
+    broadcast_replace_to %i[stories current],
+                         target: 'empty_stories',
+                         html: ''
   end
 
   def thematic_name

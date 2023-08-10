@@ -7,6 +7,9 @@ class GenerateFullStoryJob < ApplicationJob
   def perform(language, thematic = nil, publish: false)
     thematic ||= Thematic.enabled.sample
 
+    Story.broadcast_flash(:notice, "Génération et publication complète d'une nouvelle aventure")
+    Story.display_placeholder
+
     description = thematic.send("description_#{language}")
     prompt = I18n.t('begin_adventure', description: description)
 

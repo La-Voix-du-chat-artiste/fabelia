@@ -64,14 +64,8 @@ module Replicate
         end
       end
 
-      Turbo::StreamsChannel.broadcast_prepend_to(
-        :flashes,
-        target: 'flashes',
-        partial: 'flash',
-        locals: {
-          flash_type: 'alert',
-          message: "[#{e.class}] #{I18n.l(Time.current)} :: #{e.message}"
-        }
+      ApplicationRecord.broadcast_flash(
+        :alert, "[#{e.class}] #{I18n.l(Time.current)} :: #{e.message}"
       )
     end
   end

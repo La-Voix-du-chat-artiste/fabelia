@@ -8,6 +8,8 @@ class NostrPublisherService < ApplicationService
   def call
     validate!
 
+    @publishable = story.publishable_story?
+
     I18n.with_locale(story.language) do
       process!
     end
@@ -53,7 +55,9 @@ class NostrPublisherService < ApplicationService
 
   def finish
     chapter.broadcast_chapter
-    story.broadcast_next_quick_look_story if story.publishable_story?
+    story.broadcast_move_from_current_to_ended if story.ended?
+    story.broadcast_next_quick_look_story if @publishable || story.ended?
+    story.display_empty_stories unless Story.current?
   end
 
   def story

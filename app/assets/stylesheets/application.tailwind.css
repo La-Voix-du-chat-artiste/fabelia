@@ -19,7 +19,14 @@
 }
 
 /* Flash */
-#flash .flash__message {
+#flashes {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 21;
+}
+
+#flashes .flash__message {
   animation: appear-then-fade 10s both;
 }
 
