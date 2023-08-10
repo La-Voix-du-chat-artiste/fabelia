@@ -1,7 +1,13 @@
 module Chapters
   class CoverPolicy < ApplicationPolicy
     def update?
-      !record.published?
+      !chapter.published?
+    end
+
+    private
+
+    def chapter
+      record
     end
   end
 end

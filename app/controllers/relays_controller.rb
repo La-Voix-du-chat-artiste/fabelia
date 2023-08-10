@@ -3,16 +3,22 @@ class RelaysController < ApplicationController
 
   # @route GET /relays (relays)
   def index
+    authorize! Relay
+
     @relays = Relay.all
   end
 
   # @route GET /relays/new (new_relay)
   def new
+    authorize! Relay
+
     @relay = Relay.new
   end
 
   # @route POST /relays (relays)
   def create
+    authorize! Relay
+
     @relay = Relay.new(relay_params)
 
     if @relay.save
@@ -24,11 +30,14 @@ class RelaysController < ApplicationController
 
   # @route GET /relays/:id/edit (edit_relay)
   def edit
+    authorize! @relay
   end
 
   # @route PATCH /relays/:id (relay)
   # @route PUT /relays/:id (relay)
   def update
+    authorize! @relay
+
     if @relay.update(relay_params)
       redirect_to relays_path, notice: 'Relay was successfully updated.'
     else
@@ -38,6 +47,8 @@ class RelaysController < ApplicationController
 
   # @route DELETE /relays/:id (relay)
   def destroy
+    authorize! @relay
+
     @relay.destroy
 
     redirect_to relays_path, notice: 'Relay was successfully destroyed.'

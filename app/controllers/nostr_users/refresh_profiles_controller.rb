@@ -4,6 +4,8 @@ module NostrUsers
 
     # @route POST /nostr_users/:id/refresh_profiles (refresh_profiles)
     def create
+      authorize! @nostr_user, with: NostrUsers::ProfilePolicy
+
       response = NostrServices::FetchProfile.call(@nostr_user)
 
       @nostr_user.update(metadata_response: response)

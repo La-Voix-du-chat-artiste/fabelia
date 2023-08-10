@@ -1,8 +1,13 @@
 module Stories
   class CoverPolicy < ApplicationPolicy
     def update?
-      record.adventure_ended_at.nil? &&
-        record.chapters.published.none?
+      !story.current?
+    end
+
+    private
+
+    def story
+      record
     end
   end
 end

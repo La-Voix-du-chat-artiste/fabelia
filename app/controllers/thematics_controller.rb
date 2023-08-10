@@ -4,17 +4,23 @@ class ThematicsController < ApplicationController
   # GET /thematics or /thematics.json
   # @route GET /thematics (thematics)
   def index
+    authorize! Thematic
+
     @thematics = Thematic.all
   end
 
   # @route GET /thematics/new (new_thematic)
   def new
+    authorize! Thematic
+
     @thematic = Thematic.new
   end
 
   # POST /thematics or /thematics.json
   # @route POST /thematics (thematics)
   def create
+    authorize! Thematic
+
     @thematic = Thematic.new(thematic_params)
 
     respond_to do |format|
@@ -31,16 +37,20 @@ class ThematicsController < ApplicationController
   # GET /thematics/1 or /thematics/1.json
   # @route GET /thematics/:id (thematic)
   def show
+    authorize! @thematic
   end
 
   # @route GET /thematics/:id/edit (edit_thematic)
   def edit
+    authorize! @thematic
   end
 
   # PATCH/PUT /thematics/1 or /thematics/1.json
   # @route PATCH /thematics/:id (thematic)
   # @route PUT /thematics/:id (thematic)
   def update
+    authorize! @thematic
+
     respond_to do |format|
       if @thematic.update(thematic_params)
         format.html { redirect_to thematic_path(@thematic), notice: 'Thematic was successfully updated.' }
@@ -55,6 +65,8 @@ class ThematicsController < ApplicationController
   # DELETE /thematics/1 or /thematics/1.json
   # @route DELETE /thematics/:id (thematic)
   def destroy
+    authorize! @thematic
+
     @thematic.destroy
 
     respond_to do |format|

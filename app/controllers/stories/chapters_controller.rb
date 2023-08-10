@@ -5,8 +5,11 @@ module Stories
 
     # @route POST /stories/:story_id/chapters (story_chapters)
     def create
+      authorize! Chapter, context: { story: @story }
+
       prompt = set_prompt
 
+      # TODO: Extract me in a dedicated job (eg: GenerateDropperStoryChapterJob)
       Retry.on(
         Net::ReadTimeout,
         JSON::ParserError,
@@ -21,13 +24,13 @@ module Stories
           title: @json['title'],
           content: @json['content'],
           prompt: prompt,
-          chat_raw_response_body: @json
+          chat_raw_response_body: @json,
+          publish: true
         )
 
         # Call ChatGPT to make an accurate chapter summary
         chapter_cover_prompt = ChatgptSummaryService.call(@chapter.content)
-        @chapter.update(summary: chapter_cover_prompt)
-        ReplicateServices::Picture.call(@chapter, @chapter.summary, publish: true)
+        @chapter.update!(summary: chapter_cover_prompt)
       end
 
       redirect_to root_path, notice: "Un nouveau chapitre vient d'être créé"
@@ -37,6 +40,8 @@ module Stories
     def publish_next
       @chapter = @story.chapters.not_published.first
 
+      authorize! @chapter, context: { story: @story }
+
       NostrJobs::SinglePublisherJob.perform_later(@chapter)
 
       redirect_to root_path, notice: 'Le chapitre est en cours de publication sur Nostr'
@@ -44,6 +49,8 @@ module Stories
 
     # @route POST /stories/:story_id/chapters/publish_all (publish_all_story_chapters)
     def publish_all
+      authorize! Chapter, context: { story: @story }
+
       NostrJobs::AllPublisherJob.perform_later(@story)
 
       redirect_to root_path, notice: 'Tous les chapitres sont en cours de publication sur Nostr'
@@ -51,6 +58,8 @@ module Stories
 
     # @route POST /stories/:story_id/chapters/:id/publish (publish_story_chapter)
     def publish
+      authorize! @chapter, context: { story: @story }
+
       NostrJobs::SinglePublisherJob.perform_later(@chapter)
 
       redirect_to root_path, notice: 'Le chapitre est en cours de publication sur Nostr'
@@ -59,7 +68,7 @@ module Stories
     private
 
     def set_story
-      @story = Story.enabled.find(params[:story_id])
+      @story = Story.find(params[:story_id])
     end
 
     def set_chapter
