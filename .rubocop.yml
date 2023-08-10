@@ -5,6 +5,7 @@ inherit_from:
 require:
   - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   SuggestExtensions: false
