@@ -1,6 +1,11 @@
 = turbo_stream_from :stories
 = turbo_stream_from :chapters
 
+- if display_ended?
+  = turbo_stream_from %i[stories ended]
+- else
+  = turbo_stream_from %i[stories current]
+
 - if allowed_to?(:create?, Story)
   details.bg-gray-200.rounded-lg.mb-6
     summary.p-2.cursor-pointer Générateur d'aventures
@@ -8,13 +13,13 @@
 
 header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
   h1.text-3xl
-    - if params[:display_ended].to_bool
+    - if display_ended?
       | Les aventures terminées
     - else
       | Les aventures en cours
 
   p.text-sm
-    - if params[:display_ended].to_bool
+    - if display_ended?
       = link_to 'Voir les aventures en cours', root_path, class: 'underline'
     - else
       = link_to 'Voir les aventures terminées', root_path(display_ended: true), class: 'underline'
@@ -36,10 +41,10 @@ section.mb-6
 
 == pagy_nav(@pagy) if @pagy.pages > 1
 
+#placeholder_story
 #stories= render @stories
 
 == pagy_nav(@pagy) if @pagy.pages > 1
 
-- if @stories.empty?
-  .bg-red-100.border.border-red-200.rounded-lg.p-2
-    p Il n'y a pas encore d'histoire
+#empty_stories
+  = render 'empty_stories' if @stories.empty?

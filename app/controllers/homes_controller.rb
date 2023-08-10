@@ -1,4 +1,6 @@
 class HomesController < ApplicationController
+  helper_method :display_ended?
+
   # @route GET / (root)
   def show
     @stories = if display_ended?

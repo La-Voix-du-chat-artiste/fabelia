@@ -1,16 +1,16 @@
-ul.divide-y.divide-gray-200#quick_look role="list"
+ul#quick_look role="list"
   - stories.each do |language, story|
     - if story.nil?
-      li.p-4
-        .flex.items-center.gap-6
-          .flex-1.min-w-0
-            p.bg-green-500.p-2.rounded-lg.italic.text-white Une nouvelle aventure sera créée à la prochaine exécution de la tâche
+      li.bg-green-500.px-4.py-2.rounded-lg.italic.text-white.mb-1
+        - nostr_user = NostrUser.find_sole_by(language: language)
 
-          .text-base.font-semibold.text-gray-900
-            - nostr_user = NostrUser.find_sole_by(language: language)
+        .flex.items-center.gap-3
+          div
             - if nostr_user.picture
-              = image_tag nostr_user.picture, class: 'w-24 mx-auto mb-1 rounded-full'
-            p= nostr_user.name
+              = image_tag nostr_user.picture, class: 'w-12 mx-auto mb-1 rounded-full'
+          div
+            p Une nouvelle aventure sera créée à la prochaine exécution de la tâche
+            p.text-xs= nostr_user.name
 
     - else
       - active_chapter = story.chapters.not_published.first
