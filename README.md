@@ -90,13 +90,13 @@ Fabelia is still in early development, here are some of planned enhancements:
 - [ ] Filter rake task adding more options (language, thematics)
 - [ ] Document code
 - [ ] Add `RSpec` tests
-- [ ] Generate different version of images with ActiveStorage variants
+- [x] Generate different version of images with ActiveStorage variants
 - [ ] Refactor duplicated code
 - [ ] Extract texts to I18n
 - [ ] When removing a story from interface, send a deletion event to Nostr relays
 - [ ] Add an option in interface to ask if adventure should be published immediately
 - [ ] Improve design rendering and responsive
-- [ ] Handle more relays configuration to published to
+- [x] Handle more relays configuration to published to
 - [ ] Switch IA tools to open source equivalent
 - [ ] Add CI actions (Rubocop, RSpec)
 - [ ] Fix more hidden bugs ! 🤓
