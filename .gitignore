@@ -43,3 +43,4 @@
 .DS_Store
 
 spec/examples.txt
+coverage/
