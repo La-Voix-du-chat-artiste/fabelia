@@ -41,3 +41,5 @@
 .env*
 !.env.template
 .DS_Store
+
+spec/examples.txt
