@@ -4,7 +4,10 @@ h1 Thématiques
   - @thematics.each do |thematic|
     .border.mb-3
       == render thematic
-      p
-        = link_to "Show this thematic", thematic
 
-= link_to "New thematic", new_thematic_path
+      - if allowed_to?(:show?, thematic)
+        p
+          = link_to "Show this thematic", thematic
+
+- if allowed_to?(:create?, Thematic)
+  = link_to "New thematic", new_thematic_path

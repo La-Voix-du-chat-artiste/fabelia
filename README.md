@@ -86,7 +86,7 @@ Note: for a complete automation of stories publication, configure a CRON job tha
 
 Fabelia is still in early development, here are some of planned enhancements:
 
-- [ ] Use `action_policy` to protect controller actions
+- [x] Use `action_policy` to protect controller actions
 - [ ] Filter rake task adding more options (language, thematics)
 - [ ] Document code
 - [ ] Add `RSpec` tests

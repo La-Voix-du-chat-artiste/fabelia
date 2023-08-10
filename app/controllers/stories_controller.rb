@@ -3,6 +3,8 @@ class StoriesController < ApplicationController
 
   # @route POST /stories (stories)
   def create
+    authorize! Story
+
     case mode
     when :dropper
       GenerateDropperStoryJob.perform_later(language, thematic)
@@ -25,6 +27,8 @@ class StoriesController < ApplicationController
   # @route PATCH /stories/:id (story)
   # @route PUT /stories/:id (story)
   def update
+    authorize! @story
+
     @story.toggle!(:enabled)
 
     redirect_to root_path, notice: "L'aventure a bien été mise à jour"
@@ -32,6 +36,8 @@ class StoriesController < ApplicationController
 
   # @route DELETE /stories/:id (story)
   def destroy
+    authorize! @story
+
     NostrJobs::StoryDeletionJob.perform_later(@story)
 
     respond_to do |format|

@@ -9,6 +9,8 @@ div id="#{dom_id relay}"
     strong Enabled:
     =< relay.enabled
 
-  => link_to "Edit this relay", edit_relay_path(relay)
+  - if allowed_to?(:update?, relay)
+    => link_to "Edit this relay", edit_relay_path(relay)
 
-  = button_to "Destroy this relay", relay, method: :delete
+  - if allowed_to?(:destroy?, relay)
+    = button_to "Destroy this relay", relay, method: :delete
