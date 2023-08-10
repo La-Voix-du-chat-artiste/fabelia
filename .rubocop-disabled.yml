@@ -2,9 +2,6 @@
 Layout/LineLength:
   Enabled: false
 
-Lint/DuplicateBranch:
-  Enabled: false
-
 # Call super to initialize state of the parent class.
 Lint/MissingSuper:
   Enabled: false
@@ -19,6 +16,10 @@ Naming/MethodParameterName:
 
 # This cop checks for the use of methods which skip validations.
 Rails/SkipsModelValidations:
+  Enabled: false
+
+# Check for long examples.
+RSpec/ExampleLength:
   Enabled: false
 
 Style/ClassVars:
