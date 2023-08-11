@@ -44,7 +44,12 @@ module Stories
 
       NostrJobs::SinglePublisherJob.perform_later(@chapter)
 
-      redirect_to root_path, notice: 'Le chapitre est en cours de publication sur Nostr'
+      respond_to do |format|
+        notice = 'Le chapitre est en cours de publication sur Nostr'
+
+        format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash.now[:notice] = notice }
+      end
     end
 
     # @route POST /stories/:story_id/chapters/publish_all (publish_all_story_chapters)
@@ -53,7 +58,12 @@ module Stories
 
       NostrJobs::AllPublisherJob.perform_later(@story)
 
-      redirect_to root_path, notice: 'Tous les chapitres sont en cours de publication sur Nostr'
+      respond_to do |format|
+        notice = 'Tous les chapitres sont en cours de publication sur Nostr'
+
+        format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash.now[:notice] = notice }
+      end
     end
 
     # @route POST /stories/:story_id/chapters/:id/publish (publish_story_chapter)
@@ -62,7 +72,12 @@ module Stories
 
       NostrJobs::SinglePublisherJob.perform_later(@chapter)
 
-      redirect_to root_path, notice: 'Le chapitre est en cours de publication sur Nostr'
+      respond_to do |format|
+        notice = 'Le chapitre est en cours de publication sur Nostr'
+
+        format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash.now[:notice] = notice }
+      end
     end
 
     private
