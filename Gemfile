@@ -47,6 +47,7 @@ group :development do
   gem 'chusaku', require: false
   gem 'letter_opener'
   gem 'web-console'
+  gem 'shog'
 end
 
 group :test do

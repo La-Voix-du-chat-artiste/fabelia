@@ -92,6 +92,7 @@ GEM
     chronic (0.10.2)
     chusaku (1.0.1)
       railties (>= 3.0)
+    colorize (1.1.0)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
@@ -316,6 +317,9 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
+    shog (0.2.1)
+      colorize (>= 0.8)
+      rails (>= 4)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.1.2)
@@ -423,6 +427,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  shog
   shoulda-matchers
   sidekiq
   simple_form
