@@ -1,0 +1,3 @@
+- if @relay.position_previously_changed?
+  = turbo_stream.update :relays do
+    = render Relay.all.by_position

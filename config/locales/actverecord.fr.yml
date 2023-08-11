@@ -12,3 +12,8 @@ fr:
         languages:
           fr: Français
           en: Anglais
+
+      relay:
+        url: WebSocket URL (ws:// ou wss://)
+        description: Description
+        enabled: Activé ?

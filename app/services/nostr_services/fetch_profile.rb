@@ -11,7 +11,7 @@ module NostrServices
     def call
       req = nostr.build_req_event(filters)
 
-      test_post_event(req, relay_url)
+      test_post_event(req, favorite_relay_url)
     end
 
     private

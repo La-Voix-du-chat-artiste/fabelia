@@ -3,18 +3,13 @@
 
   = simple_form_for :session, url: sessions_path do |f|
     = f.input :email,
-              label_html: { class: 'block mb-2' },
-              input_html: { class: 'w-full' },
               wrapper_html: { class: 'mb-5' },
               autofocus: true
 
     = f.input :password, as: :password,
-              label_html: { class: 'block mb-2' },
-              input_html: { class: 'w-full' },
               wrapper_html: { class: 'mb-5' }
 
     = f.input :remember, as: :boolean,
-              input_html: { class: 'mr-2' },
               wrapper_html: { class: 'mb-5' }
 
     .flex.justify-center.items-center
