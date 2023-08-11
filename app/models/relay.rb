@@ -7,11 +7,12 @@ class Relay < ApplicationRecord
   scope :enabled, -> { where(enabled: true) }
   scope :by_position, -> { order(:position) }
 
-  validates :url, presence: true, uniqueness: true
+  validates :url, presence: true, uniqueness: { case_sensitive: false }
 
-  before_validation :clean_url
+  after_validation :clean_url
   after_update :delete_nostr_users_association, if: :marked_as_disabled?
 
+  # NOTE: title is used as alias to get correct form label association
   def title
     url
   end
