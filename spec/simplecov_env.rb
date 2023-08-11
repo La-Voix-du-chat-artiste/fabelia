@@ -1,11 +1,10 @@
 require 'simplecov'
-require 'core_ext/to_boolean'
 
 module SimpleCovEnv
   module_function
 
   def start!
-    return unless ENV['COVERAGE'].to_bool
+    return unless ENV['COVERAGE']
 
     SimpleCov.start :rails do
       configure_formatter
