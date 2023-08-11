@@ -5,7 +5,7 @@ class RelaysController < ApplicationController
   def index
     authorize! Relay
 
-    @relays = Relay.all
+    @relays = Relay.all.by_position
   end
 
   # @route GET /relays/new (new_relay)
@@ -22,7 +22,7 @@ class RelaysController < ApplicationController
     @relay = Relay.new(relay_params)
 
     if @relay.save
-      redirect_to relays_path, notice: 'Relay was successfully created.'
+      redirect_to relays_path, notice: 'Relay was successfully created.', status: :see_other
     else
       render :new, status: :unprocessable_entity
     end
@@ -38,10 +38,13 @@ class RelaysController < ApplicationController
   def update
     authorize! @relay
 
-    if @relay.update(relay_params)
-      redirect_to relays_path, notice: 'Relay was successfully updated.'
-    else
-      render :edit, status: :unprocessable_entity
+    respond_to do |format|
+      if @relay.update(relay_params)
+        format.html { redirect_to relays_path, notice: 'Relay was successfully updated.', status: :see_other }
+        format.turbo_stream if @relay.position_previously_changed?
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -61,6 +64,6 @@ class RelaysController < ApplicationController
   end
 
   def relay_params
-    params.require(:relay).permit(:url, :description, :enabled)
+    params.require(:relay).permit(:url, :description, :enabled, :position)
   end
 end

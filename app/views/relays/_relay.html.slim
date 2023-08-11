@@ -1,16 +1,29 @@
-div id="#{dom_id relay}"
-  p
-    strong Url:
-    =< relay.url
-  p
-    strong Description:
-    =< relay.description
-  p
-    strong Enabled:
-    =< relay.enabled
+- favorite = false
 
-  - if allowed_to?(:update?, relay)
-    => link_to "Edit this relay", edit_relay_path(relay)
+- if relay.first? && relay.enabled?
+  - favorite = true
+- elsif Relay.enabled.by_position.first == relay
+  - favorite = true
 
-  - if allowed_to?(:destroy?, relay)
-    = button_to "Destroy this relay", relay, method: :delete
+details.border.mb-3.rounded-lg id=dom_id(relay) data-sortable-url=relay_path(relay) class=('opacity-50' unless relay.enabled?) class=(favorite ? 'border-green-300 bg-green-100' : 'border-gray-300 bg-gray-100')
+  summary.flex.items-center.gap-3.justify-between.p-2.relative
+    - if favorite
+      span.absolute.-top-3.-left-2 title="Relay favori" ⭐
+    .flex.items-center.gap-3
+      span.handle.cursor-move ↕️
+      span.font-bold ##{relay.position}
+
+      = relay.url
+
+    .flex.items-center.gap-3
+      - if allowed_to?(:update?, relay)
+        => link_to 'Modifier', edit_relay_path(relay), class: 'edit-link'
+
+      - if allowed_to?(:destroy?, relay)
+        = button_to 'Supprimer', relay,
+                    class: 'destroy-button',
+                    method: :delete,
+                    data: { turbo_confirm: 'Voulez-vous supprimer ce relay ?' }
+
+  .p-2
+    = relay.description

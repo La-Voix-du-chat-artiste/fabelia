@@ -1,8 +1,8 @@
-h1 Relays
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  h1.text-3xl Les relays
 
-#relays
-  - @relays.each do |relay|
-    == render relay
+  - if allowed_to?(:create?, Relay)
+    = link_to 'Ajouter un relais', new_relay_path, class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300'
 
-- if allowed_to?(:create?, Relay)
-  = link_to "New relay", new_relay_path
+#relays data-controller="sortable" data-sortable-ghost-class="bg-gray-200" data-sortable-filter-class="opacity-25" data-sortable-model-value="relay"
+  = render @relays

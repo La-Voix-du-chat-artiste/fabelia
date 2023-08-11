@@ -13,12 +13,12 @@ class NostrEvent < ApplicationService
     nostr_user.private_key
   end
 
-  def relay_url
+  def favorite_relay_url
     relay_urls.first
   end
 
   def relay_urls
-    nostr_user.relays.enabled.map(&:url)
+    nostr_user.relays.enabled.by_position.map(&:url)
   end
 
   def created_at

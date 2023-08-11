@@ -40,12 +40,12 @@ module NostrServices
 
     def tags
       [
-        ['p', public_key],
+        ['p', public_key, favorite_relay_url],
         ['value_minimum', MINIMUM_SATS_VALUE.to_s],
         ['value_maximum', MAXIMUM_SATS_VALUE.to_s],
         ['closed_at', POLL_END_OF_LIFE.from_now.utc.to_i.to_s]
       ].tap do |data|
-        data.push ['e', reference] if reference
+        data.push ['e', reference, favorite_relay_url] if reference
 
         options.each_with_index do |option, index|
           data.push ['poll_option', index.to_s, option]

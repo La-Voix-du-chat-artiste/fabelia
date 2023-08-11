@@ -1,10 +1,6 @@
-h1 Editing relay
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  h1.text-3xl Modifier relays
 
-== render "form", relay: @relay
+  = link_to '<< Retour', relays_path, class: 'back-link'
 
-br
-
-div
-  => link_to "Show this relay", @relay
-  '|
-  =< link_to "Back to relays", relays_path
+= render 'form', relay: @relay

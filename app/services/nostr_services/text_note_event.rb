@@ -30,9 +30,9 @@ module NostrServices
 
     def tags
       [
-        ['p', public_key, '']
+        ['p', public_key, favorite_relay_url]
       ].tap do |data|
-        data.push ['e', reference, ''] if reference
+        data.push ['e', reference, favorite_relay_url] if reference
       end
     end
   end
