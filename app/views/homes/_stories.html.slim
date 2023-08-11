@@ -6,11 +6,11 @@ ul#quick_look role="list"
 
         .flex.items-center.gap-3
           div
-            - if nostr_user.picture
-              = image_tag nostr_user.picture, class: 'w-12 mx-auto mb-1 rounded-full'
+            - if nostr_user.profile.picture
+              = image_tag nostr_user.profile.picture, class: 'w-12 mx-auto mb-1 rounded-full'
           div
             p Une nouvelle aventure sera créée à la prochaine exécution de la tâche
-            p.text-xs= nostr_user.name
+            p.text-xs= nostr_user.profile.identity
 
     - else
       - active_chapter = story.chapters.not_published.first
@@ -45,6 +45,6 @@ ul#quick_look role="list"
                 |.
 
         .text-base.font-semibold.text-gray-900
-          - if story.nostr_user.picture
-            = image_tag story.nostr_user.picture, class: 'w-24 mx-auto mb-1 rounded-full'
-          p= story.nostr_user.name
+          - if story.nostr_user.profile.picture
+            = image_tag story.nostr_user.profile.picture, class: 'w-24 mx-auto mb-1 rounded-full'
+          p= story.nostr_user.profile.identity

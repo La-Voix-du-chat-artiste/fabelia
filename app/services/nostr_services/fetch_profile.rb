@@ -10,8 +10,9 @@ module NostrServices
 
     def call
       req = nostr.build_req_event(filters)
+      response = test_post_event(req, favorite_relay_url)
 
-      test_post_event(req, favorite_relay_url)
+      JSON.parse(response.last['content'])
     end
 
     private
