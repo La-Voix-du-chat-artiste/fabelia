@@ -1,24 +1,25 @@
 = simple_form_for(nostr_user) do |f|
-  = f.error_notification
-  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
-
   .form-inputs
     = f.input :private_key,
               as: :password,
-              input_html: { value: f.object.private_key }
+              input_html: { value: f.object.private_key },
+              wrapper_html: { class: 'mb-5' }
 
     = f.input :language,
               as: :select,
               collection: NostrUser.languages.map { |l| [l[0], l[0]] },
-              include_blank: false
+              include_blank: false,
+              wrapper_html: { class: 'mb-5' }
 
     = f.association :relays,
                     collection: Relay.enabled,
                     as: :check_boxes,
-                    wrapper_html: { class: 'mb-5' },
-                    input_html: { class: 'ml-4 mr-1' }
+                    input_html: { class: 'ml-4 mr-1' },
+                    wrapper_html: { class: 'block mb-5' }
 
-    = f.input :enabled, as: :boolean
+    = f.input :enabled,
+              as: :boolean,
+              wrapper_html: { class: 'mb-5' }
 
   .form-actions
     = f.button :submit

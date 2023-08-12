@@ -14,6 +14,10 @@ class NostrUser < ApplicationRecord
 
   humanize :language, enum: true
 
+  after_destroy_commit do
+    broadcast_remove_to :nostr_users
+  end
+
   scope :enabled, -> { where(enabled: true) }
 
   def public_key

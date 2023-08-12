@@ -1,0 +1,15 @@
+fr:
+  simple_form:
+    "yes": 'Oui'
+    "no": 'Non'
+    required:
+      text: 'requis'
+      mark: '*'
+    error_notification:
+      default_message: "Veuillez vérifier les problèmes suivants:"
+
+    hints:
+      nostr_user:
+        private_key: La clé privée est chiffrée en base de données
+        relays: Sélectionner le(s) relay(s) sur le(s)quel(s) publier les aventures ?
+        enabled: Si coché, le compte Nostr sera autorisé à publier les aventures
