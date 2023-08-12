@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_073858) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_12_150954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,12 +65,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_073858) do
 
   create_table "nostr_users", force: :cascade do |t|
     t.string "private_key"
-    t.integer "language", default: 0, null: false
+    t.string "language", limit: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stories_count", default: 0, null: false
     t.boolean "enabled", default: true, null: false
     t.json "metadata_response", default: {}, null: false
+    t.index ["language"], name: "index_nostr_users_on_language", unique: true
     t.index ["private_key"], name: "index_nostr_users_on_private_key", unique: true
   end
 

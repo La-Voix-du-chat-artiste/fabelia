@@ -1,6 +1,4 @@
 class NostrUser < ApplicationRecord
-  enum language: { fr: 0, en: 1 }
-
   has_many :nostr_users_relays, dependent: :delete_all
   has_many :relays, -> { by_position }, through: :nostr_users_relays
 
@@ -12,13 +10,12 @@ class NostrUser < ApplicationRecord
 
   encrypts :private_key
 
-  humanize :language, enum: true
-
   after_destroy_commit do
     broadcast_remove_to :nostr_users
   end
 
   scope :enabled, -> { where(enabled: true) }
+  scope :by_language, ->(language) { where(language: language) }
 
   def public_key
     Nostr.new(private_key: private_key).keys[:public_key]
@@ -26,6 +23,12 @@ class NostrUser < ApplicationRecord
 
   def profile
     @profile ||= NostrProfile.new.from_json(metadata_response.to_json)
+  end
+
+  def human_language
+    I18nData.languages(I18n.locale)[language].capitalize
+  rescue StandardError
+    'Unknown language'
   end
 
   private
@@ -43,7 +46,7 @@ end
 #
 #  id                :bigint(8)        not null, primary key
 #  private_key       :string
-#  language          :integer          default("fr"), not null
+#  language          :string(2)        not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  stories_count     :integer          default(0), not null
@@ -52,5 +55,6 @@ end
 #
 # Indexes
 #
+#  index_nostr_users_on_language     (language) UNIQUE
 #  index_nostr_users_on_private_key  (private_key) UNIQUE
 #

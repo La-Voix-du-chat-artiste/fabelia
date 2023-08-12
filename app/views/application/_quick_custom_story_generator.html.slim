@@ -1,28 +1,30 @@
 = simple_form_for :story,
                   url: stories_path,
                   html: { \
-                    class: 'flex flex-col lg:flex-row items-end gap-3 justify-between p-4 border-t border-gray-300' \
+                    class: 'flex flex-col lg:flex-row items-center gap-3 justify-between p-4 border-t border-gray-300' \
                   } do |f|
-  = f.input :language,
-            collection: select_options_for(Story, :languages),
-            include_blank: false,
-            label_html: { class: 'block italic mb-2' },
-            input_html: { class: 'w-full' },
-            wrapper_html: { class: 'text-center w-full' }
 
-  = f.input :mode,
-            collection: select_options_for(Story, :modes),
-            include_blank: false,
-            label_html: { class: 'block italic mb-2' },
-            input_html: { class: 'w-full' },
-            wrapper_html: { class: 'text-center w-full' }
+  .flex.flex-col.lg:flex-row.items-start.gap-3.justify-between
+    = f.input :thematic_id,
+              collection: Thematic.enabled.map { |t| [t.name_fr, t.id] },
+              include_blank: '[Aléatoire]',
+              label_html: { class: 'block italic mb-2' },
+              input_html: { class: 'w-full' },
+              wrapper_html: { class: 'text-center w-full' }
 
-  = f.input :thematic_id,
-            collection: Thematic.enabled.map { |t| [t.name_fr, t.id] },
-            include_blank: '[Aléatoire]',
-            label_html: { class: 'block italic mb-2' },
-            input_html: { class: 'w-full' },
-            wrapper_html: { class: 'text-center w-full' }
+    = f.input :mode,
+              collection: select_options_for(Story, :modes),
+              include_blank: false,
+              label_html: { class: 'block italic mb-2' },
+              input_html: { class: 'w-full' },
+              wrapper_html: { class: 'text-center w-full' }
+
+    = f.input :nostr_user_id,
+              collection: story_nostr_users_select_options,
+              include_blank: false,
+              label_html: { class: 'block italic mb-2' },
+              input_html: { class: 'w-full' },
+              wrapper_html: { class: 'text-center w-full' }
 
   = f.button :submit, 'Créer une aventure sur mesure',
              class: 'bg-green-600 p-2 rounded-lg text-white cursor-pointer'

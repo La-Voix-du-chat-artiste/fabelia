@@ -3,8 +3,10 @@ class ApplicationJob < ActiveJob::Base
 
   private
 
-  def broadcast_flash_alert(e)
-    ApplicationRecord.broadcast_flash(:alert, e.message)
+  def broadcast_flash_alert(e, show_backtrace: false)
+    ApplicationRecord.broadcast_flash(:alert,
+      "[#{e.class.name}] #{e.message} #{e.backtrace if show_backtrace}"
+    )
   end
 
   def broadcast_flash_notice(message)
