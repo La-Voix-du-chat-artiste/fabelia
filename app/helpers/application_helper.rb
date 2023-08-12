@@ -18,6 +18,30 @@ module ApplicationHelper
     enum.keys.map { |k| [klass.human_enum_name(enum_name, k), k] }
   end
 
+  def story_nostr_users_select_options
+    all_languages = I18nData.languages(I18n.locale)
+
+    NostrUser.enabled.map do |nostr_user|
+      key = "#{nostr_user.profile.identity} (#{all_languages[nostr_user.language].capitalize})"
+      [key, nostr_user.id]
+    end
+  end
+
+  def nostr_user_languages_select_options(nostr_user = nil)
+    all_languages = I18nData.languages(I18n.locale)
+
+    scope = NostrUser.all
+    scope = scope.excluding(nostr_user) if nostr_user
+
+    taken_languages = scope.map(&:language)
+
+    available_locales = all_languages.except(*taken_languages)
+
+    available_locales.map do |code, name|
+      ["#{name.capitalize} (#{code})", code]
+    end
+  end
+
   private
 
   def nostr_client_url

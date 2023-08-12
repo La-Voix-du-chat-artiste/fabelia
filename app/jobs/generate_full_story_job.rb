@@ -1,16 +1,16 @@
 class GenerateFullStoryJob < ApplicationJob
   # TODO: Validate that a nostr_user is enabled for a language or raise
   # TODO: Validate that thematic is properly enabled or raise
-  # @param language [String] Language code based on ISO 639-1 standard
+  # @param nostr_user [NostrUser] nostr user choosed to publish story
   # @param thematic [Thematic|NilClass] Story's thematic or nil
   # @param publish [Boolean] Should the {Chapter} be published ?
-  def perform(language, thematic = nil, publish: false)
+  def perform(nostr_user, thematic = nil, publish: false)
     thematic ||= Thematic.enabled.sample
 
     Story.broadcast_flash(:notice, "Génération et publication complète d'une nouvelle aventure")
     Story.display_placeholder
 
-    description = thematic.send("description_#{language}")
+    description = thematic.send("description_#{nostr_user.language.downcase}")
     prompt = I18n.t('begin_adventure', description: description)
 
     Retry.on(
@@ -19,7 +19,7 @@ class GenerateFullStoryJob < ApplicationJob
       ChapterErrors::FullStoryMissingChapters,
       times: 5
     ) do
-      @json = ChatgptCompleteService.call(prompt, language)
+      @json = ChatgptCompleteService.call(prompt, nostr_user.language)
 
       raise ChapterErrors::FullStoryMissingChapters if @json['chapters'].count < 3
     end
@@ -30,8 +30,8 @@ class GenerateFullStoryJob < ApplicationJob
         adventure_ended_at: nil,
         raw_response_body: @json,
         mode: :complete,
-        language: language,
-        thematic: thematic
+        thematic: thematic,
+        nostr_user: nostr_user
       )
 
       # Call ChatGPT to make an accurate story summary

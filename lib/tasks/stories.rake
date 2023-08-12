@@ -79,7 +79,7 @@ namespace :stories do
           end
         end
 
-        GenerateFullStoryJob.perform_now(bot.language, publish: true)
+        GenerateFullStoryJob.perform_now(bot, publish: true)
       else
         raise StoryErrors::MissingCover unless @story.cover.attached?
 
@@ -138,7 +138,7 @@ namespace :stories do
 
     lang = args[:language].presence || 'fr'
 
-    nostr_user = NostrUser.find_by(language: lang)
+    nostr_user = NostrUser.find_by(language: lang.upcase)
 
     if nostr_user.nil?
       e = NostrUserErrors::BotMissing.new(language: lang)
@@ -163,7 +163,7 @@ namespace :stories do
         end
       end
 
-      GenerateFullStoryJob.perform_now(lang, publish: :all)
+      GenerateFullStoryJob.perform_now(nostr_user, publish: :all)
     end
   end
 end

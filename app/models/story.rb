@@ -3,17 +3,13 @@ class Story < ApplicationRecord
   include NSFWCoverable
 
   enum mode: { complete: 0, dropper: 1 }
-  enum language: { fr: 0, en: 1 }
 
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
 
   humanize :mode, enum: true
-  humanize :language, enum: true
 
   has_many :chapters, dependent: :destroy
-
-  before_validation :assign_nostr_user, on: :create
 
   after_create_commit do
     ReplicateServices::Picture.call(self, summary)
@@ -33,7 +29,6 @@ class Story < ApplicationRecord
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
   scope :enabled, -> { where(enabled: true) }
-  scope :by_language, ->(language) { where(language: language) }
 
   def self.display_placeholder
     Turbo::StreamsChannel.broadcast_update_to(
@@ -56,13 +51,19 @@ class Story < ApplicationRecord
                     .joins(:chapters)
                     .merge(Chapter.not_published)
 
-    scope = scope.where(language: language) if language.present?
+    if language.present?
+      scope = scope.joins(:nostr_user)
+                   .merge(NostrUser.by_language(language))
+    end
+
     scope
   end
 
   def self.current?
     exists?(adventure_ended_at: nil)
   end
+
+  delegate :human_language, to: :nostr_user
 
   def current?
     adventure_ended_at.nil? && chapters.published.any?
@@ -83,14 +84,16 @@ class Story < ApplicationRecord
   end
 
   def broadcast_next_quick_look_story
+    stories = {}
+    NostrUser.pluck(:language).each do |language|
+      stories[language] = Story.publishable(language: language).first
+    end
+
     broadcast_replace_to :active_stories,
                          partial: 'homes/stories',
                          target: 'quick_look',
                          locals: {
-                           stories: {
-                             fr: Story.publishable.fr.first,
-                             en: Story.publishable.en.first
-                           }
+                           stories: stories
                          }
   end
 
@@ -111,20 +114,8 @@ class Story < ApplicationRecord
                          html: ''
   end
 
-  def thematic_name
-    fr? ? thematic.name_fr.to_s : thematic.name_en.to_s
-  end
-
-  def thematic_description
-    fr? ? thematic.description_fr.to_s : thematic.description_en.to_s
-  end
-
   def publishable_story?
-    Story.publishable(language: language).first == self
-  end
-
-  def assign_nostr_user
-    self.nostr_user = NostrUser.find_sole_by(language: language)
+    Story.publishable(language: nostr_user.language).first == self
   end
 
   def front_cover_pubished?
@@ -133,6 +124,10 @@ class Story < ApplicationRecord
 
   def back_cover_published?
     back_cover_nostr_identifier.present?
+  end
+
+  def language
+    nostr_user.language.downcase
   end
 end
 
@@ -151,7 +146,6 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
-#  language                    :integer          default("fr"), not null
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string

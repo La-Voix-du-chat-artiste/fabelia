@@ -13,7 +13,7 @@ class HomesController < ApplicationController
 
     @active_stories = {}
     NostrUser.pluck(:language).each do |language|
-      @active_stories[language] = @publishable_stories.by_language(language).first
+      @active_stories[language] = Story.publishable(language: language).first
     end
 
     @pagy, @stories = pagy(@stories.with_attached_cover.order(updated_at: :desc), items: 6)

@@ -1,12 +1,15 @@
 class GenerateDropperStoryJob < ApplicationJob
   # TODO: Validate that a nostr_user is enabled for a language or raise
   # TODO: Validate that thematic is properly enabled or raise
-  # @param language [String] Language code based on ISO 639-1 standard
+  # @param nostr_user [NostrUser] nostr user choosed to publish story
   # @param thematic [Thematic|NilClass] Story's thematic or nil
-  def perform(language, thematic = nil)
+  def perform(nostr_user, thematic = nil)
     thematic ||= Thematic.enabled.sample
 
-    description = thematic.send("description_#{language}")
+    Story.broadcast_flash(:notice, "Génération et publication complète d'une aventure au fur et à mesure")
+    Story.display_placeholder
+
+    description = thematic.send("description_#{nostr_user.language.downcase}")
     prompt = I18n.t('begin_adventure', description: description)
 
     Retry.on(
@@ -15,7 +18,7 @@ class GenerateDropperStoryJob < ApplicationJob
       ChapterErrors::EmptyPollOptions,
       ChapterErrors::MissingPollOptions
     ) do
-      @json = ChatgptDropperService.call(prompt, language)
+      @json = ChatgptDropperService.call(prompt, nostr_user.language)
     end
 
     ApplicationRecord.transaction do
@@ -23,8 +26,8 @@ class GenerateDropperStoryJob < ApplicationJob
         title: @json['story_title'],
         adventure_ended_at: nil,
         mode: :dropper,
-        language: language,
-        thematic: thematic
+        thematic: thematic,
+        nostr_user: nostr_user
       )
 
       # Call ChatGPT to make an accurate story summary

@@ -7,7 +7,7 @@
 
     = f.input :language,
               as: :select,
-              collection: NostrUser.languages.map { |l| [l[0], l[0]] },
+              collection: nostr_user_languages_select_options(f.object),
               include_blank: false,
               wrapper_html: { class: 'mb-5' }
 

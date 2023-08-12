@@ -13,3 +13,6 @@ fr:
         private_key: La clé privée est chiffrée en base de données
         relays: Sélectionner le(s) relay(s) sur le(s)quel(s) publier les aventures ?
         enabled: Si coché, le compte Nostr sera autorisé à publier les aventures
+
+      story:
+        nostr_user_id: Le compte Nostr de publication définit la langue de l'aventure
