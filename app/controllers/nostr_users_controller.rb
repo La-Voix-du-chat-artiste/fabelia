@@ -51,7 +51,12 @@ class NostrUsersController < ApplicationController
 
     @nostr_user.destroy
 
-    redirect_to nostr_users_path, notice: 'Nostr user was successfully destroyed.'
+    respond_to do |format|
+      notice = 'Nostr user was successfully destroyed.'
+
+      format.html { redirect_to nostr_users_path, notice: notice }
+      format.turbo_stream { flash.now[:notice] = notice }
+    end
   end
 
   private

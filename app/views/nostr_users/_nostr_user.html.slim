@@ -1,8 +1,8 @@
-.w-full.bg-white.rounded-lg.shadow
+.w-full.bg-white.rounded-lg.shadow id=dom_id(nostr_user)
   - if nostr_user.profile.banner.present?
     = image_tag nostr_user.profile.banner, class: 'w-full rounded-t-lg'
 
-  .flex.flex-col.items-center.py-10.border.border-gray-200
+  .flex.flex-col.items-center.py-5.border.border-gray-200
     - if nostr_user.profile.picture.present?
       = image_tag nostr_user.profile.picture, class: 'w-24 h-24 mb-3 rounded-full shadow-lg'
 
@@ -28,3 +28,8 @@
                     refresh_profiles_path(nostr_user),
                     class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-orange-500 border border-orange-300 rounded-lg hover:bg-orange-100 focus:ring-4 focus:outline-none focus:ring-orange-200',
                     data: { turbo_confirm: 'Voulez-vous rafraîchir les métadonnées ?' }
+      - if allowed_to?(:destroy?, nostr_user)
+        = button_to 'Supprimer', nostr_user,
+                    class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white-900 bg-red-500 border border-red-300 rounded-lg hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-red-200',
+                    method: :delete,
+                    data: { turbo_confirm: 'Voulez-vous supprimer ce compte Nostr ?' }

@@ -71,8 +71,12 @@
   }
 }
 
-input.boolean {
+input.boolean, input.check_boxes {
   @apply inline-block w-4 mr-2;
+}
+
+.hint {
+  @apply block text-sm text-green-700 italic mt-2;
 }
 
 .error, .error_notification {

@@ -17,3 +17,9 @@ fr:
         url: WebSocket URL (ws:// ou wss://)
         description: Description
         enabled: Activé ?
+
+      nostr_user:
+        private_key: Clé privée
+        language: Language
+        relays: Relays
+        enabled: Activé ?
