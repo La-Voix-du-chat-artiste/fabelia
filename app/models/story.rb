@@ -36,8 +36,6 @@ class Story < ApplicationRecord
   scope :ended, -> { where.not(adventure_ended_at: nil) }
   scope :enabled, -> { where(enabled: true) }
 
-  delegate :human_language, to: :nostr_user
-
   def self.display_placeholder
     Turbo::StreamsChannel.broadcast_update_to(
       %i[stories current],
@@ -70,6 +68,8 @@ class Story < ApplicationRecord
   def self.current?
     exists?(adventure_ended_at: nil)
   end
+
+  delegate :human_language, to: :nostr_user
 
   def current?
     adventure_ended_at.nil? && chapters.published.any?
