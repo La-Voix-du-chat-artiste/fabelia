@@ -4,8 +4,15 @@ class ApplicationJob < ActiveJob::Base
   private
 
   def broadcast_flash_alert(e, show_backtrace: false)
-    ApplicationRecord.broadcast_flash(:alert,
-                                      "[#{e.class.name}] #{e.message} #{e.backtrace if show_backtrace}")
+    message = "[#{e.class.name}] #{e.message} #{e.backtrace if show_backtrace}"
+
+    Rails.logger.tagged(e.class) do
+      Rails.logger.error do
+        ActiveSupport::LogSubscriber.new.send(:color, message, :red)
+      end
+    end
+
+    ApplicationRecord.broadcast_flash(:alert, message)
   end
 
   def broadcast_flash_notice(message)

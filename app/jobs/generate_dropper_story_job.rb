@@ -6,6 +6,9 @@ class GenerateDropperStoryJob < ApplicationJob
   def perform(nostr_user, thematic = nil)
     thematic ||= Thematic.enabled.sample
 
+    Story.broadcast_flash(:notice, "Génération et publication complète d'une aventure au fur et à mesure")
+    Story.display_placeholder
+
     description = thematic.send("description_#{nostr_user.language.downcase}")
     prompt = I18n.t('begin_adventure', description: description)
 
