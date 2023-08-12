@@ -23,7 +23,6 @@ class GenerateDropperStoryJob < ApplicationJob
         title: @json['story_title'],
         adventure_ended_at: nil,
         mode: :dropper,
-        # language: language,
         thematic: thematic,
         nostr_user: nostr_user
       )

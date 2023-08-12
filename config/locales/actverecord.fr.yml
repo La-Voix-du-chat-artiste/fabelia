@@ -5,9 +5,6 @@ fr:
         modes:
           complete: Aventure pré-générée
           dropper: Aventure au fur et à mesure
-        languages:
-          fr: Français
-          en: Anglais
 
       relay:
         url: WebSocket URL (ws:// ou wss://)

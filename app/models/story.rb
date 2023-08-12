@@ -4,18 +4,12 @@ class Story < ApplicationRecord
 
   enum mode: { complete: 0, dropper: 1 }
 
-  # TODO: remove language from Story
-  # enum language: { fr: 0, en: 1 }
-
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
 
   humanize :mode, enum: true
-  # humanize :language, enum: true
 
   has_many :chapters, dependent: :destroy
-
-  # before_validation :assign_nostr_user, on: :create
 
   after_create_commit do
     ReplicateServices::Picture.call(self, summary)
@@ -120,24 +114,8 @@ class Story < ApplicationRecord
                          html: ''
   end
 
-  # def thematic_name
-  #   thematic.send("name_#{language}")
-  # rescue StandardError
-  #   thematic.name_en
-  # end
-
-  # def thematic_description
-  #   thematic.send("description_#{language}")
-  # rescue StandardError
-  #   thematic.description_en
-  # end
-
   def publishable_story?
     Story.publishable(language: nostr_user.language).first == self
-  end
-
-  def assign_nostr_user
-    self.nostr_user = NostrUser.find_sole_by(language: language)
   end
 
   def front_cover_pubished?
@@ -168,7 +146,6 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
-#  language                    :integer          default("fr"), not null
 #  thematic_id                 :bigint(8)
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string

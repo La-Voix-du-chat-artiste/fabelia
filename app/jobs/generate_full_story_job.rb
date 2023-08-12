@@ -30,7 +30,6 @@ class GenerateFullStoryJob < ApplicationJob
         adventure_ended_at: nil,
         raw_response_body: @json,
         mode: :complete,
-        # language: language,
         thematic: thematic,
         nostr_user: nostr_user
       )
