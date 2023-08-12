@@ -4,6 +4,7 @@ class NostrUser < ApplicationRecord
 
   validates :private_key, presence: true
   validates :relays, presence: true
+  validates :language, presence: true, uniqueness: { case_sensitive: false }
 
   # TODO: Extract this callback from model to controller
   before_save :fetch_metadata, if: :private_key_changed?
@@ -46,7 +47,7 @@ end
 #
 #  id                :bigint(8)        not null, primary key
 #  private_key       :string
-#  language          :string(2)        not null
+#  language          :string(2)        default("EN"), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  stories_count     :integer          default(0), not null
