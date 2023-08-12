@@ -7,6 +7,7 @@ class NostrUser < ApplicationRecord
   validates :private_key, presence: true
   validates :relays, presence: true
 
+  # TODO: Extract this callback from model to controller
   before_save :fetch_metadata, if: :private_key_changed?
 
   encrypts :private_key
@@ -19,23 +20,8 @@ class NostrUser < ApplicationRecord
     Nostr.new(private_key: private_key).keys[:public_key]
   end
 
-  # TODO: Extract metadata logic to a dedicated class
-  def content
-    @content ||= JSON.parse(metadata_response.last['content'])
-  rescue StandardError
-    {}
-  end
-
-  def name
-    content['display_name'].presence || content['name'].presence || 'John Doe'
-  end
-
-  def picture
-    content['picture']
-  end
-
-  def banner
-    content['banner']
+  def profile
+    @profile ||= NostrProfile.new.from_json(metadata_response.to_json)
   end
 
   private

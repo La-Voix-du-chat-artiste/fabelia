@@ -1,13 +1,16 @@
 .w-full.bg-white.rounded-lg.shadow
-  - if nostr_user.banner.present?
-    = image_tag nostr_user.banner, class: 'w-full rounded-t-lg'
+  - if nostr_user.profile.banner.present?
+    = image_tag nostr_user.profile.banner, class: 'w-full rounded-t-lg'
 
   .flex.flex-col.items-center.py-10.border.border-gray-200
-    - if nostr_user.picture.present?
-      = image_tag nostr_user.picture, class: 'w-24 h-24 mb-3 rounded-full shadow-lg'
+    - if nostr_user.profile.picture.present?
+      = image_tag nostr_user.profile.picture, class: 'w-24 h-24 mb-3 rounded-full shadow-lg'
 
     h5.mb-1.text-xl.font-medium.text-gray-900
-      = nostr_user.name
+      = nostr_user.profile.identity
+
+    span.text-sm.text-gray-500.mb-5
+      = nostr_user.profile.about
 
     span.text-sm.text-gray-500.mb-5
       = nostr_user.public_key
