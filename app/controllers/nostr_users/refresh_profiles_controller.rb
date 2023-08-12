@@ -11,6 +11,10 @@ module NostrUsers
       @nostr_user.update(metadata_response: response)
 
       redirect_to nostr_users_path, notice: 'Les métadonnées du profil ont bien été rafraîchies'
+    rescue URI::InvalidURIError,
+           Errno::ECONNREFUSED,
+           OpenSSL::SSL::SSLError => e
+      redirect_to nostr_users_path, alert: e.message
     end
 
     private

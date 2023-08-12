@@ -1,8 +1,8 @@
 class NostrUser < ApplicationRecord
   enum language: { fr: 0, en: 1 }
 
-  has_many :nostr_users_relays, dependent: :nullify
-  has_many :relays, through: :nostr_users_relays
+  has_many :nostr_users_relays, dependent: :delete_all
+  has_many :relays, -> { by_position }, through: :nostr_users_relays
 
   validates :private_key, presence: true
   validates :relays, presence: true
@@ -42,6 +42,8 @@ class NostrUser < ApplicationRecord
 
   def fetch_metadata
     self.metadata_response = NostrServices::FetchProfile.call(self)
+  rescue StandardError
+    nil
   end
 end
 
