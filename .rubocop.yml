@@ -2,6 +2,9 @@ inherit_from:
   - .rubocop-custom.yml
   - .rubocop-disabled.yml
 
+inherit_gem:
+  action_policy: config/rubocop-rspec.yml
+
 require:
   - rubocop-performance
   - rubocop-rails
