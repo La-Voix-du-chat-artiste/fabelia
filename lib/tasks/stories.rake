@@ -23,7 +23,7 @@ namespace :stories do
 
         []
       elsif !nostr_user.enabled?
-        e = NostrUserErrors::BotDisabled.new(nostr_user: nostr_user)
+        e = NostrUserErrors::BotDisabled.new(nostr_user)
 
         Rails.logger.tagged(e.class) do
           Rails.logger.info do
@@ -52,7 +52,7 @@ namespace :stories do
 
           []
         elsif !nostr_user.enabled?
-          e = NostrUserErrors::BotDisabled.new(nostr_user: nostr_user)
+          e = NostrUserErrors::BotDisabled.new(nostr_user)
 
           Rails.logger.tagged(e.class) do
             Rails.logger.info do
@@ -155,7 +155,7 @@ namespace :stories do
         end
       end
     elsif !nostr_user.enabled?
-      e = NostrUserErrors::BotDisabled.new(nostr_user: nostr_user)
+      e = NostrUserErrors::BotDisabled.new(nostr_user)
 
       Rails.logger.tagged(e.class) do
         Rails.logger.info do

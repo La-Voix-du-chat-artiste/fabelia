@@ -1,0 +1,4 @@
+en:
+  exceptions:
+    thematic_errors:
+      thematic_disabled: "The \"%{name}\" thematic is deactivated: you can't publish a new story or chapter until it's reactivated"

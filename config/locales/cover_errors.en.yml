@@ -1,4 +1,6 @@
 en:
   exceptions:
     cover_errors:
-      nsfw_detected: "NSFW cover detected, please generate it again [used prompt: %{prompt}]"
+      nsfw_detected: |-
+        NSFW cover detected, please generate it again.
+        Used prompt: %{prompt}

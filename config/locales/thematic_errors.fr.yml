@@ -1,0 +1,4 @@
+fr:
+  exceptions:
+    thematic_errors:
+      thematic_disabled: "La thématique \"%{name}\" est désactivée, vous ne pouvez pas publier de nouvelle histoire ou chapitre tant qu'elle ne sera pas réactivée"

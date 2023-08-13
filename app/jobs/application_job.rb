@@ -4,7 +4,10 @@ class ApplicationJob < ActiveJob::Base
   private
 
   def broadcast_flash_alert(e)
-    message = "[#{e.class.name}] #{e.message}"
+    message = <<~MESSAGE
+      [#{e.class.name}]
+      #{e.message}
+    MESSAGE
 
     Rails.logger.tagged(e.class) do
       Rails.logger.error do

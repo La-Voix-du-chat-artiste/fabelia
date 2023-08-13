@@ -1,4 +1,6 @@
 fr:
   exceptions:
     cover_errors:
-      nsfw_detected: "La couverture est NSFW, veuillez la générer à nouveau [prompt utilisé: %{prompt}]"
+      nsfw_detected: |-
+        La couverture est NSFW, veuillez la générer à nouveau.
+        Prompt utilisé: %{prompt}
