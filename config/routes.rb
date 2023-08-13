@@ -41,5 +41,5 @@ Rails.application.routes.draw do
   end
 
   resources :relays, except: :show
-  resources :thematics
+  resources :thematics, except: :show
 end

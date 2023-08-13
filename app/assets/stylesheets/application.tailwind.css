@@ -83,11 +83,13 @@ input.boolean, input.check_boxes {
   @apply text-red-500 italic text-sm;
 }
 
-.field_with_errors input {
+.field_with_errors input,
+.field_with_errors textarea {
   @apply border-red-500;
 }
 
-.field_with_errors input:focus {
+.field_with_errors input:focus,
+.field_with_errors textarea:focus {
   @apply border-red-500 ring-red-500;
 }
 

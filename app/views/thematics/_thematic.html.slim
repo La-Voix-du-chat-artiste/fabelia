@@ -1,19 +1,19 @@
-div id="#{dom_id thematic}"
-  p
-    strong Identifier:
-    =< thematic.identifier
-  p
-    strong Name fr:
-    =< thematic.name_fr
-  p
-    strong Name en:
-    =< thematic.name_en
-  p
-    strong Description fr:
-    =< thematic.description_fr
-  p
-    strong Description en:
-    =< thematic.description_en
-  p
-    strong Enabled:
-    =< thematic.enabled
+details.border.mb-3.rounded-lg.border-gray-300.bg-gray-100 id=dom_id(thematic) class=('opacity-50' unless thematic.enabled?)
+  summary.flex.items-center.gap-3.justify-between.p-2.relative
+    .flex.items-center.gap-1
+      p= thematic.name
+      p.text-gray-400.text-sm
+        | (#{thematic.stories_count} aventures)
+
+    .flex.items-center.gap-3
+      - if allowed_to?(:update?, thematic)
+        => link_to 'Modifier', edit_thematic_path(thematic), class: 'edit-link'
+
+      - if allowed_to?(:destroy?, thematic)
+        = button_to 'Supprimer', thematic,
+                    class: 'destroy-button',
+                    method: :delete,
+                    data: { turbo_confirm: 'Voulez-vous supprimer cette thématique ?' }
+
+  .p-2.text-gray-600.border-t
+    = thematic.description

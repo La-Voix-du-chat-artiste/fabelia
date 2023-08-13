@@ -1,8 +1,6 @@
-h1 New thematic
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  h1.text-3xl Ajouter une thématique
 
-== render "form", thematic: @thematic
+  = link_to '<< Retour', thematics_path, class: 'back-link'
 
-br
-
-div
-  = link_to "Back to thematics", thematics_path
+= render 'form', thematic: @thematic

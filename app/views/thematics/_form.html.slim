@@ -1,14 +1,26 @@
 = simple_form_for(@thematic) do |f|
-  = f.error_notification
-  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
-
   .form-inputs
-    = f.input :identifier
-    = f.input :name_fr
-    = f.input :name_en
-    = f.input :description_fr
-    = f.input :description_en
-    = f.input :enabled
+    = f.input :identifier,
+              wrapper_html: { class: 'mb-5' }
+
+    .flex.items-center.justify-between.gap-3
+      = f.input :name_fr,
+                wrapper_html: { class: 'w-full mb-5' }
+
+      = f.input :name_en,
+                wrapper_html: { class: 'w-full mb-5' }
+
+    .flex.items-center.justify-between.gap-3
+      = f.input :description_fr,
+                wrapper_html: { class: 'w-full mb-5' },
+                input_html: { class: 'h-48' }
+
+      = f.input :description_en,
+                wrapper_html: { class: 'w-full mb-5' },
+                input_html: { class: 'h-48' }
+
+    = f.input :enabled,
+              wrapper_html: { class: 'mb-5' }
 
   .form-actions
     = f.button :submit
