@@ -1,5 +1,20 @@
 class GenerateStoryJob < ApplicationJob
+  queue_as :artificial_intelligence
+
+  rescue_from NostrUserErrors::BotDisabled,
+              ThematicErrors::ThematicDisabled do |e|
+    @draft_story.destroy!
+    broadcast_flash_alert(e)
+  end
+
   private
+
+  def validate!(draft_story)
+    @draft_story = draft_story
+
+    raise NostrUserErrors::BotDisabled.new(draft_story.nostr_user) unless draft_story.nostr_user.enabled?
+    raise ThematicErrors::ThematicDisabled.new(draft_story.thematic) unless draft_story.thematic.enabled?
+  end
 
   def process!(draft_story, retryable_ai_errors, publish: false)
     nostr_user = draft_story.nostr_user
@@ -25,7 +40,7 @@ class GenerateStoryJob < ApplicationJob
       end
     end
 
-     if draft_story.complete?
+    if draft_story.complete?
       story_title = @json['title']
 
       flash_message = <<~MESSAGE
@@ -50,9 +65,7 @@ class GenerateStoryJob < ApplicationJob
         summary: story_accurate_cover_prompt
       )
 
-      if draft_story.dropper?
-        @json['chapters'] = [@json.except(:story_title)]
-      end
+      @json['chapters'] = [@json.except(:story_title)] if draft_story.dropper?
 
       @json['chapters'].each_with_index do |row, index|
         chapter_accurate_cover_prompt = ChatgptSummaryService.call(row['content'])

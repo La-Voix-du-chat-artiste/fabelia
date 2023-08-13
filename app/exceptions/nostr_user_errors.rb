@@ -18,7 +18,7 @@ class NostrUserErrors < BaseErrors
   BotDisabled = Class.new(self) do
     attr_reader :nostr_user
 
-    def initialize(nostr_user:)
+    def initialize(nostr_user)
       super()
 
       @nostr_user = nostr_user
@@ -27,7 +27,7 @@ class NostrUserErrors < BaseErrors
     def message
       I18n.t(
         class_name,
-        name: nostr_user.name,
+        name: nostr_user.profile.identity,
         language: nostr_user.human_language,
         scope: i18n_scope
       )

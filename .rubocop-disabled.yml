@@ -36,3 +36,6 @@ Style/FrozenStringLiteralComment:
 # Use smallcase prefixes for numeric literals.
 Style/NumericLiteralPrefix:
   Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
