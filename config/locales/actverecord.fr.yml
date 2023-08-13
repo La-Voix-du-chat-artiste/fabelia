@@ -8,6 +8,10 @@ fr:
         modes:
           complete: Aventure pré-générée
           dropper: Aventure au fur et à mesure
+        publication_rules:
+          do_not_publish: Ne pas publier
+          publish_first_chapter: Publier le premier chapitre
+          publish_all_chapters: Publier tous les chapitres
 
       relay:
         url: WebSocket URL (ws:// ou wss://)

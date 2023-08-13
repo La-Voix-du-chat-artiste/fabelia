@@ -2,3 +2,7 @@ en:
   activerecord:
     attributes:
       story:
+        publication_rules:
+          do_not_publish: Do not publish
+          publish_first_chapter: Publish first chapter
+          publish_all_chapters: Publish all chapters

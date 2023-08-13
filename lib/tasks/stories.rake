@@ -82,10 +82,11 @@ namespace :stories do
         draft_story = Story.create! do |story|
           story.mode = :complete
           story.status = :draft
+          story.publication_rule = :publish_first_chapter
           story.nostr_user = bot
         end
 
-        GenerateFullStoryJob.perform_now(draft_story, publish: true)
+        GenerateFullStoryJob.perform_now(draft_story)
       else
         raise StoryErrors::MissingCover unless @story.cover.attached?
 
@@ -172,10 +173,11 @@ namespace :stories do
       draft_story = Story.create! do |story|
         story.mode = :complete
         story.status = :draft
+        story.publication_rule = :publish_all_chapters
         story.nostr_user = nostr_user
       end
 
-      GenerateFullStoryJob.perform_now(draft_story, publish: :all)
+      GenerateFullStoryJob.perform_now(draft_story)
     end
   end
 end

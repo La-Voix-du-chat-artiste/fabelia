@@ -66,7 +66,8 @@ class StoriesController < ApplicationController
   end
 
   def story_params
-    params.require(:story).permit(:nostr_user_id, :mode, :thematic_id)
+    params.require(:story)
+          .permit(:nostr_user_id, :mode, :thematic_id, :publication_rule)
   end
 
   def mode
