@@ -16,7 +16,7 @@ module Stories
         ChapterErrors::EmptyPollOptions,
         ChapterErrors::MissingPollOptions
       ) do
-        @json = ChatgptDropperService.call(prompt, @story.language, @story)
+        @json = ChatgptDropperService.call(prompt, @story.nostr_user.language, @story)
       end
 
       ApplicationRecord.transaction do

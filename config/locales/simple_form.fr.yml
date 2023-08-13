@@ -15,4 +15,6 @@ fr:
         enabled: Si coché, le compte Nostr sera autorisé à publier les aventures
 
       story:
-        nostr_user_id: Le compte Nostr de publication définit la langue de l'aventure
+        mode: Type d'aventure
+        thematic: Thème de l'aventure
+        nostr_user: Le compte Nostr de publication définit la langue de l'aventure

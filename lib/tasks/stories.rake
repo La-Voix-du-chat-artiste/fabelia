@@ -79,7 +79,13 @@ namespace :stories do
           end
         end
 
-        GenerateFullStoryJob.perform_now(bot, publish: true)
+        draft_story = Story.create! do |story|
+          story.mode = :complete
+          story.status = :draft
+          story.nostr_user = bot
+        end
+
+        GenerateFullStoryJob.perform_now(draft_story, publish: true)
       else
         raise StoryErrors::MissingCover unless @story.cover.attached?
 
@@ -163,7 +169,13 @@ namespace :stories do
         end
       end
 
-      GenerateFullStoryJob.perform_now(nostr_user, publish: :all)
+      draft_story = Story.create! do |story|
+        story.mode = :complete
+        story.status = :draft
+        story.nostr_user = nostr_user
+      end
+
+      GenerateFullStoryJob.perform_now(draft_story, publish: :all)
     end
   end
 end

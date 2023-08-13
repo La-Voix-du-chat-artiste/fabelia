@@ -5,23 +5,31 @@ class StoriesController < ApplicationController
   def create
     authorize! Story
 
-    case mode
-    when :dropper
-      GenerateDropperStoryJob.perform_later(nostr_user, thematic)
-
-      notice = 'Le premier chapitre de cette nouvelle aventure est en cours de création'
-    when :complete
-      GenerateFullStoryJob.perform_later(nostr_user, thematic)
-
-      notice = "L'aventure pré-générée est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
-    else
-      redirect_to root_path, alert: 'Unsupported story mode'
-      return
+    @story = Story.new(story_params) do |story|
+      story.status = :draft
     end
 
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: notice }
-      format.turbo_stream { flash.now[:notice] = notice }
+    if @story.save
+      case mode
+      when :dropper
+        GenerateDropperStoryJob.perform_later(@story)
+
+        notice = 'Le premier chapitre de cette nouvelle aventure est en cours de création'
+      when :complete
+        GenerateFullStoryJob.perform_later(@story)
+
+        notice = "L'aventure pré-générée est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
+      else
+        redirect_to root_path, alert: 'Unsupported story mode'
+        return
+      end
+
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash.now[:notice] = notice }
+      end
+    else
+      redirect_to root_path, alert: @story.errors.full_messages.join(', ')
     end
   rescue OpenaiChatgpt::Error, StandardError => e
     redirect_to root_path, alert: "#{e.message} // #{e.backtrace}"
@@ -62,18 +70,6 @@ class StoriesController < ApplicationController
   end
 
   def mode
-    story_params[:mode].presence.to_sym || :complete
-  end
-
-  def nostr_user
-    @nostr_user ||= NostrUser.find_sole_by(id: story_params[:nostr_user_id])
-  end
-
-  def thematic
-    if story_params[:thematic_id].blank?
-      Thematic.enabled.sample
-    else
-      Thematic.enabled.find(story_params[:thematic_id])
-    end
+    story_params[:mode].to_sym
   end
 end

@@ -3,6 +3,7 @@ class Story < ApplicationRecord
   include NSFWCoverable
 
   enum mode: { complete: 0, dropper: 1 }
+  enum status: { draft: 0, completed: 1 }
 
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
@@ -11,13 +12,19 @@ class Story < ApplicationRecord
 
   has_many :chapters, dependent: :destroy
 
-  after_create_commit do
-    ReplicateServices::Picture.call(self, summary)
+  before_validation :assign_random_thematic, if: -> { thematic.blank? }
 
+  after_create_commit do
     broadcast_prepend_to :stories
 
-    Story.hide_placeholder
     hide_empty_stories if Story.current?
+  end
+
+  after_update_commit do
+    if status_previously_changed?(from: :draft, to: :completed)
+      broadcast_replace_to :stories
+      generate_cover
+    end
   end
 
   after_destroy_commit do
@@ -25,6 +32,8 @@ class Story < ApplicationRecord
 
     display_empty_stories unless Story.current?
   end
+
+  validates :mode, presence: true, inclusion: { in: modes.keys }
 
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
@@ -129,6 +138,24 @@ class Story < ApplicationRecord
   def language
     nostr_user.language.downcase
   end
+
+  def thematic_name
+    language == 'fr' ? thematic.name_fr : thematic.name_en
+  end
+
+  def thematic_description
+    language == 'fr' ? thematic.description_fr : thematic.description_en
+  end
+
+  private
+
+  def assign_random_thematic
+    self.thematic = Thematic.enabled.sample
+  end
+
+  def generate_cover
+    ReplicateServices::Picture.call(self, summary)
+  end
 end
 
 # == Schema Information
@@ -152,6 +179,7 @@ end
 #  nostr_user_id               :bigint(8)
 #  summary                     :string
 #  back_cover_nostr_identifier :string
+#  status                      :integer          default("draft"), not null
 #
 # Indexes
 #
