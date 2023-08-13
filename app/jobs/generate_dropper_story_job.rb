@@ -1,16 +1,20 @@
 class GenerateDropperStoryJob < ApplicationJob
   # TODO: Validate that a nostr_user is enabled for a language or raise
   # TODO: Validate that thematic is properly enabled or raise
-  # @param nostr_user [NostrUser] nostr user choosed to publish story
-  # @param thematic [Thematic|NilClass] Story's thematic or nil
-  def perform(nostr_user, thematic = nil)
-    thematic ||= Thematic.enabled.sample
+  # @param draft_story [Story] draft story to generate
+  def perform(draft_story)
+    nostr_user = draft_story.nostr_user
 
-    Story.broadcast_flash(:notice, "Génération et publication complète d'une aventure au fur et à mesure")
-    Story.display_placeholder
+    flash_message = <<~CONTENT
+      - Mode: <strong>#{draft_story.human_mode}</strong>
+      - Thèmatique: <strong>#{draft_story.thematic_name}</strong>
+      - Compte Nostr: <strong>#{nostr_user.profile.identity}</strong>
+      - Langue: <strong>#{nostr_user.human_language}</strong>
+    CONTENT
 
-    description = thematic.send("description_#{nostr_user.language.downcase}")
-    prompt = I18n.t('begin_adventure', description: description)
+    Story.broadcast_flash(:notice, flash_message)
+
+    prompt = I18n.t('begin_adventure', description: draft_story.thematic_description)
 
     Retry.on(
       Net::ReadTimeout,
@@ -21,29 +25,31 @@ class GenerateDropperStoryJob < ApplicationJob
       @json = ChatgptDropperService.call(prompt, nostr_user.language)
     end
 
+    Story.broadcast_flash(:notice, <<~CONTENT)
+      L'aventure <strong>#{@json['story_title']}</strong> vient d'être générée.
+    CONTENT
+
     ApplicationRecord.transaction do
-      @story = Story.create!(
+      story_accurate_cover_prompt = ChatgptSummaryService.call("#{@json['story_title']}, #{draft_story.thematic_description}")
+
+      draft_story.update!(
         title: @json['story_title'],
-        adventure_ended_at: nil,
-        mode: :dropper,
-        thematic: thematic,
-        nostr_user: nostr_user
+        raw_response_body: @json,
+        summary: story_accurate_cover_prompt
       )
 
-      # Call ChatGPT to make an accurate story summary
-      story_cover_prompt = ChatgptSummaryService.call("#{@story.title}, #{description}")
-      @story.update(summary: story_cover_prompt)
+      chapter_accurate_cover_prompt = ChatgptSummaryService.call(@json['content'])
 
-      @chapter = @story.chapters.create!(
+      draft_story.chapters.create!(
         title: @json['title'],
         content: @json['content'],
         prompt: prompt,
-        chat_raw_response_body: @json
+        summary: chapter_accurate_cover_prompt,
+        chat_raw_response_body: @json,
+        publish: true
       )
 
-      # Call ChatGPT to make an accurate chapter summary
-      chapter_cover_prompt = ChatgptSummaryService.call(@chapter.content)
-      @chapter.update(summary: chapter_cover_prompt, publish: true)
+      draft_story.completed!
     end
   end
 end

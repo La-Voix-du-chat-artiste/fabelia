@@ -6,6 +6,10 @@ class Thematic < ApplicationRecord
   validates :description_fr, presence: true
   validates :description_en, presence: true
   validates :identifier, presence: true, uniqueness: true
+
+  def name
+    name_fr
+  end
 end
 
 # == Schema Information

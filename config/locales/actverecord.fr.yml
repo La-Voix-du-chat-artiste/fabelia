@@ -2,6 +2,9 @@ fr:
   activerecord:
     attributes:
       story:
+        mode: Mode
+        thematic: Thématique
+        nostr_user: Compte Nostr
         modes:
           complete: Aventure pré-générée
           dropper: Aventure au fur et à mesure

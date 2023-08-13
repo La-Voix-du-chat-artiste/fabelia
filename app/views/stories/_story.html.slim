@@ -1,33 +1,37 @@
-.flex.flex-col.lg:flex-row.justify-between.mb-6 class=('opacity-75' unless story.enabled?) class="lg:max-h-[30rem]" id=dom_id(story)
-  .w-full.lg:w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-l-lg.relative class="px-2.5 #{story.complete? ? 'bg-blue-600' : 'bg-yellow-600' }"
-    = render 'stories/menu', story: story
+- if story.draft?
+  div id=dom_id(story)
+    = render 'stories/placeholder'
+- else
+  .flex.flex-col.lg:flex-row.justify-between.mb-6 class=('opacity-75' unless story.enabled?) class="lg:max-h-[30rem]" id=dom_id(story)
+    .w-full.lg:w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-l-lg.relative class="px-2.5 #{story.complete? ? 'bg-blue-600' : 'bg-yellow-600' }"
+      = render 'stories/menu', story: story
 
-    header.flex.items-center.gap-2.mb-1
-      h2.text-lg.font-bold= story.title
+      header.flex.items-center.gap-2.mb-1
+        h2.text-lg.font-bold= story.title
 
-      span.text-sm
-        - if story.complete?
-          =< "(#{story.chapters.published.count}/#{story.chapters_count})"
-        - else
-          =< "(#{story.chapters.published.count}/X)"
+        span.text-sm
+          - if story.complete?
+            =< "(#{story.chapters.published.count}/#{story.chapters_count})"
+          - else
+            =< "(#{story.chapters.published.count}/X)"
 
-    .flex.items-center.gap-3.mb-3
-      p.inline-block.text-xs.font-medium.py-1.rounded class="px-2.5 #{story.complete? ? 'bg-orange-100 text-orange-800' : 'bg-purple-100 text-purple-800' }"
-        = story.human_mode
+      .flex.items-center.gap-3.mb-3
+        p.inline-block.text-xs.font-medium.py-1.rounded class="px-2.5 #{story.complete? ? 'bg-orange-100 text-orange-800' : 'bg-purple-100 text-purple-800' }"
+          = story.human_mode
 
-      p.inline-block.text-xs.font-medium.py-1.rounded.bg-gray-100.text-gray-800 class="px-2.5"
-        = story.human_language
+        p.inline-block.text-xs.font-medium.py-1.rounded.bg-gray-100.text-gray-800 class="px-2.5"
+          = story.human_language
 
-    .relative
-      div id=dom_id(story, 'cover')
-        = render 'stories/cover', story: story
+      .relative
+        div id=dom_id(story, 'cover')
+          = render 'stories/cover', story: story
 
-      .absolute.-bottom-4.-right-5
-        - if story.nostr_user.profile.picture
-          = image_tag story.nostr_user.profile.picture, class: 'w-20 mx-auto mb-1 rounded-full border-2'
+        .absolute.-bottom-4.-right-5
+          - if story.nostr_user.profile.picture
+            = image_tag story.nostr_user.profile.picture, class: 'w-20 mx-auto mb-1 rounded-full border-2'
 
-    span.text-sm= l(story.created_at)
+      span.text-sm= l(story.created_at)
 
-  .w-full.lg:w-3/5.p-3.bg-stone-700.rounded-r-lg.lg:overflow-y-auto
-    #chapters
-      = render story.chapters.with_attached_cover.order(id: :asc)
+    .w-full.lg:w-3/5.p-3.bg-stone-700.rounded-r-lg.lg:overflow-y-auto
+      #chapters
+        = render story.chapters.with_attached_cover.order(id: :asc)
