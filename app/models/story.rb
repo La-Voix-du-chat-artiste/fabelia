@@ -4,11 +4,17 @@ class Story < ApplicationRecord
 
   enum mode: { complete: 0, dropper: 1 }
   enum status: { draft: 0, completed: 1 }
+  enum publication_rule: {
+    do_not_publish: 0,
+    publish_first_chapter: 1,
+    publish_all_chapters: 2
+  }, _default: :do_not_publish
 
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
 
   humanize :mode, enum: true
+  humanize :publication_rule, enum: true
 
   has_many :chapters, dependent: :destroy
 
@@ -34,6 +40,7 @@ class Story < ApplicationRecord
   end
 
   validates :mode, presence: true, inclusion: { in: modes.keys }
+  validates :publication_rule, presence: true, inclusion: { in: publication_rules.keys }
 
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
@@ -147,6 +154,12 @@ class Story < ApplicationRecord
     language == 'fr' ? thematic.description_fr : thematic.description_en
   end
 
+  def publish_me?(index)
+    return publish_first_chapter? if dropper?
+
+    publish_all_chapters? || (publish_first_chapter? && index.zero?)
+  end
+
   private
 
   def assign_random_thematic
@@ -180,6 +193,7 @@ end
 #  summary                     :string
 #  back_cover_nostr_identifier :string
 #  status                      :integer          default("draft"), not null
+#  publication_rule            :integer          default("do_not_publish"), not null
 #
 # Indexes
 #

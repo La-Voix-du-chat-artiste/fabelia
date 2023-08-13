@@ -8,6 +8,11 @@ fr:
     error_notification:
       default_message: "Veuillez vérifier les problèmes suivants:"
 
+    labels:
+      story:
+        publication_rule: Règles de publication
+        nostr_user_id: Compte Nostr
+
     hints:
       nostr_user:
         private_key: La clé privée est chiffrée en base de données

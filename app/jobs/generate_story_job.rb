@@ -16,7 +16,7 @@ class GenerateStoryJob < ApplicationJob
     raise ThematicErrors::ThematicDisabled.new(draft_story.thematic) unless draft_story.thematic.enabled?
   end
 
-  def process!(draft_story, retryable_ai_errors, publish: false)
+  def process!(draft_story, retryable_ai_errors)
     nostr_user = draft_story.nostr_user
 
     flash_message = <<~MESSAGE
@@ -24,6 +24,7 @@ class GenerateStoryJob < ApplicationJob
       - Thèmatique: <strong>#{draft_story.thematic_name}</strong>
       - Compte Nostr: <strong>#{nostr_user.profile.identity}</strong>
       - Langue: <strong>#{nostr_user.human_language}</strong>
+      - Stratégie de publication: <strong>#{draft_story.human_publication_rule}</strong>
     MESSAGE
 
     Story.broadcast_flash(:notice, flash_message)
@@ -70,18 +71,12 @@ class GenerateStoryJob < ApplicationJob
       @json['chapters'].each_with_index do |row, index|
         chapter_accurate_cover_prompt = ChatgptSummaryService.call(row['content'])
 
-        publish_value = if draft_story.complete?
-          publish == :all || (publish && index.zero?)
-        else
-          publish
-        end
-
         draft_story.chapters.create!(
           title: row['title'],
           content: row['content'],
           summary: chapter_accurate_cover_prompt,
           chat_raw_response_body: row,
-          publish: publish_value
+          publish: draft_story.publish_me?(index)
         )
       end
 

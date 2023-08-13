@@ -7,8 +7,8 @@ class GenerateFullStoryJob < GenerateStoryJob
 
   # @param draft_story [Story] draft story to generate
   # @param publish [Boolean] Should the {Chapter} be published ?
-  def perform(draft_story, publish: false)
+  def perform(draft_story)
     validate!(draft_story)
-    process!(draft_story, RETRYABLE_AI_ERRORS, publish: publish)
+    process!(draft_story, RETRYABLE_AI_ERRORS)
   end
 end

@@ -109,6 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070638) do
     t.string "summary"
     t.string "back_cover_nostr_identifier"
     t.integer "status", default: 0, null: false
+    t.integer "publication_rule", default: 0, null: false
     t.index ["back_cover_nostr_identifier"], name: "index_stories_on_back_cover_nostr_identifier", unique: true
     t.index ["nostr_identifier"], name: "index_stories_on_nostr_identifier", unique: true
     t.index ["nostr_user_id"], name: "index_stories_on_nostr_user_id"

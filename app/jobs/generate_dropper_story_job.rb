@@ -9,6 +9,6 @@ class GenerateDropperStoryJob < GenerateStoryJob
   # @param draft_story [Story] draft story to generate
   def perform(draft_story)
     validate!(draft_story)
-    process!(draft_story, RETRYABLE_AI_ERRORS, publish: true)
+    process!(draft_story, RETRYABLE_AI_ERRORS)
   end
 end

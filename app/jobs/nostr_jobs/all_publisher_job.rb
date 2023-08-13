@@ -11,6 +11,7 @@ module NostrJobs
 
       story.chapters.not_published.by_position.each do |chapter|
         NostrPublisherService.call(chapter)
+        sleep 1
       end
     end
   end
