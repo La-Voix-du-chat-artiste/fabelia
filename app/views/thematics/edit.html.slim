@@ -1,10 +1,6 @@
-h1 Editing thematic
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  h1.text-3xl Modifier une thématique
 
-== render "form", thematic: @thematic
+  = link_to '<< Retour', thematics_path, class: 'back-link'
 
-br
-
-div
-  => link_to "Show this thematic", @thematic
-  '|
-  =< link_to "Back to thematics", thematics_path
+= render 'form', thematic: @thematic

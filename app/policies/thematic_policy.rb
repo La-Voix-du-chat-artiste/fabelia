@@ -11,10 +11,6 @@ class ThematicPolicy < ApplicationPolicy
     true
   end
 
-  def show?
-    true
-  end
-
   def edit?
     update?
   end

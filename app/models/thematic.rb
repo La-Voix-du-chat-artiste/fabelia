@@ -1,14 +1,22 @@
 class Thematic < ApplicationRecord
   scope :enabled, -> { where(enabled: true) }
 
+  after_destroy_commit do
+    broadcast_remove_to :thematics
+  end
+
   validates :name_fr, presence: true
   validates :name_en, presence: true
   validates :description_fr, presence: true
   validates :description_en, presence: true
-  validates :identifier, presence: true, uniqueness: true
+  validates :identifier, presence: true, uniqueness: { case_sensitive: false }
 
   def name
     name_fr
+  end
+
+  def description
+    description_fr
   end
 end
 

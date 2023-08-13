@@ -1,7 +1,6 @@
 class ThematicsController < ApplicationController
-  before_action :set_thematic, only: %i[show edit update destroy]
+  before_action :set_thematic, only: %i[edit update destroy]
 
-  # GET /thematics or /thematics.json
   # @route GET /thematics (thematics)
   def index
     authorize! Thematic
@@ -16,7 +15,6 @@ class ThematicsController < ApplicationController
     @thematic = Thematic.new
   end
 
-  # POST /thematics or /thematics.json
   # @route POST /thematics (thematics)
   def create
     authorize! Thematic
@@ -25,19 +23,11 @@ class ThematicsController < ApplicationController
 
     respond_to do |format|
       if @thematic.save
-        format.html { redirect_to thematic_path(@thematic), notice: 'Thematic was successfully created.' }
-        format.json { render :show, status: :created, location: @thematic }
+        format.html { redirect_to thematics_path, notice: 'Thematic was successfully created.' }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @thematic.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  # GET /thematics/1 or /thematics/1.json
-  # @route GET /thematics/:id (thematic)
-  def show
-    authorize! @thematic
   end
 
   # @route GET /thematics/:id/edit (edit_thematic)
@@ -45,7 +35,6 @@ class ThematicsController < ApplicationController
     authorize! @thematic
   end
 
-  # PATCH/PUT /thematics/1 or /thematics/1.json
   # @route PATCH /thematics/:id (thematic)
   # @route PUT /thematics/:id (thematic)
   def update
@@ -53,16 +42,13 @@ class ThematicsController < ApplicationController
 
     respond_to do |format|
       if @thematic.update(thematic_params)
-        format.html { redirect_to thematic_path(@thematic), notice: 'Thematic was successfully updated.' }
-        format.json { render :show, status: :ok, location: @thematic }
+        format.html { redirect_to thematics_path, notice: 'Thematic was successfully updated.' }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @thematic.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /thematics/1 or /thematics/1.json
   # @route DELETE /thematics/:id (thematic)
   def destroy
     authorize! @thematic
@@ -70,8 +56,10 @@ class ThematicsController < ApplicationController
     @thematic.destroy
 
     respond_to do |format|
-      format.html { redirect_to thematics_path, notice: 'Thematic was successfully destroyed.' }
-      format.json { head :no_content }
+      notice = 'Thematic was successfully destroyed.'
+
+      format.html { redirect_to thematics_path, notice: notice }
+      format.turbo_stream { flash.now[:notice] = notice }
     end
   end
 

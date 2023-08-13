@@ -19,3 +19,11 @@ fr:
         language: Language
         relays: Relays
         enabled: Activé ?
+
+      thematic:
+        identifier: Identifiant
+        name_fr: Nom en français
+        name_en: Nom en anglais
+        description_fr: Description en français
+        description_en: Description en anglais
+        enabled: Activé ?
