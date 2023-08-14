@@ -154,7 +154,7 @@ class Story < ApplicationRecord
     language == 'fr' ? thematic.description_fr : thematic.description_en
   end
 
-  def publish_me?(index)
+  def publish_me?(index = nil)
     return publish_first_chapter? if dropper?
 
     publish_all_chapters? || (publish_first_chapter? && index.zero?)
