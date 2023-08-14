@@ -5,6 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
     I18n.t("activerecord.attributes.#{model_name.i18n_key}.#{enum_name.to_s.pluralize}.#{enum_value}", locale: locale)
   end
 
+  # :nocov:
   def self.broadcast_flash(type, message, disappear: true)
     Turbo::StreamsChannel.broadcast_prepend_to(
       :flashes,
@@ -17,4 +18,5 @@ class ApplicationRecord < ActiveRecord::Base
       }
     )
   end
+  # :nocov:
 end

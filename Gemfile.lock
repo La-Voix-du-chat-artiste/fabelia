@@ -362,6 +362,8 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.2.2)
       railties (>= 6.0.0)
+    store_model (2.1.0)
+      activerecord (>= 5.2)
     tailwindcss-rails (2.0.30-x86_64-darwin)
       railties (>= 6.0.0)
     temple (0.10.2)
@@ -440,6 +442,7 @@ DEPENDENCIES
   sorcery
   sprockets-rails
   stimulus-rails
+  store_model
   tailwindcss-rails
   turbo-rails
   tzinfo-data

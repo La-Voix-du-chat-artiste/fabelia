@@ -28,14 +28,8 @@ class ChatgptCompleteService < ChatgptService
     array
   end
 
-  def system_prompt
-    <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in #{language_name} language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter.
-
-      Provide a RFC 8259 compliant JSON response following this format without deviation:
-
-      #{json_format.to_json}
-    STRING
+  def system_prompt_for_mode
+    chapter_options.chatgpt_full_story_system_prompt
   end
 
   def json_format
@@ -68,9 +62,5 @@ class ChatgptCompleteService < ChatgptService
 
   def reminder
     'Ensure the story is complete and have a real coherent ending. Also reply in JSON RFC 8259 compliant format as instructed'
-  end
-
-  def language_name
-    I18nData.languages(:en)[language]
   end
 end

@@ -1,5 +1,9 @@
 require 'open-uri'
 
+puts 'Seeding settings...'
+
+Setting.create!
+
 puts 'Seeding users...'
 
 avatar = Faker::LoremFlickr.image(size: '300x300', search_terms: ['avatar'])

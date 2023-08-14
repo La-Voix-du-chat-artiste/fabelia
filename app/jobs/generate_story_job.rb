@@ -31,7 +31,7 @@ class GenerateStoryJob < ApplicationJob
 
     prompt = I18n.t('begin_adventure', description: draft_story.thematic_description)
 
-    Retry.on(retryable_ai_errors) do
+    Retry.on(*retryable_ai_errors) do
       if draft_story.complete?
         @json = ChatgptCompleteService.call(prompt, nostr_user.language)
 

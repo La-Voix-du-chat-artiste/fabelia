@@ -42,4 +42,7 @@ Rails.application.routes.draw do
 
   resources :relays, except: :show
   resources :thematics, except: :show
+
+  resource :settings, only: %i[show edit update]
+  resolve('Setting') { [:settings] }
 end

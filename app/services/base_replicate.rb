@@ -16,6 +16,6 @@ class BaseReplicate < ApplicationService
   end
 
   def default_keywords
-    '. Very very beautiful, elegant, highly detailed, realistic, depth'
+    Setting.first.chapter_options.stable_diffusion_prompt
   end
 end
