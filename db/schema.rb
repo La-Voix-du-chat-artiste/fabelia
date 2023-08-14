@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_070638) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_14_162338) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -89,6 +89,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070638) do
     t.datetime "updated_at", null: false
     t.integer "position", default: 1, null: false
     t.index ["url"], name: "index_relays_on_url", unique: true
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.jsonb "chapter_options", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "stories", force: :cascade do |t|

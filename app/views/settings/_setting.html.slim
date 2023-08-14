@@ -1,0 +1,6 @@
+div id=dom_id(setting)
+  p.mb-2
+    strong Chapter options:
+
+  pre.bg-gray-100.border.borer-gray-300.p-2.rounded-lg.overflow-x-auto
+    = JSON.pretty_generate(setting.chapter_options.as_json)

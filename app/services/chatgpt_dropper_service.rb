@@ -41,14 +41,8 @@ class ChatgptDropperService < ChatgptService
     array
   end
 
-  def system_prompt
-    <<~STRING.strip
-      You act as a story book adventure narrator. The adventure should be progressive, generated one chapter at a time with a set of proposed options to continue the adventure. You reply in #{language_name} only. Use "adventure_ended" boolean to inform that the story is considered as completed.
-
-      Provide a RFC 8259 compliant JSON response following this format without deviation:
-
-      #{json_format.to_json}
-    STRING
+  def system_prompt_for_mode
+    chapter_options.chatgpt_dropper_story_system_prompt
   end
 
   def json_format
@@ -73,10 +67,6 @@ class ChatgptDropperService < ChatgptService
   end
 
   def reminder
-    "\n (reply in JSON RFC 8259 compliant format as instructed)"
-  end
-
-  def language_name
-    I18nData.languages(:en)[language]
+    ' (reply in JSON RFC 8259 compliant format as instructed)'
   end
 end

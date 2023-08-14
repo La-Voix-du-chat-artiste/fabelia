@@ -1,7 +1,12 @@
 = simple_form_for Story.new,
                   url: stories_path,
                   html: { \
-                    class: 'flex flex-col items-center gap-6 justify-between p-4 bg-gray-200 rounded-b-lg' \
+                    class: 'flex flex-col items-center gap-6 justify-between p-4 bg-gray-200 rounded-b-lg', \
+                    data: { \
+                      controller: 'jumpto', \
+                      action: 'turbo:submit-end->jumpto#jump', \
+                      jumpto_div_id_value: 'stories' \
+                    } \
                   } do |f|
 
   .flex.flex-col.lg:flex-row.gap-3.justify-between
