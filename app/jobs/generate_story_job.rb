@@ -16,18 +16,18 @@ class GenerateStoryJob < ApplicationJob
     raise ThematicErrors::ThematicDisabled.new(draft_story.thematic) unless draft_story.thematic.enabled?
   end
 
-  def process!(draft_story, retryable_ai_errors)
+  def process!(draft_story, retryable_ai_errors = [])
     nostr_user = draft_story.nostr_user
 
     flash_message = <<~MESSAGE
-      - Mode: <strong>#{draft_story.human_mode}</strong>
-      - Thèmatique: <strong>#{draft_story.thematic_name}</strong>
-      - Compte Nostr: <strong>#{nostr_user.profile.identity}</strong>
-      - Langue: <strong>#{nostr_user.human_language}</strong>
-      - Stratégie de publication: <strong>#{draft_story.human_publication_rule}</strong>
+      • Mode: <strong>#{draft_story.human_mode}</strong>
+      • Thématique: <strong>#{draft_story.thematic_name}</strong>
+      • Compte Nostr: <strong>#{nostr_user.profile.identity}</strong>
+      • Langue: <strong>#{nostr_user.human_language}</strong>
+      • Stratégie de publication: <strong>#{draft_story.human_publication_rule}</strong>
     MESSAGE
 
-    Story.broadcast_flash(:notice, flash_message)
+    Story.broadcast_flash(:info, flash_message, disappear: false)
 
     prompt = I18n.t('begin_adventure', description: draft_story.thematic_description)
 

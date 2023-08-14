@@ -19,7 +19,7 @@ class ApplicationJob < ActiveJob::Base
       end
     end
 
-    ApplicationRecord.broadcast_flash(:alert, message)
+    ApplicationRecord.broadcast_flash(:alert, message, disappear: false)
   end
 
   def broadcast_flash_notice(message)
