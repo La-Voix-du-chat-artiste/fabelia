@@ -6,6 +6,8 @@ class NostrUser < ApplicationRecord
   validates :relays, presence: true
   validates :language, presence: true, uniqueness: { case_sensitive: false }
 
+  attribute :metadata_response, NostrProfile.to_type
+
   # TODO: Extract this callback from model to controller
   before_save :fetch_metadata, if: :private_key_changed?
 
@@ -18,12 +20,10 @@ class NostrUser < ApplicationRecord
   scope :enabled, -> { where(enabled: true) }
   scope :by_language, ->(language) { where(language: language) }
 
+  alias_attribute :profile, :metadata_response
+
   def public_key
     Nostr.new(private_key: private_key).keys[:public_key]
-  end
-
-  def profile
-    @profile ||= NostrProfile.new.from_json(metadata_response.to_json)
   end
 
   def human_language
