@@ -1,0 +1,10 @@
+footer.bg-slate-800.flex.text-sm.flex-col.w-full.text-center.text-white.p-3.lg:sticky.lg:bottom-0.z-20
+  .flex.flex-col.lg:flex-row.lg:items-center.lg:justify-center.gap-1.lg:gap-3
+    span &copy; Fabelia #{Date.current.year}
+    span.bullet.hidden.lg:block &bullet;
+    span
+      | Développé avec
+      svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 inline-block mx-1 hover:scale-150 transition transition-scale" viewBox="0 0 20 20" fill="currentColor"
+        path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"
+      | par
+      =< link_to 'La Voix du Chat Artiste', 'https://improv.chat', title: "😺", target: :_blank, class: 'text-gray-400 hover:text-gray-500 transition-colors'
