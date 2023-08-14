@@ -75,6 +75,7 @@ class GenerateStoryJob < ApplicationJob
           title: row['title'],
           content: row['content'],
           summary: chapter_accurate_cover_prompt,
+          prompt: prompt,
           chat_raw_response_body: row,
           publish: draft_story.publish_me?(index)
         )

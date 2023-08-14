@@ -13,6 +13,9 @@ module NostrJobs
         NostrPublisherService.call(chapter)
         sleep 1
       end
+
+      flash_message = "Tous les chapitres viennent d'être publiés sur Nostr"
+      Story.broadcast_flash(:notice, flash_message)
     end
   end
 end

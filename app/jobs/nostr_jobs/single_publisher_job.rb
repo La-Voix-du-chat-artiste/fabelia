@@ -12,6 +12,9 @@ module NostrJobs
       raise StoryErrors::MissingCover unless story.cover.attached?
 
       NostrPublisherService.call(chapter)
+
+      flash_message = "L'aventure vient d'être publiée sur Nostr"
+      Story.broadcast_flash(:notice, flash_message)
     end
   end
 end

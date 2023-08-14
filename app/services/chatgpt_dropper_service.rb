@@ -73,7 +73,7 @@ class ChatgptDropperService < ChatgptService
   end
 
   def reminder
-    "\n(reply in JSON RFC 8259 compliant format as instructed)"
+    "\n (reply in JSON RFC 8259 compliant format as instructed)"
   end
 
   def language_name

@@ -7,33 +7,14 @@ module Stories
     def create
       authorize! Chapter, context: { story: @story }
 
-      prompt = set_prompt
+      GenerateDropperChapterJob.perform_later(@story, force_ending: force_end_of_story?)
 
-      # TODO: Extract me in a dedicated job (eg: GenerateDropperStoryChapterJob)
-      Retry.on(
-        Net::ReadTimeout,
-        JSON::ParserError,
-        ChapterErrors::EmptyPollOptions,
-        ChapterErrors::MissingPollOptions
-      ) do
-        @json = ChatgptDropperService.call(prompt, @story.nostr_user.language, @story)
+      respond_to do |format|
+        notice = 'Un nouveau chapitre est en cours de création'
+
+        format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash.now[:notice] = notice }
       end
-
-      ApplicationRecord.transaction do
-        @chapter = @story.chapters.create!(
-          title: @json['title'],
-          content: @json['content'],
-          prompt: prompt,
-          chat_raw_response_body: @json,
-          publish: true
-        )
-
-        # Call ChatGPT to make an accurate chapter summary
-        chapter_cover_prompt = ChatgptSummaryService.call(@chapter.content)
-        @chapter.update!(summary: chapter_cover_prompt)
-      end
-
-      redirect_to root_path, notice: "Un nouveau chapitre vient d'être créé"
     end
 
     # @route POST /stories/:story_id/chapters/publish_next (publish_next_story_chapters)
