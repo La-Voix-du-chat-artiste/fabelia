@@ -26,7 +26,7 @@
   z-index: 21;
 }
 
-#flashes .flash__message {
+.appear-then-fade {
   animation: appear-then-fade 10s both;
 }
 
@@ -36,6 +36,19 @@
   }
   5%, 60% {
     opacity: 1
+  }
+}
+
+.fade-out {
+  animation: fade-out 1s both;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1
+  }
+  100% {
+    opacity: 0
   }
 }
 

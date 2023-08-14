@@ -1,7 +1,7 @@
 fr:
   time:
     formats:
-      default: "%d/%m/%Y %Hh%M"
+      default: "%d/%m/%Y à %Hh%M"
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
       hour: "%Hh%M"

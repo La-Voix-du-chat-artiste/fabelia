@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActionPolicy::Unauthorized, with: :unauthorized_access
   rescue_from StoryErrors, with: :redirect_to_root
 
+  add_flash_types :warning, :info
+
   private
 
   def not_authenticated
