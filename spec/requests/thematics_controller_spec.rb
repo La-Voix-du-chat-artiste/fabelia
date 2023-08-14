@@ -5,8 +5,11 @@ RSpec.describe ThematicsController do
     subject(:action) { get '/thematics' }
 
     it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :admin }
+
       context 'without record' do
         before { action }
 
@@ -27,9 +30,12 @@ RSpec.describe ThematicsController do
   describe 'GET /thematics/new' do
     subject(:action) { get '/thematics/new' }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :admin }
+
       before { action }
 
       it { expect(response).to have_http_status :ok }
@@ -42,9 +48,12 @@ RSpec.describe ThematicsController do
     let(:params) { {} }
     let(:relay) { create :relay }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :admin }
+
       context 'when params are invalid' do
         let(:params) do
           attributes_for(:thematic).merge(identifier: nil)
@@ -71,9 +80,12 @@ RSpec.describe ThematicsController do
 
     let(:thematic) { create :thematic }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :admin }
+
       before { action }
 
       it { expect(response).to have_http_status :ok }
@@ -88,9 +100,12 @@ RSpec.describe ThematicsController do
     let(:params) { {} }
     let(:thematic) { create :thematic }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :admin }
+
       context 'when params are invalid' do
         let(:params) { { identifier: nil } }
 
@@ -116,8 +131,11 @@ RSpec.describe ThematicsController do
     let!(:thematic) { create :thematic }
 
     it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :admin }
+
       it_behaves_like 'a redirect response with success message' do
         let(:message) { 'Thematic was successfully destroyed.' }
         let(:url_to_redirect) { thematics_path }

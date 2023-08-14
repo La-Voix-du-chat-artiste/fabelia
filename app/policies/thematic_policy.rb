@@ -1,4 +1,6 @@
 class ThematicPolicy < ApplicationPolicy
+  pre_check :allow_admins
+
   def index?
     true
   end

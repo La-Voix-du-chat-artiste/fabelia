@@ -5,11 +5,7 @@ RSpec.describe HomesController do
     subject(:action) { get '/' }
 
     it_behaves_like 'a user not logged in'
-
-    context 'when logged in', as: :logged_in do
-      before { action }
-
-      it { expect(response).to have_http_status :ok }
-    end
+    it_behaves_like 'success request when logged in as standard'
+    it_behaves_like 'success request when logged in as admin'
   end
 end

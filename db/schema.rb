@@ -114,8 +114,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_162338) do
     t.bigint "nostr_user_id"
     t.string "summary"
     t.string "back_cover_nostr_identifier"
-    t.integer "status", default: 0, null: false
     t.integer "publication_rule", default: 0, null: false
+    t.integer "status", default: 0, null: false
     t.index ["back_cover_nostr_identifier"], name: "index_stories_on_back_cover_nostr_identifier", unique: true
     t.index ["nostr_identifier"], name: "index_stories_on_nostr_identifier", unique: true
     t.index ["nostr_user_id"], name: "index_stories_on_nostr_user_id"
@@ -148,6 +148,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_162338) do
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
     t.integer "access_count_to_reset_password_page", default: 0
+    t.integer "role", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"

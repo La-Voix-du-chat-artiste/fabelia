@@ -21,7 +21,7 @@ RSpec.configure do |config|
   config.include Sorcery::TestHelpers::Rails::Request, type: :request
 
   config.before(:example, as: :logged_in, type: :request) do
-    user = create :user
+    user = create :user, defined?(role) ? role : :admin
     sign_in(user)
   end
 end

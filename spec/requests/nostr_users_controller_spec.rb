@@ -9,8 +9,12 @@ RSpec.describe NostrUsersController do
     subject(:action) { get '/nostr_users' }
 
     it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       context 'without record' do
         before { action }
 
@@ -31,9 +35,13 @@ RSpec.describe NostrUsersController do
   describe 'GET /nostr_users/new' do
     subject(:action) { get '/nostr_users/new' }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       before { action }
 
       it { expect(response).to have_http_status :ok }
@@ -46,9 +54,13 @@ RSpec.describe NostrUsersController do
     let(:params) { {} }
     let!(:relay) { create :relay }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       context 'when params are invalid' do
         let(:params) do
           attributes_for(:nostr_user)
@@ -78,9 +90,13 @@ RSpec.describe NostrUsersController do
 
     let(:nostr_user) { create :nostr_user }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       before { action }
 
       it { expect(response).to have_http_status :ok }
@@ -95,9 +111,13 @@ RSpec.describe NostrUsersController do
     let(:params) { {} }
     let(:nostr_user) { create :nostr_user }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       context 'when params are invalid' do
         let(:params) { { private_key: nil } }
 
@@ -123,8 +143,12 @@ RSpec.describe NostrUsersController do
     let!(:nostr_user) { create :nostr_user }
 
     it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       it_behaves_like 'a redirect response with success message' do
         let(:message) { 'Nostr user was successfully destroyed.' }
         let(:url_to_redirect) { nostr_users_path }

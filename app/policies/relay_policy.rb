@@ -1,4 +1,6 @@
 class RelayPolicy < ApplicationPolicy
+  pre_check :allow_super_admins
+
   def index?
     true
   end

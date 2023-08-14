@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe SettingPolicy do
+RSpec.describe RelayPolicy do
   let(:user) { build_stubbed :user, role }
-  let(:record) { build_stubbed :setting }
+  let(:record) { build_stubbed :relay }
 
   let(:context) { { user: user } }
 
-  %i[show edit update].each do |action|
+  %i[index new create edit update destroy].each do |action|
     describe_rule "#{action}?" do
       succeed 'when user is super admin' do
         let(:role) { :super_admin }
