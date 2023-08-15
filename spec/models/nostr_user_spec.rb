@@ -19,7 +19,7 @@ RSpec.describe NostrUser do
         nostr_user.save!
       end
 
-      it { is_expected.to be_empty }
+      it { is_expected.to be_instance_of(NostrProfile) }
     end
 
     describe 'when no error is raised' do
@@ -29,7 +29,7 @@ RSpec.describe NostrUser do
       end
 
       it { expect(NostrServices::FetchProfile).to have_received(:call).with(nostr_user) }
-      it { is_expected.to_not be_empty }
+      it { is_expected.to be_instance_of(NostrProfile) }
     end
   end
 

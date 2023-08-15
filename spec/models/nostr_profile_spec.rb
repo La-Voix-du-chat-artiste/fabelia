@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe NostrProfile do
-  subject(:nostr_profile) { described_class.new.from_json(json_data.to_json) }
+  subject(:nostr_profile) { described_class.to_type.cast_value(json_data) }
 
   let(:json_data) { default_json_data }
   let(:default_json_data) do
@@ -11,9 +11,11 @@ RSpec.describe NostrProfile do
       picture: 'http://example.test/picture.jpg',
       banner: 'http://example.test/banner.jpg',
       about: 'Lorem ipsum',
-      unhandled_key: 'foobar'
+      foo: 'bar'
     }
   end
+
+  it { expect(nostr_profile.unknown_attributes).to include('foo' => 'bar') }
 
   describe '#identity' do
     subject { nostr_profile.identity }
