@@ -100,3 +100,12 @@ Fabelia is still in early development, here are some of planned enhancements:
 - [ ] Switch IA tools to open source equivalent
 - [ ] Add CI actions (Rubocop, RSpec)
 - [ ] Fix more hidden bugs ! 🤓
+
+## Sponsoring
+
+If you appreciate this project and would like to support developpers team, you can:
+
+- subscribe to an "Expresso" plan on [Flownaely Café](https://flownaely.cafe) ☕
+- send some satochis to **bc1qkaq059gxysmrvsuv2ut7cnjnvec557dep5zjgk** address
+  
+  ![Bitcoin address](public/bc1qkaq059gxysmrvsuv2ut7cnjnvec557dep5zjgk.png)
