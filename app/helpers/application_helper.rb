@@ -22,7 +22,9 @@ module ApplicationHelper
     all_languages = I18nData.languages(I18n.locale)
 
     NostrUser.enabled.map do |nostr_user|
-      key = "#{nostr_user.profile.identity} (#{all_languages[nostr_user.language].capitalize})"
+      language = nostr_user.language.upcase
+      key = "#{nostr_user.profile.identity} (#{all_languages[language].capitalize})"
+
       [key, nostr_user.id]
     end
   end
