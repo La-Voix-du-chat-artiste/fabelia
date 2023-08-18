@@ -27,7 +27,7 @@ class NostrUser < ApplicationRecord
   end
 
   def human_language
-    I18nData.languages(I18n.locale)[language].capitalize
+    I18nData.languages(I18n.locale)[language.upcase].capitalize
   rescue StandardError
     'Unknown language'
   end

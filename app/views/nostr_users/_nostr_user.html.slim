@@ -4,7 +4,7 @@
 
   .flex.flex-col.items-center.py-5.border.border-gray-200.relative
     span.bg-blue-500.rounded-md.px-2.py-1.mr-1.text-xs.absolute.top-2.left-2.text-white
-          = I18nData.languages(I18n.locale)[nostr_user.language].capitalize
+          = I18nData.languages(I18n.locale)[nostr_user.language.upcase].capitalize
 
     - if nostr_user.profile.picture.present?
       = image_tag nostr_user.profile.picture, class: 'w-24 h-24 mb-3 rounded-full shadow-lg'

@@ -24,7 +24,7 @@ class ChatgptService < ApplicationService
   end
 
   def language_name
-    I18nData.languages(:en)[language]
+    I18nData.languages(:en)[language.upcase]
   end
 
   def system_prompt
