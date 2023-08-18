@@ -7,8 +7,12 @@ RSpec.describe SettingsController do
     subject(:action) { get '/settings' }
 
     it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       before { action }
 
       it { expect(response).to have_http_status :ok }
@@ -18,9 +22,13 @@ RSpec.describe SettingsController do
   describe 'GET /settings/edit' do
     subject(:action) { get '/settings/edit' }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       before { action }
 
       it { expect(response).to have_http_status :ok }
@@ -34,9 +42,13 @@ RSpec.describe SettingsController do
 
     let(:params) { {} }
 
-    include_examples 'a user not logged in'
+    it_behaves_like 'a user not logged in'
+    it_behaves_like 'unauthorized request when logged in as standard'
+    it_behaves_like 'unauthorized request when logged in as admin'
 
-    context 'when logged in', as: :logged_in do
+    context 'when logged in with proper accreditation', as: :logged_in do
+      let(:role) { :super_admin }
+
       context 'when params are invalid' do
         let(:params) do
           { chapter_options: { stable_diffusion_prompt: nil }.to_json }

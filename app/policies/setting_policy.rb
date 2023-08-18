@@ -1,4 +1,6 @@
 class SettingPolicy < ApplicationPolicy
+  pre_check :allow_super_admins
+
   def show?
     true
   end

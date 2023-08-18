@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   EMAIL_REGEX = /\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+/
 
+  enum role: { standard: 0, admin: 1, super_admin: 2 }
+
   has_one_attached :avatar
 
   authenticates_with_sorcery!
@@ -39,6 +41,7 @@ end
 #  reset_password_token_expires_at     :datetime
 #  reset_password_email_sent_at        :datetime
 #  access_count_to_reset_password_page :integer          default(0)
+#  role                                :integer          default("standard"), not null
 #
 # Indexes
 #

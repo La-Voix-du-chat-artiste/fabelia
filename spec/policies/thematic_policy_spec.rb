@@ -1,32 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe ThematicPolicy do
-  let(:user) { build_stubbed :user }
+  let(:user) { build_stubbed :user, role }
   let(:record) { build_stubbed :thematic }
 
   let(:context) { { user: user } }
 
-  describe_rule :index? do
-    succeed 'allowed to index action'
-  end
+  %i[index new create edit update destroy].each do |action|
+    describe_rule "#{action}?" do
+      succeed 'when user is super admin' do
+        let(:role) { :super_admin }
+      end
 
-  describe_rule :new? do
-    succeed 'allowed to new action'
-  end
+      succeed 'when user is admin' do
+        let(:role) { :admin }
+      end
 
-  describe_rule :create? do
-    succeed 'allowed to create action'
-  end
-
-  describe_rule :edit? do
-    succeed 'allowed to edit action'
-  end
-
-  describe_rule :update? do
-    succeed 'allowed to update action'
-  end
-
-  describe_rule :destroy? do
-    succeed 'allowed to destroy action'
+      failed 'when user is standard' do
+        let(:role) { :standard }
+      end
+    end
   end
 end

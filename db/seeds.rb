@@ -6,17 +6,20 @@ Setting.create!
 
 puts 'Seeding users...'
 
-avatar = Faker::LoremFlickr.image(size: '300x300', search_terms: ['avatar'])
+%i[standard admin super_admin].each do |role|
+  avatar = Faker::LoremFlickr.image(size: '300x300', search_terms: ['avatar'])
 
-User.create!(
-  email: 'admin@test.test',
-  password: 'password',
-  password_confirmation: 'password',
-  avatar: {
-    io: URI.parse(avatar).open,
-    filename: 'user_avatar'
-  }
-)
+  User.create!(
+    email: "#{role}@test.test",
+    password: 'password',
+    password_confirmation: 'password',
+    role: role,
+    avatar: {
+      io: URI.parse(avatar).open,
+      filename: 'user_avatar'
+    }
+  )
+end
 
 puts 'Seeding relays...'
 

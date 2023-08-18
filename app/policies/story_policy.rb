@@ -1,4 +1,6 @@
 class StoryPolicy < ApplicationPolicy
+  pre_check :allow_admins
+
   def create?
     true
   end
