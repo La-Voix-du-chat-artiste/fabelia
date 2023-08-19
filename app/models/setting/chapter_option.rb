@@ -4,15 +4,13 @@ class Setting
 
     MINIMUM_CHAPTERS_COUNT = 4
     MAXIMUM_CHAPTERS_COUNT = 10
-    STABLE_DIFFUSION_PROMPT = 'Very very beautiful, elegant, highly detailed, realistic, depth'.freeze
+    STABLE_DIFFUSION_PROMPT = 'Beautiful, elegant, highly detailed, realistic, depth'.freeze
     CHATGPT_FULL_STORY_SYSTEM_PROMPT = <<~PROMPT.strip.freeze
       You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in {{language}} language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter. Ensure returned chapters array contains between {{minimum_chapters_count}} and {{maximum_chapters_count}} only. Ensure the story is complete and have a real coherent ending.
-
-      Provide a RFC 8259 compliant JSON response following this format without deviation:
     PROMPT
 
     CHATGPT_DROPPER_STORY_SYSTEM_PROMPT = <<~PROMPT.strip.freeze
-      You act as a story book adventure narrator. The adventure should be progressive, generated one chapter at a time with a set of proposed options to continue the adventure. You reply in {{language}} only. Use "adventure_ended" boolean to inform that the story is considered as completed when the adventure before chapter {{maximum_chapters_count}}. Ensure the story has a real coherent ending.
+      You act as a story book adventure narrator. The adventure should be progressive, generated one chapter at a time with a set of proposed options to continue the adventure. You reply in {{language}} only. Use "adventure_ended" boolean to inform that the story is considered as completed when the adventure reach chapter {{maximum_chapters_count}}. Ensure the story has a real coherent ending.
     PROMPT
 
     attribute :minimum_chapters_count, :integer,

@@ -44,6 +44,15 @@ module ApplicationHelper
     end
   end
 
+  def highlight_code(json)
+    json = json.gsub(',"', ",\n\"")
+               .gsub('{"', "{\n\"")
+               .gsub('"}', "\"\n}")
+               .gsub('":', '": ')
+
+    Pygments.highlight(json, lexer: :json)
+  end
+
   private
 
   def nostr_client_url

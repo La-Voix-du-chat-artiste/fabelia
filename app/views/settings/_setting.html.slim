@@ -1,6 +1,70 @@
 div id=dom_id(setting)
-  p.mb-2
-    strong Chapter options:
+  - settings = setting.chapter_options
 
-  pre.bg-gray-100.border.borer-gray-300.p-2.rounded-lg.overflow-x-auto
-    = JSON.pretty_generate(setting.chapter_options.as_json)
+  .flex.flex-col.lg:flex-row.justify-center.gap-2
+    .lg:w-1/3
+      .material-theme== highlight_code(settings.to_json)
+
+    .lg:w-2/3.p-4.text-sm.border.rounded-lg.text-blue-500.bg-blue-50.border-blue-800
+      p.text-lg.mb-2 Explications des options
+
+      ul.list-disc.list-inside.columns-1
+        li
+          strong> minimum_chapters_count:
+          | Nombre de chapitres minimum à générer
+          span.bg-white.p-1.rounded-lg<
+            | (défaut:
+            i=< Setting::ChapterOption::MINIMUM_CHAPTERS_COUNT
+            | )
+
+        li.mb-2
+          strong> maximum_chapters_count:
+          | Nombre de chapitres maximum à générer
+          span.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::MAXIMUM_CHAPTERS_COUNT
+            | )
+
+        li.mb-2
+          strong stable_diffusion_prompt:
+          |< Prompt système pour orienter la génération de visuels avec StableDiffusion
+
+          p.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::STABLE_DIFFUSION_PROMPT
+            | )
+
+        li.mb-3
+          strong> chatgpt_full_story_system_prompt:
+          | Prompt système pour les aventure complètes générées par ChatGPT.
+          |< Le contenu utilise des variables (englobées de <code class="border border-blue-300 bg-white p-1 rounded-lg">{{variable}}</code>) qui seront remplacées dynamiquement par les valeurs correspondantes:
+          ul.list-disc.list-inside.indent-4.mb-1
+            li
+              strong.font-medium> language:
+              | Langue de l'aventure
+            li: strong.font-medium minimum_chapters_count
+            li: strong.font-medium maximum_chapters_count
+
+          p.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::CHATGPT_FULL_STORY_SYSTEM_PROMPT
+            | )
+
+        li.mb-3
+          strong chatgpt_dropper_story_system_prompt:
+          |< Prompt système pour les aventure générées au fur et à mesure par ChatGPT.
+          |< Le contenu utilise des variables (englobées de <code class="border border-blue-300 bg-white p-1 rounded-lg">{{variable}}</code>) qui seront remplacées dynamiquement par les valeurs correspondantes:
+          ul.list-disc.list-inside.indent-4.mb-1
+            li
+              strong.font-medium> language:
+              | Langue de l'aventure
+            li: strong.font-medium minimum_chapters_count
+            li: strong.font-medium maximum_chapters_count
+
+          p.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
+            | )
+
+css:
+  #{Pygments.css('.material-theme', style: :material)}

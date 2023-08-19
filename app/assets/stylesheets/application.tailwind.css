@@ -117,3 +117,15 @@ input.boolean, input.check_boxes {
 .destroy-button {
   @apply back-link !bg-red-700;
 }
+
+.material-theme {
+  @apply p-3 rounded-lg overflow-x-auto;
+}
+
+.material-theme pre {
+  @apply whitespace-pre-wrap;
+}
+
+.material-theme .nt {
+  @apply inline-block indent-4;
+}
