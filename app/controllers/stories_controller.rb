@@ -31,8 +31,6 @@ class StoriesController < ApplicationController
     else
       redirect_to root_path, alert: @story.errors.full_messages.join(', ')
     end
-  rescue OpenaiChatgpt::Error, StandardError => e
-    redirect_to root_path, alert: "#{e.message} // #{e.backtrace}"
   end
 
   # @route PATCH /stories/:id (story)

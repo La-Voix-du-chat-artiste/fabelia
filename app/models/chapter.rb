@@ -2,10 +2,20 @@ class Chapter < ApplicationRecord
   include Coverable
   include NSFWCoverable
 
+  enum status: { draft: 0, completed: 1 }
+
   belongs_to :story, counter_cache: true, touch: true
 
   after_create_commit do
-    ReplicateServices::Picture.call(self, summary, publish: publish)
+    broadcast_append_to :chapters, target: "chapters_story_#{story.id}"
+    generate_cover if completed?
+  end
+
+  after_update_commit do
+    if status_previously_changed?(from: :draft, to: :completed)
+      broadcast_chapter
+      generate_cover
+    end
   end
 
   scope :published, -> { where.not(published_at: nil) }
@@ -40,8 +50,7 @@ class Chapter < ApplicationRecord
   end
 
   def broadcast_chapter
-    broadcast_replace_to :chapters,
-                         locals: { chapter_counter: story.chapters.count }
+    broadcast_replace_to :chapters
   end
 
   # Simulate the most voted option waiting to implement
@@ -52,6 +61,12 @@ class Chapter < ApplicationRecord
 
   def previous
     story.chapters.find_by(position: position - 1)
+  end
+
+  private
+
+  def generate_cover
+    ReplicateServices::Picture.call(self, summary, publish: publish)
   end
 end
 
@@ -75,6 +90,7 @@ end
 #  replicate_raw_request_body  :json             not null
 #  position                    :integer          default(1), not null
 #  publish                     :boolean          default(FALSE), not null
+#  status                      :integer          default("draft"), not null
 #
 # Indexes
 #

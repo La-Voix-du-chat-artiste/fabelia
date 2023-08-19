@@ -4,6 +4,7 @@ class Setting
 
     MINIMUM_CHAPTERS_COUNT = 4
     MAXIMUM_CHAPTERS_COUNT = 10
+    PUBLISH_PREVIOUS = false
     STABLE_DIFFUSION_PROMPT = 'Beautiful, elegant, highly detailed, realistic, depth'.freeze
     CHATGPT_FULL_STORY_SYSTEM_PROMPT = <<~PROMPT.strip.freeze
       You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in {{language}} language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter. Ensure returned chapters array contains between {{minimum_chapters_count}} and {{maximum_chapters_count}} only. Ensure the story is complete and have a real coherent ending.
@@ -23,6 +24,7 @@ class Setting
               default: CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
     attribute :stable_diffusion_prompt, :string,
               default: STABLE_DIFFUSION_PROMPT
+    attribute :publish_previous, :boolean, default: PUBLISH_PREVIOUS
 
     validates :minimum_chapters_count,
               presence: true,
@@ -41,5 +43,6 @@ class Setting
     validates :stable_diffusion_prompt, presence: true
     validates :chatgpt_full_story_system_prompt, presence: true
     validates :chatgpt_dropper_story_system_prompt, presence: true
+    validates :publish_previous, presence: true, allow_blank: true, inclusion: [true, false]
   end
 end

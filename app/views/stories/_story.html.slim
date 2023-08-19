@@ -26,12 +26,17 @@
         div id=dom_id(story, 'cover')
           = render 'stories/cover', story: story
 
-        .absolute.-bottom-4.-right-5
+        .absolute.-bottom-4.-right-10
           - if story.nostr_user.profile.picture
             = image_tag story.nostr_user.profile.picture, class: 'w-20 mx-auto mb-1 rounded-full border-2'
 
-      span.text-sm= l(story.created_at)
+      p.text-sm.italic
+        | Créé le
+        =< l(story.created_at)
+      p.text-sm.italic
+        | Mis à jour le
+        =< l(story.updated_at)
 
     .w-full.lg:w-3/5.p-3.bg-stone-700.rounded-r-lg.lg:overflow-y-auto
-      #chapters
+      div id=dom_id(story, :chapters)
         = render story.chapters.with_attached_cover.order(id: :asc)

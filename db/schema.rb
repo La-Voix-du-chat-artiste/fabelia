@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_14_162338) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_19_185604) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_14_162338) do
     t.json "replicate_raw_request_body", default: {}, null: false
     t.integer "position", default: 1, null: false
     t.boolean "publish", default: false, null: false
+    t.integer "status", default: 0, null: false
     t.index ["nostr_identifier"], name: "index_chapters_on_nostr_identifier", unique: true
     t.index ["replicate_identifier"], name: "index_chapters_on_replicate_identifier", unique: true
     t.index ["story_id"], name: "index_chapters_on_story_id"
