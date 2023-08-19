@@ -1,8 +1,6 @@
 module NostrServices
   class ChapterPollEvent < NostrEvent
     EVENT_KIND = 6969 # NIP-69
-    MINIMUM_SATS_VALUE = 42
-    MAXIMUM_SATS_VALUE = 420
     POLL_END_OF_LIFE = 1.hour
 
     attr_reader :chapter, :reference
@@ -41,13 +39,13 @@ module NostrServices
     def tags
       [
         ['p', public_key, favorite_relay_url],
-        ['value_minimum', MINIMUM_SATS_VALUE.to_s],
-        ['value_maximum', MAXIMUM_SATS_VALUE.to_s],
+        ['value_minimum', options.minimum_poll_sats.to_s],
+        ['value_maximum', options.maximum_poll_sats.to_s],
         ['closed_at', POLL_END_OF_LIFE.from_now.utc.to_i.to_s]
       ].tap do |data|
         data.push ['e', reference, favorite_relay_url] if reference
 
-        options.each_with_index do |option, index|
+        chapter.options.each_with_index do |option, index|
           data.push ['poll_option', index.to_s, option]
         end
       end
@@ -63,10 +61,6 @@ module NostrServices
 
         #{I18n.t('chapter_poll.poll_choice')}
       CONTENT
-    end
-
-    def options
-      chapter.options
     end
 
     def nostr_user

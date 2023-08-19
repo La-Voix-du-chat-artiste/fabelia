@@ -26,3 +26,7 @@ Rails/I18nLocaleTexts:
 
 Rails/BulkChangeTable:
   Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - spec/models/setting/chapter_option_spec.rb

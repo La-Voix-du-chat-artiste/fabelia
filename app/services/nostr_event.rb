@@ -28,4 +28,8 @@ class NostrEvent < ApplicationService
   def nostr_user
     raise StandardError, 'NostrUser must be defined in subclasses'
   end
+
+  def options
+    @options ||= Setting.first.chapter_options
+  end
 end
