@@ -1,7 +1,9 @@
 module Chapters
   class CoverPolicy < ApplicationPolicy
+    pre_check :allow_admins
+
     def update?
-      !chapter.published?
+      chapter.story.enabled? && !chapter.published?
     end
 
     private
