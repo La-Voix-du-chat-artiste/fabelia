@@ -17,12 +17,39 @@ div id=dom_id(setting)
             i=< Setting::ChapterOption::MINIMUM_CHAPTERS_COUNT
             | )
 
-        li.mb-2
+        li
           strong> maximum_chapters_count:
           | Nombre de chapitres maximum à générer
           span.bg-white.p-1.rounded-lg
             | (défaut:
             i=< Setting::ChapterOption::MAXIMUM_CHAPTERS_COUNT
+            | )
+
+        li
+          strong minimum_poll_sats:
+          |< Quantité de satoshis minimum à payer pour participer au sondage
+
+          span.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::MINIMUM_POLL_SATS
+            | )
+
+        li
+          strong maximum_poll_sats:
+          |< Quantité de satoshis minimum à payer pour participer au sondage
+
+          span.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::MAXIMUM_POLL_SATS
+            | )
+
+        li.mb-2
+          strong publish_previous:
+          |< Si un ou plusieurs précédents chapitres n'ont pas été publiés avant d'en générer un nouveau, doivent-ils être publiés avant ? Si non, une publication manuelle devra être faîte.
+
+          span.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::PUBLISH_PREVIOUS
             | )
 
         li.mb-2
@@ -66,13 +93,5 @@ div id=dom_id(setting)
             i=< Setting::ChapterOption::CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
             | )
 
-        li.mb-3
-          strong publish_previous:
-          |< Si un ou plusieurs précédents chapitres n'ont pas été publiés avant d'en générer un nouveau, doivent-ils être publiés avant ? Si non, une publication manuelle devra être faîte.
-
-          span.bg-white.p-1.rounded-lg
-            | (défaut:
-            i=< Setting::ChapterOption::PUBLISH_PREVIOUS
-            | )
 css:
   #{Pygments.css('.material-theme', style: :material)}
