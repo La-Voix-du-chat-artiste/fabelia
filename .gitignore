@@ -44,3 +44,5 @@
 
 spec/examples.txt
 coverage/
+
+/config/credentials/test.key
