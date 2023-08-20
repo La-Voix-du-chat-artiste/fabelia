@@ -6,6 +6,7 @@
 
 Fabelia is a Nostr bot that publish AI generated stories to relays.
 
+[![Ruby on Rails CI](https://github.com/La-Voix-du-chat-artiste/fabelia/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/La-Voix-du-chat-artiste/fabelia/actions/workflows/rubyonrails.yml)
 
 ## AI tools
 
