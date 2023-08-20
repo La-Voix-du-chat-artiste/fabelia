@@ -1,6 +1,8 @@
 module Stories
   class ChapterPolicy < ApplicationPolicy
     authorize :story
+
+    pre_check :allow_admins
     pre_check :story_enabled?
 
     def create?
@@ -27,8 +29,6 @@ module Stories
 
     def story_enabled?
       deny! if !story.enabled? || story.ended?
-
-      allow!
     end
   end
 end

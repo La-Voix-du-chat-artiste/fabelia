@@ -71,13 +71,6 @@ module Stories
       @chapter = @story.chapters.find(params[:id])
     end
 
-    def set_prompt
-      return "Termine l'aventure de manière cohérente avec un tout dernier chapitre" if force_end_of_story?
-
-      last_published_chapter = @story.chapters.published.last
-      last_published_chapter.most_voted_option
-    end
-
     def force_end_of_story?
       params[:force_end].to_bool
     end
