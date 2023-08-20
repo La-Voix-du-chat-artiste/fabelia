@@ -77,7 +77,8 @@ class GenerateStoryJob < ApplicationJob
           summary: chapter_accurate_cover_prompt,
           prompt: prompt,
           chat_raw_response_body: row,
-          publish: draft_story.publish_me?(index)
+          publish: draft_story.publish_me?(index),
+          status: :completed
         )
       end
 

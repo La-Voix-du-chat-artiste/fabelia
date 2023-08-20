@@ -63,7 +63,7 @@ class ChatgptDropperService < ChatgptService
   def chapters
     return [] if story.nil?
 
-    story.chapters.by_position.last(8)
+    story.chapters.not_draft.by_position.last(10)
   end
 
   def reminder

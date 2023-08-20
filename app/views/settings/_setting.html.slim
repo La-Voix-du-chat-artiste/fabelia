@@ -66,5 +66,13 @@ div id=dom_id(setting)
             i=< Setting::ChapterOption::CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
             | )
 
+        li.mb-3
+          strong publish_previous:
+          |< Si un ou plusieurs précédents chapitres n'ont pas été publiés avant d'en générer un nouveau, doivent-ils être publiés avant ? Si non, une publication manuelle devra être faîte.
+
+          span.bg-white.p-1.rounded-lg
+            | (défaut:
+            i=< Setting::ChapterOption::PUBLISH_PREVIOUS
+            | )
 css:
   #{Pygments.css('.material-theme', style: :material)}

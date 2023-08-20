@@ -6,5 +6,5 @@ fr:
       full_story_missing_chapters: 3 chapitres minimum sont requis pour pré-générer l'aventure
       chapter_already_published: Le chapitre [#%{chapter_position}] "%{chapter_title}" a déjà été publié
       previous_chapter_not_published: |-
-        Une erreur s'est produite avec l'aventure "%{story_title}" (#%{story_id}): le chapitre
-        [#%{chapter_position}] "%{chapter_title}" n'a pu être publié car le chapitre précédent [#%{previous_chapter_position}] "%{previous_chapter_title}" ne l'est pas.
+        Une erreur s'est produite avec l'aventure "%{story_title}" (#%{story_id}): le chapitre [#%{chapter_position}] "%{chapter_title}" n'a pu être publié car le chapitre précédent [#%{previous_chapter_position}] "%{previous_chapter_title}" ne l'est pas.
+        Vous devez publier manuellement le chapitre ou vous pouvez activer l'option `publish_previous` dans les paramètres.

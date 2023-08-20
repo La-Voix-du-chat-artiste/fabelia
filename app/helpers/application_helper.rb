@@ -49,6 +49,8 @@ module ApplicationHelper
                .gsub('{"', "{\n\"")
                .gsub('"}', "\"\n}")
                .gsub('":', '": ')
+               .gsub('true}', "true\n}")
+               .gsub('false}', "false\n}")
 
     Pygments.highlight(json, lexer: :json)
   end

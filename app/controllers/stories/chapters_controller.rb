@@ -7,7 +7,7 @@ module Stories
     def create
       authorize! Chapter, context: { story: @story }
 
-      GenerateDropperChapterJob.perform_later(@story, force_ending: force_end_of_story?)
+      GenerateDropperChapterJob.perform_later(@story, force_publish: true, force_ending: force_end_of_story?)
 
       respond_to do |format|
         notice = 'Un nouveau chapitre est en cours de création'

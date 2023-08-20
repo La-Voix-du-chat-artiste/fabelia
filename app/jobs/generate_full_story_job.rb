@@ -2,6 +2,7 @@ class GenerateFullStoryJob < GenerateStoryJob
   RETRYABLE_AI_ERRORS = [
     Net::ReadTimeout,
     JSON::ParserError,
+    OpenaiChatgpt::Error,
     ChapterErrors::FullStoryMissingChapters
   ].freeze
 
