@@ -5,9 +5,7 @@ class StoriesController < ApplicationController
   def create
     authorize! Story
 
-    @story = Story.new(story_params) do |story|
-      story.status = :draft
-    end
+    @story = Story.new(story_params)
 
     if @story.save
       case mode
@@ -19,9 +17,6 @@ class StoriesController < ApplicationController
         GenerateFullStoryJob.perform_later(@story)
 
         notice = "L'aventure pré-générée est en cours de création, veuillez patienter le temps que ChatGPT et Replicate finissent de tout générer."
-      else
-        redirect_to root_path, alert: 'Unsupported story mode'
-        return
       end
 
       respond_to do |format|
@@ -40,7 +35,12 @@ class StoriesController < ApplicationController
 
     @story.toggle!(:enabled)
 
-    redirect_to root_path, notice: "L'aventure a bien été mise à jour"
+    respond_to do |format|
+      notice = "L'aventure a bien été mise à jour"
+
+      format.html { redirect_to root_path, notice: notice }
+      format.turbo_stream { flash.now[:notice] = notice }
+    end
   end
 
   # @route DELETE /stories/:id (story)
