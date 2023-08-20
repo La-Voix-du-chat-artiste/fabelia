@@ -10,6 +10,16 @@ RSpec.describe Story do
     it { is_expected.to define_enum_for(:publication_rule).with_values(described_class.publication_rules.keys) }
   end
 
+  describe '#status' do
+    subject { story.status }
+
+    let(:story) { build :story }
+
+    before { story.save }
+
+    it { is_expected.to eq 'draft' }
+  end
+
   describe '#publish_me?' do
     subject { story.publish_me?(index) }
 

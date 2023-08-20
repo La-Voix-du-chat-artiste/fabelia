@@ -21,6 +21,7 @@ module NostrServices
       { kinds: [METADATA_KIND], authors: [public_key], limit: 1 }
     end
 
+    # :nocov:
     # NOTE: This method has been extracted from `nostr_ruby` gem to fix
     # a crash with invalid encoding characters.
     def test_post_event(event, relay)
@@ -45,5 +46,6 @@ module NostrServices
 
       response
     end
+    # :nocov:
   end
 end

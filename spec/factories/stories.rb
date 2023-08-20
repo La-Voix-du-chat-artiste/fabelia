@@ -5,6 +5,10 @@ FactoryBot.define do
     thematic
     nostr_user
 
+    trait :enabled do
+      enabled { true }
+    end
+
     trait :disabled do
       enabled { false }
     end
