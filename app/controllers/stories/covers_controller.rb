@@ -9,13 +9,18 @@ module Stories
 
       ReplicateServices::Picture.call(@story, @story.summary)
 
-      redirect_to root_path, notice: "La couverture de l'histoire est en cours de création"
+      respond_to do |format|
+        notice = "La couverture de l'histoire est en cours de création"
+
+        format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash.now[:notice] = notice }
+      end
     end
 
     private
 
     def set_story
-      @story = Story.enabled.find(params[:story_id])
+      @story = Story.find(params[:story_id])
     end
   end
 end
