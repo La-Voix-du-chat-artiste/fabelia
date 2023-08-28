@@ -1,5 +1,7 @@
 module NostrUsers
   class ProfilePolicy < ApplicationPolicy
+    pre_check :allow_admins
+
     def create?
       nostr_user.enabled?
     end
