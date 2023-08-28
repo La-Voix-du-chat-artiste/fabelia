@@ -1,6 +1,7 @@
 class NostrUser < ApplicationRecord
   has_many :nostr_users_relays, dependent: :delete_all
   has_many :relays, -> { by_position }, through: :nostr_users_relays
+  has_many :stories, dependent: :destroy
 
   validates :private_key, presence: true
   validates :relays, presence: true

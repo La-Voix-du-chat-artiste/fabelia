@@ -6,7 +6,4 @@ fr:
       short: "%d %b %Hh%M"
       hour: "%Hh%M"
 
-  chapter_poll:
-    poll_choice: Quelle doit être la suite de l'aventure ?
-
   begin_adventure: "%{description} : Début de l'aventure"

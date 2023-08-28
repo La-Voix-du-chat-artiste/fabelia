@@ -52,19 +52,24 @@ module NostrServices
     end
 
     def body
-      <<~CONTENT
-        #{chapter.title}
+      I18n.with_locale(story.language) do
+        <<~CONTENT
+          #{chapter.title}
 
-        #{chapter.content}
+          #{chapter.content}
 
-        #{chapter.replicate_cover}
-
-        #{I18n.t('chapter_poll.poll_choice')}
-      CONTENT
+          #{chapter.replicate_cover}
+          #{I18n.t('chapters.poll_note.next_adventure_questions').sample}
+        CONTENT
+      end
     end
 
     def nostr_user
-      chapter.story.nostr_user
+      story.nostr_user
+    end
+
+    def story
+      chapter.story
     end
   end
 end

@@ -14,21 +14,27 @@ module NostrServices
     end
 
     def body
-      <<~CONTENT
-        #{chapter.title}
+      I18n.with_locale(story.language) do
+        <<~CONTENT
+          #{chapter.title}
 
-        #{chapter.content}
+          #{chapter.content}
 
-        #{chapter.replicate_cover}
-        #{extra_body}
-      CONTENT
+          #{chapter.replicate_cover}
+          #{extra_body}
+        CONTENT
+      end
     end
 
     def extra_body
       return if chapter == story.chapters.last
       return if chapter.options.blank?
 
-      I18n.t('chapters.text_note.complete_extra_body_content', options: formatted_options, locale: story.language)
+      <<~CONTENT
+        #{I18n.t('chapters.text_note.next_adventure_questions').sample}
+
+        #{I18n.t('chapters.text_note.complete_extra_body_content', options: formatted_options)}
+      CONTENT
     end
 
     def formatted_options

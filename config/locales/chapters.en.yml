@@ -8,9 +8,17 @@ en:
         - check out flownaely.cafe ☕
 
     text_note:
-      complete_extra_body_content: |-
-        How will the adventure continue?
+      next_adventure_questions:
+        - How will the adventure continue?
+        - What is your choice to continue the adventure ?
+        - What would you vote for the continuation of the adventure ?
 
+      complete_extra_body_content: |-
         %{options}
 
         To find out, don't miss the next chapter! 📖
+
+    poll_note:
+      next_adventure_questions:
+        - What should be the continuation of the adventure ?
+        - Vote now for your favorite adventure continuation !
