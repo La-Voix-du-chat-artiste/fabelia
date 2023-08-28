@@ -21,10 +21,12 @@ class RelaysController < ApplicationController
 
     @relay = Relay.new(relay_params)
 
-    if @relay.save
-      redirect_to relays_path, notice: 'Relay was successfully created.', status: :see_other
-    else
-      render :new, status: :unprocessable_entity
+    respond_to do |format|
+      if @relay.save
+        format.html { redirect_to relays_path, notice: 'Relay was successfully created.', status: :see_other }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -54,7 +56,12 @@ class RelaysController < ApplicationController
 
     @relay.destroy
 
-    redirect_to relays_path, notice: 'Relay was successfully destroyed.'
+    respond_to do |format|
+      notice = 'Relay was successfully destroyed.'
+
+      format.html { redirect_to relays_path, notice: notice }
+      format.turbo_stream { flash.now[:notice] = notice }
+    end
   end
 
   private
