@@ -118,6 +118,10 @@ input.boolean, input.check_boxes {
   @apply back-link !bg-red-700;
 }
 
+.blue-button {
+  @apply back-link !bg-blue-700;
+}
+
 .material-theme {
   @apply p-3 rounded-lg overflow-x-auto;
 }

@@ -29,17 +29,10 @@ module ApplicationHelper
     end
   end
 
-  def nostr_user_languages_select_options(nostr_user = nil)
+  def nostr_user_languages_select_options
     all_languages = I18nData.languages(I18n.locale)
 
-    scope = NostrUser.all
-    scope = scope.excluding(nostr_user) if nostr_user
-
-    taken_languages = scope.map(&:language)
-
-    available_locales = all_languages.except(*taken_languages)
-
-    available_locales.map do |code, name|
+    all_languages.map do |code, name|
       ["#{name.capitalize} (#{code})", code]
     end
   end

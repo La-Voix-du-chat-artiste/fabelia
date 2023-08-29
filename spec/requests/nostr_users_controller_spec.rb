@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe NostrUsersController do
-  before do
-    allow(NostrServices::FetchProfile).to receive(:call) { {} }
-  end
-
   describe 'GET /nostr_users' do
     subject(:action) { get '/nostr_users' }
 
@@ -60,11 +56,17 @@ RSpec.describe NostrUsersController do
 
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :super_admin }
+      let(:instance) { instance_double(NostrAccounts::PublishProfile) }
+
+      before do
+        allow(NostrAccounts::PublishProfile).to receive(:new) { instance }
+        allow(instance).to receive(:build_and_publish_event)
+      end
 
       context 'when params are invalid' do
         let(:params) do
           attributes_for(:nostr_user)
-            .merge(relay_ids: [relay.id], private_key: nil)
+            .merge(relay_ids: [relay.id], name: nil)
         end
 
         before { action }
@@ -78,7 +80,7 @@ RSpec.describe NostrUsersController do
         end
 
         include_examples 'a redirect response with success message' do
-          let(:message) { 'Nostr user was successfully created.' }
+          let(:message) { "Votre compte Nostr vient d'être créé ! ⚠️ Assurez-vous d'avoir fait une sauvegarde de votre clé privée pour ne pas perdre votre compte ⚠️" }
           let(:url_to_redirect) { nostr_users_path }
         end
       end
@@ -117,9 +119,15 @@ RSpec.describe NostrUsersController do
 
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :super_admin }
+      let(:instance) { instance_double(NostrAccounts::PublishProfile) }
+
+      before do
+        allow(NostrAccounts::PublishProfile).to receive(:new) { instance }
+        allow(instance).to receive(:build_and_publish_event)
+      end
 
       context 'when params are invalid' do
-        let(:params) { { private_key: nil } }
+        let(:params) { { name: nil } }
 
         before { action }
 

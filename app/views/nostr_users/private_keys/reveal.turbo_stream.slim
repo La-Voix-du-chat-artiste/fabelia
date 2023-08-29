@@ -1,0 +1,5 @@
+= turbo_stream.update dom_id(@nostr_user, :private_key) do
+  p data-controller="private-keys" data-private-keys-blur-class="blur"
+    | Clé privée
+    span.bg-red-400.text-white.p-1.ml-1.rounded-lg.cursor-pointer.blur data-action="click->private-keys#toggleValue"
+      = @nsec

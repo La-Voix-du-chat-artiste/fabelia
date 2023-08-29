@@ -20,9 +20,16 @@ fr:
 
       nostr_user:
         private_key: Clé privée
-        language: Language
+        language: Langage
         relays: Relays
         enabled: Activé ?
+        name: Nom
+        about: Description
+        nip05: NIP-05
+        website: Site internet
+        picture: Avatar
+        banner: Bannière
+        lud16: Adresse LN
 
       thematic:
         identifier: Identifiant

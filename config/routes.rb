@@ -36,6 +36,15 @@ Rails.application.routes.draw do
     scope module: :nostr_users do
       member do
         resource :refresh_profiles, only: :create
+
+        resource :private_keys, only: [] do
+          get :ask_password
+          post :reveal
+        end
+      end
+
+      collection do
+        resource :import_profiles, only: %i[new create]
       end
     end
   end

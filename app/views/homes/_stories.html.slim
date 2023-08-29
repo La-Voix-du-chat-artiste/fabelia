@@ -7,10 +7,14 @@ ul#quick_look role="list"
         .flex.items-center.gap-3
           div
             - if nostr_user.profile.picture
-              = image_tag nostr_user.profile.picture, class: 'w-12 mx-auto mb-1 rounded-full'
+              = image_tag polymorphic_path(nostr_user.picture), class: 'w-12 mx-auto mb-1 rounded-full bg-white'
           div
             p Une nouvelle aventure sera créée à la prochaine exécution de la tâche
-            p.text-xs= nostr_user.profile.identity
+            p.text-xs
+              = nostr_user.profile.identity
+
+              span.inline-block.text-xs.font-medium.p-1.rounded.bg-gray-100.text-gray-800.ml-2
+                = nostr_user.human_language
 
     - else
       - active_chapter = story.chapters.not_published.first
@@ -46,5 +50,8 @@ ul#quick_look role="list"
 
         .text-base.font-semibold.text-gray-900
           - if story.nostr_user.profile.picture
-            = image_tag story.nostr_user.profile.picture, class: 'w-24 mx-auto mb-1 rounded-full'
+            = image_tag polymorphic_path(story.nostr_user.picture), class: 'w-24 mx-auto mb-1 rounded-full'
+
           p= story.nostr_user.profile.identity
+          p.inline-block.text-xs.font-medium.p-1.rounded.bg-blue-500.text-white.ml-2
+            = story.nostr_user.human_language

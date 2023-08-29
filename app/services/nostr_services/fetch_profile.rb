@@ -10,7 +10,7 @@ module NostrServices
 
     def call
       req = nostr.build_req_event(filters)
-      response = test_post_event(req, favorite_relay_url)
+      response = nostr.test_post_event(req, favorite_relay_url)
 
       JSON.parse(response.last['content'])
     end
@@ -20,32 +20,5 @@ module NostrServices
     def filters
       { kinds: [METADATA_KIND], authors: [public_key], limit: 1 }
     end
-
-    # :nocov:
-    # NOTE: This method has been extracted from `nostr_ruby` gem to fix
-    # a crash with invalid encoding characters.
-    def test_post_event(event, relay)
-      response = nil
-      ws = WebSocket::Client::Simple.connect(relay)
-
-      ws.on :open do
-        ws.send event.to_json
-      end
-
-      ws.on :message do |msg|
-        response = JSON.parse(msg.data.force_encoding('UTF-8'))
-        ws.close
-      end
-
-      ws.on :error do |e|
-        debug_logger('WebSocket Error', e, :red)
-        ws.close
-      end
-
-      sleep 0.1 while response.nil?
-
-      response
-    end
-    # :nocov:
   end
 end

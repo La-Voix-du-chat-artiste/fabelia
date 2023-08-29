@@ -8,6 +8,9 @@ class NostrProfile
   attribute :picture, :string
   attribute :banner, :string
   attribute :about, :string
+  attribute :nip05, :string
+  attribute :lud16, :string
+  attribute :website, :string
 
   def identity
     display_name || name || DEFAULT_IDENTITY

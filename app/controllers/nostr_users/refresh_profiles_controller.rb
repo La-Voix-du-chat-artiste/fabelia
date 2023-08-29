@@ -4,11 +4,9 @@ module NostrUsers
 
     # @route POST /nostr_users/:id/refresh_profiles (refresh_profiles)
     def create
-      authorize! @nostr_user, with: NostrUsers::ProfilePolicy
+      authorize! @nostr_user, with: ProfilePolicy
 
-      response = NostrServices::FetchProfile.call(@nostr_user)
-
-      @nostr_user.update(metadata_response: response)
+      NostrAccounts::ImportProfile.call(@nostr_user)
 
       redirect_to nostr_users_path, notice: 'Les métadonnées du profil ont bien été rafraîchies'
     rescue URI::InvalidURIError,

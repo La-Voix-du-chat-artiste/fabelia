@@ -19,8 +19,10 @@ module Fabelia
     config.time_zone = 'Europe/Paris'
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.i18n.available_locales = %i[fr en]
     config.i18n.default_locale = :fr
+    config.i18n.available_locales = %i[fr en]
+    config.i18n.enforce_available_locales = false
+    config.i18n.fallbacks = %i[en fr]
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}').to_s]
 
     config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY')
