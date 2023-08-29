@@ -29,28 +29,21 @@ To setup the development project, follow these instructions:
 - Clone the project
 - Go to project folder: `$ cd fabelia`
 - Run `$ docker-compose up -d` to start PostgreSQL and Redis containers
-- Run `$ bin/rails credentials:edit` to setup your ChatGPT and Replicate API keys as credentials:
-
-  ```yaml
-  # credentials
-  chatgpt:
-    api_key: my_api_key
-
-  replicate:
-    api_key: my_api_key
+- Add ChatGPT and Replicate API keys as ENV vars:
+  
+  ```bash
+  # .env
+  CHATGPT_API_KEY=my_chatgpt_api_key
+  REPLICATE_API_KEY=my_replicate_api_key
   ```
 
-- Run `$ bin/rails db:encryption:init` and paste the output to credentials:
+- Run `$ bin/rails db:encryption:init` to generate encryption keys and paste these values to corresponding ENV vars:
 
-  ```yaml
-  # credentials
-
-  # ... previous credentials
-
-  active_record_encryption:
-    primary_key: my_primary_key
-    deterministic_key: my_deterministic_key
-    key_derivation_salt: my_key_derivation_salt
+  ```bash
+  # .env
+  ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=my_primary_key
+  ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=my_deterministic_key
+  ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=my_key_derivation_salt
   ```
 
   Note: this step is required as Nostr private key accounts are encrypted in DB
