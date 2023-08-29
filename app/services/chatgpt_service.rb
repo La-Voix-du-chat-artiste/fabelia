@@ -8,7 +8,7 @@ class ChatgptService < ApplicationService
   end
 
   def api_key
-    Rails.application.credentials.chatgpt.api_key
+    ENV.fetch('CHATGPT_API_KEY', nil)
   end
 
   def minimum_chapters_count
