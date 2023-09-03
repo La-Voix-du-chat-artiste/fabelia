@@ -33,11 +33,11 @@ class GenerateStoryJob < ApplicationJob
 
     Retry.on(*retryable_ai_errors) do
       if draft_story.complete?
-        @json = ChatgptCompleteService.call(prompt, nostr_user.language)
+        @json = ChatGPTCompleteService.call(prompt, nostr_user.language)
 
         raise ChapterErrors::FullStoryMissingChapters if @json['chapters'].count < 3
       else
-        @json = ChatgptDropperService.call(prompt, nostr_user.language)
+        @json = ChatGPTDropperService.call(prompt, nostr_user.language)
       end
     end
 
@@ -58,7 +58,7 @@ class GenerateStoryJob < ApplicationJob
     Story.broadcast_flash(:notice, flash_message)
 
     ApplicationRecord.transaction do
-      story_accurate_cover_prompt = ChatgptSummaryService.call("#{story_title}, #{draft_story.thematic_description}")
+      story_accurate_cover_prompt = ChatGPTSummaryService.call("#{story_title}, #{draft_story.thematic_description}")
 
       draft_story.update!(
         title: story_title,
@@ -69,7 +69,7 @@ class GenerateStoryJob < ApplicationJob
       @json['chapters'] = [@json.except(:story_title)] if draft_story.dropper?
 
       @json['chapters'].each_with_index do |row, index|
-        chapter_accurate_cover_prompt = ChatgptSummaryService.call(row['content'])
+        chapter_accurate_cover_prompt = ChatGPTSummaryService.call(row['content'])
 
         draft_story.chapters.create!(
           title: row['title'],

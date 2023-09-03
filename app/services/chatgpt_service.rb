@@ -1,6 +1,6 @@
 require 'openai_chatgpt'
 
-class ChatgptService < ApplicationService
+class ChatGPTService < ApplicationService
   private
 
   def client
