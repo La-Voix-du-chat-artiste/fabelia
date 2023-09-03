@@ -4,3 +4,4 @@ en:
       bot_missing: "No bot exists to handle \"%{language}\" language, please configure one to publish"
       bot_disabled: "%{name} bot is disabled for \"%{language}\", you cannot published until you enabled it"
       missing_associated_relay: At least one relay is mandatory to publish note with this bot
+      empty_lightning_network_address: A LN address is mandatory to use poll adventures. You can configure one in the Nostr user options.

@@ -4,3 +4,4 @@ fr:
       bot_missing: "Aucun bot n'existe pour gérer la langue \"%{language}\", veuillez en configurer un pour publier"
       bot_disabled: "%{name} bot est désactivé pour la langue \"%{language}\", vous ne pourrez pas publier avant de le réactiver"
       missing_associated_relay: Au moins un relais est requis pour publier une note avec ce bot
+      empty_lightning_network_address: Une adresse LN est requise pour utiliser les aventures sondages. Vous pouvez en configurer une dans les options du compte Nostr.

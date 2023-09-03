@@ -4,11 +4,7 @@ RSpec.describe NostrUsers::RefreshProfilesController do
   describe 'POST /nostr_users/::id/refresh_profiles' do
     subject(:action) { post "/nostr_users/#{nostr_user.id}/refresh_profiles" }
 
-    let!(:nostr_user) { create :nostr_user }
-
-    before do
-      allow(NostrServices::FetchProfile).to receive(:call) { {} }
-    end
+    let(:nostr_user) { create :nostr_user }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -16,10 +12,14 @@ RSpec.describe NostrUsers::RefreshProfilesController do
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :admin }
 
+      before do
+        allow(NostrAccounts::ImportProfile).to receive(:call) { {} }
+      end
+
       describe '[nostr service]' do
         before { action }
 
-        it { expect(NostrServices::FetchProfile).to have_received(:call).with(nostr_user) }
+        it { expect(NostrAccounts::ImportProfile).to have_received(:call).with(nostr_user) }
       end
 
       include_examples 'a redirect response with success message' do

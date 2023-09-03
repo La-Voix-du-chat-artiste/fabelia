@@ -2,7 +2,7 @@
 
 - if relay.first? && relay.enabled?
   - favorite = true
-- elsif Relay.enabled.by_position.first == relay
+- elsif Relay.main == relay
   - favorite = true
 
 details.border.mb-3.rounded-lg id=dom_id(relay) data-sortable-url=relay_path(relay) class=('opacity-50' unless relay.enabled?) class=(favorite ? 'border-green-300 bg-green-100' : 'border-gray-300 bg-gray-100')

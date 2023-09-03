@@ -18,8 +18,16 @@ fr:
         private_key: La clé privée est chiffrée en base de données
         relays: Sélectionner le(s) relay(s) sur le(s)quel(s) publier les aventures ?
         enabled: Si coché, le compte Nostr sera autorisé à publier les aventures
+        lud16: Adresse Lightning Network pour recevoir des donations
+        nip05: Preuve de l'identité de la personne possédant le compte
 
       story:
         mode: Type d'aventure
         thematic: Thème de l'aventure
         nostr_user: Le compte Nostr de publication définit la langue de l'aventure
+
+    placeholders:
+      nostr_user:
+        nip05: name@domain.com
+        lud16: foo@getalby.com
+        website: https://mywebsite.com

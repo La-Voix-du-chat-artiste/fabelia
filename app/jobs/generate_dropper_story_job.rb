@@ -15,6 +15,12 @@ class GenerateDropperStoryJob < GenerateStoryJob
 
   private
 
+  def validate!(draft_story)
+    super(draft_story)
+
+    raise NostrUserErrors::EmptyLightningNetworkAddress if draft_story.nostr_user.lud16.blank?
+  end
+
   def options
     @options ||= Setting.first.chapter_options
   end

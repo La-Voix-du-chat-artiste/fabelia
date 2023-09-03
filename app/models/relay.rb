@@ -12,6 +12,10 @@ class Relay < ApplicationRecord
   after_validation :clean_url
   after_update :delete_nostr_users_association, if: :marked_as_disabled?
 
+  def self.main
+    enabled.by_position.first
+  end
+
   # NOTE: title is used as alias to get correct form label association
   def title
     url

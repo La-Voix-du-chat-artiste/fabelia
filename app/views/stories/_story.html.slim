@@ -28,7 +28,12 @@
 
         .absolute.-bottom-4.-right-10
           - if story.nostr_user.profile.picture
-            = image_tag story.nostr_user.profile.picture, class: 'w-20 mx-auto mb-1 rounded-full border-2'
+            = image_tag polymorphic_path(story.nostr_user.picture),
+                        class: 'w-20 mx-auto mb-1 rounded-full border-2 bg-white',
+                        title: story.nostr_user.name
+          - else
+            .flex.items-center.justify-center.w-20.h-20.text-4xl.text-gray-100.mb-1.rounded-full.border-2.bg-gray-800 title=story.nostr_user.name
+              = story.nostr_user.initials
 
       p.text-sm.italic
         | Créé le
