@@ -1,4 +1,4 @@
-class ChatgptSummaryService < ChatgptService
+class ChatGPTSummaryService < ChatGPTService
   attr_reader :prompt, :model
 
   def initialize(prompt, model = 'gpt-3.5-turbo')

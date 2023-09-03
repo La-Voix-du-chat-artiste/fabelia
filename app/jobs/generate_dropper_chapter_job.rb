@@ -24,12 +24,12 @@ class GenerateDropperChapterJob < GenerateDropperStoryJob
     Story.broadcast_flash(:info, "Prompt:\n#{prompt}")
 
     Retry.on(*RETRYABLE_AI_ERRORS) do
-      @json = ChatgptDropperService.call(
+      @json = ChatGPTDropperService.call(
         prompt, story.nostr_user.language, story
       )
     end
 
-    chapter_accurate_cover_prompt = ChatgptSummaryService.call(@json['content'])
+    chapter_accurate_cover_prompt = ChatGPTSummaryService.call(@json['content'])
 
     @chapter.update!(
       title: @json['title'],

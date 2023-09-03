@@ -1,4 +1,4 @@
-class ChatgptDropperService < ChatgptService
+class ChatGPTDropperService < ChatGPTService
   attr_reader :prompt, :language, :story, :model
 
   def initialize(prompt, language, story = nil, model = 'gpt-3.5-turbo')
