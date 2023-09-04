@@ -6,7 +6,7 @@ module Relays
 
       Relay.reset!
 
-      redirect_to relays_path, notice: 'Les relays ont été réinitialisés'
+      redirect_to relays_path, notice: 'Les relais ont été réinitialisés'
     end
   end
 end

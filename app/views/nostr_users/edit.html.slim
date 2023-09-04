@@ -3,4 +3,41 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
 
   = link_to '<< Retour', nostr_users_path, class: 'back-link'
 
+.border.text-orange-500.bg-orange-50.border-orange-800.p-2.mb-5.rounded-lg.text-sm
+  p Pour éviter des conflits sur les données du compte Nostr, il est recommandé de ne pas faire de modifications sur d'autres clients autres qu'à travers cette interface.
+  p En effet, certains clients n'implémentent pas les mêmes métadonnées du profil ce qui peut résulter en l'écrasement de certains champs.
+
 = render 'form', nostr_user: @nostr_user
+
+footer.border.text-red-500.bg-red-50.border-red-300.px-5.py-3.rounded-b-lg.mt-5.rounded-lg
+  p.text-xl.mb-3 ⚠️ Zone de danger ⚠️
+
+  .flex.flex-col.lg:flex-row.justify-between.gap-5.mb-2
+    - if allowed_to?(:reveal?, @nostr_user, with: NostrUsers::PrivateKeyPolicy)
+      .w-full.lg:w-2/3
+        p.font-bold.text-lg.underline.mb-1 Sauvegarde des clés et conseils de sécurité
+        p Votre compte est sécurisé par une clé secrète. La clé est une longue chaîne aléatoire commençant par <strong>nsec1</strong>. Toute personne ayant accès à votre clé secrète peut publier du contenu en utilisant votre identité.
+
+        ul.list-disc.list-inside.mb-3
+          li Ne communiquez <strong>jamais</strong> votre clé secrète à un site Web ou un logiciel auquel vous ne faites pas confiance.
+          li Les développeurs de Fabelia ne vous demanderont <strong>jamais</strong> votre clé secrète.
+          li
+            <strong>Conservez</strong> une sauvegarde sécurisée de votre clé secrète pour la récupération de compte. Nous vous recommandons d'utiliser un gestionnaire de mots de passe et/ou de noter sur une feuille de papier.
+
+        = turbo_frame_tag dom_id(@nostr_user, :private_key) do
+          = link_to 'Révéler la clé secrète 🔑',
+                    ask_password_private_keys_path(@nostr_user),
+                    class: 'inline-block bg-red-600 text-white p-2 rounded-lg'
+
+    - if allowed_to?(:destroy?, @nostr_user)
+      .w-full.lg:w-1/3
+        p.font-bold.text-lg.underline.mb-1 Supprimer le compte Nostr
+
+        p En supprimant ce compte Nostr sur Fabelia, vous ne serez plus en mesure de publier sur Nostr. Si vous avez fait une sauvegarde de votre clé secrète, vous pourrez toujours réimporter les données depuis les relais Nostr.
+        p.mb-2 Toutes vos publications restent présentes sur les relais configurés.
+
+        = button_to 'Supprimer', @nostr_user,
+                    class: 'inline-block bg-red-600 text-white p-2 rounded-lg cursor-pointer',
+                    method: :delete,
+                    form: { class: 'text-right' },
+                    data: { turbo_confirm: 'Voulez-vous supprimer ce compte Nostr ? ⚠️ cette action est irréversible et vous ne pourrez plus faire de publication sur ce compte ⚠️' }

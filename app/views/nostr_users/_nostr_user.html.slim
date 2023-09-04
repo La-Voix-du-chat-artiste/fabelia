@@ -1,115 +1,75 @@
-- if params[:view] == 'grid'
-  .w-full.bg-white.rounded-lg.shadow id=dom_id(nostr_user)
-    - if nostr_user.banner.attached?
-      = image_tag polymorphic_path(nostr_user.banner), class: 'w-full rounded-t-lg max-h-60'
-    - elsif nostr_user.profile.banner.present?
-      = image_tag nostr_user.profile.banner, class: 'w-full rounded-t-lg'
+.flex.flex-col.justify-between.block.bg-white.shadow-md.hover:shadow-xl.rounded-lg.overflow-hidden
+  div
+    .relative.pb-44.overflow-hidden
+      = image_tag nostr_user.banner_url, class: 'absolute inset-0 h-full w-full object-cover transition-transform hover:scale-105'
 
-    .flex.flex-col.items-center.p-5.relative
-      span.bg-blue-500.rounded-md.px-2.py-1.mr-1.text-xs.absolute.top-2.left-2.text-white
-        = I18nData.languages(I18n.locale)[nostr_user.language.upcase].capitalize
+      - language = I18nData.languages(I18n.locale)[nostr_user.language.upcase]
+      span.absolute.bottom-0.left-1.inline-block.px-2.py-1.leading-none.rounded-full.font-semibold.uppercase.tracking-wide.text-xs.mb-2 style="background-color: ##{Digest::MD5.hexdigest(language)[0..5]}"
+        = language.capitalize
 
-      - if nostr_user.picture.attached?
-        = image_tag polymorphic_path(nostr_user.picture), class: 'w-24 h-24 mb-3 rounded-full shadow-lg'
-      - elsif nostr_user.profile.picture.present?
-        = image_tag nostr_user.profile.picture, class: 'w-24 h-24 mb-3 rounded-full shadow-lg'
-
-      h5.mb-1.text-xl.font-medium.text-gray-900
-        = nostr_user.profile.identity
-
-      span.text-sm.text-gray-500.mb-5
-        = nostr_user.profile.about
-
-      span.text-sm.text-gray-500.mb-1
-        | 🔑
-        =< nostr_user.public_key
-
-      - if nostr_user.lud16.present?
-        span.text-sm.text-gray-500
-          | ⚡
-          =< nostr_user.lud16
-
-      span.text-sm.text-gray-500.mt-5.mb-2
-        - nostr_user.relays.each do |relay|
-          span.bg-gray-200.rounded-md.px-2.py-1.mr-1= relay.url
-
-      .flex.mt-4.space-x-3.md:mt-6
-        - if allowed_to?(:edit?, nostr_user)
-          = link_to 'Modifier', edit_nostr_user_path(nostr_user), class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200'
-
-        - if allowed_to?(:create?, nostr_user, with: NostrUsers::ProfilePolicy)
-          = button_to 'Rafraîchir les métadonnées',
-                      refresh_profiles_path(nostr_user),
-                      class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-orange-500 border border-orange-300 rounded-lg hover:bg-orange-100 focus:ring-4 focus:outline-none focus:ring-orange-200',
-                      data: { turbo_confirm: 'Voulez-vous rafraîchir les métadonnées ?' }
-        - if allowed_to?(:destroy?, nostr_user)
-          = button_to 'Supprimer', nostr_user,
-                      class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white-900 bg-red-500 border border-red-300 rounded-lg hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-red-200',
-                      method: :delete,
-                      data: { turbo_confirm: 'Voulez-vous supprimer ce compte Nostr ?' }
-
-- else
-  details.border.mb-3.rounded-lg.border-gray-300.bg-gray-50 id=dom_id(nostr_user) class=('opacity-50' unless nostr_user.enabled?)
-    summary.flex.items-center.gap-3.justify-between.p-2.relative
-      .flex.items-center.gap-3
-        - if nostr_user.picture.attached?
-          = image_tag polymorphic_path(nostr_user.picture), class: 'w-20 rounded-full'
+    .px-4.py-3
+      .flex.items-center.gap-2.mb-3
+        = image_tag nostr_user.picture_url, class: 'rounded-full w-16'
         div
-          p.mb-1
+          h2.font-bold= nostr_user.display_name
+          p.font-medium.text-sm.text-gray-500
+            | @
             = nostr_user.name
-            span.bg-blue-500.rounded-md.px-2.py-1.ml-1.text-xs.text-white<
-              = I18nData.languages(I18n.locale)[nostr_user.language.upcase].capitalize
-          p.text-sm.text-gray-700
-            | 🔑
-            =< link_to nostr_user.public_key, "#{nostr_client_url}/p/#{nostr_user.public_key}", target: :_blank, class: 'decoration-dashed'
-          - if nostr_user.lud16.present?
-            p.text-sm
-              | ⚡
-              =< nostr_user.lud16
 
-      .flex.items-center.gap-3
-        - if allowed_to?(:create?, nostr_user, with: NostrUsers::ProfilePolicy)
-          = button_to '🔄',
-                      refresh_profiles_path(nostr_user),
-                      class: 'blue-button',
-                      title: 'Rafraîchir les métadonnées depuis Nostr',
-                      data: { turbo_confirm: 'Voulez-vous rafraîchir les métadonnées ?' }
+      .text-sm.mb-3
+        - if nostr_user.about.present?
+          == nostr_user.about
+        - else
+          p.italic.text-sm.text-gray-500 Aucune description
 
-        - if allowed_to?(:update?, nostr_user)
-          => link_to 'Modifier', edit_nostr_user_path(nostr_user), class: 'edit-link'
+      div
+        p.text-sm.text-gray-500.mb-1
+          span title="Clé publique" 🔑
+          =< link_to nostr_user.reduced_public_key, "#{nostr_client_url}/p/#{nostr_user.public_key}", target: :_blank, class: 'decoration-dashed'
 
-        - if allowed_to?(:destroy?, nostr_user)
-          = button_to 'Supprimer', nostr_user,
-                      class: 'destroy-button',
-                      method: :delete,
-                      data: { turbo_confirm: 'Voulez-vous supprimer cette thématique ?' }
+        - if nostr_user.lud16.present?
+          p.text-sm.text-gray-500.mb-1
+            span title="Adresse Lightning Network" ⚡
+            =< nostr_user.lud16
 
-    div
-      .flex.gap-3.p-3.text-gray-600.border-t
-        - if nostr_user.banner.attached?
-          = image_tag polymorphic_path(nostr_user.banner), class: 'w-96 rounded-lg'
+        - if nostr_user.nip05.present?
+          p.text-sm.text-gray-500.mb-1
+            span title="NIP-05"
+              | ☑️
+            =< nostr_user.nip05
 
-        .mb-3
-          .text-gray-500= nostr_user.about
+        - if nostr_user.website.present?
+          p.text-sm.text-gray-500.mb-1
+            span title="Site internet" 🔗
+            =< link_to nostr_user.website, nostr_user.website, target: :_blank
 
-          - if nostr_user.nip05.present?
-            p.mt-3
-              | NIP05:
-              =< nostr_user.nip05
+        - if nostr_user.relays.blank?
+          p.bg-orange-50.text-orange-500.mt-3.text-sm.p-2 ⚠️ Aucun relais n'est associé à ce compte, vous ne pourrez rien publier avant d'en associer un.
+        - else
+          details.mt-3.text-sm
+            summary.cursor-pointer.mb-1 Les relais
 
-          - if nostr_user.website.present?
-            p
-              | Site internet:
-              =< link_to nostr_user.website, nostr_user.website, target: :_blank
+            ul.list-disc.list-inside.bg-green-50.text-green-500.p-2
+              - nostr_user.relays.first(3).each_with_index do |relay, index|
+                li
+                  = relay.url
+                  - if index.zero?
+                    span.cursor-help.ml-1 title="Relay favori" ⭐
 
-      - if allowed_to?(:reveal?, nostr_user, with: NostrUsers::PrivateKeyPolicy)
-        section.border.text-red-500.bg-red-50.border-red-800.px-5.py-3.rounded-b-lg
-          p.text-lg.mb-3 ⚠️ Zone de danger ⚠️
+  - update_account = allowed_to?(:update?, nostr_user)
+  - refresh_profile = allowed_to?(:create?, nostr_user, with: NostrUsers::ProfilePolicy)
 
-          = turbo_frame_tag dom_id(nostr_user, :private_key) do
-            = link_to 'Révéler la clé privée 🔑',
-                      ask_password_private_keys_path(nostr_user),
-                      class: 'inline-block bg-red-600 text-white p-2 rounded-lg'
+  - if update_account || refresh_profile
+    footer.border-t.text-xs.text-gray-700.flex.items-center
+      - if refresh_profile
+        = button_to 'Rafraîchir les métadonnées',
+                    refresh_profiles_path(nostr_user),
+                    class: 'inline-block bg-blue-500 text-white w-full p-4 text-center hover:bg-blue-600 transition-colors',
+                    title: 'Rafraîchir les métadonnées depuis Nostr',
+                    data: { turbo_confirm: 'Voulez-vous rafraîchir les métadonnées depuis Nostr ? ⚠️ Toutes les informations actuelles vont être écrasées' },
+                    form: { class: 'w-1/2' }
 
-            - if nostr_user.generated?
-              p.italic.text-sm.mt-1 Assurez-vous d'avoir fait une sauvegarde de votre clé privée pour retrouver votre compte
+      - if update_account
+        => link_to 'Modifier',
+           edit_nostr_user_path(nostr_user),
+           class: "inline-block bg-orange-500 p-4 text-center hover:bg-orange-600 transition-colors #{refresh_profile ? 'w-1/2' : 'w-full'}"

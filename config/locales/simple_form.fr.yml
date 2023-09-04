@@ -16,10 +16,13 @@ fr:
     hints:
       nostr_user:
         private_key: La clé privée est chiffrée en base de données
-        relays: Sélectionner le(s) relay(s) sur le(s)quel(s) publier les aventures ?
+        relays: Sélectionner le(s) relai(s) sur le(s)quel(s) publier les aventures ?
         enabled: Si coché, le compte Nostr sera autorisé à publier les aventures
         lud16: Adresse Lightning Network pour recevoir des donations
         nip05: Preuve de l'identité de la personne possédant le compte
+        name: "@mon_nom (sans le @)"
+        display_name:  Nom du profil affiché publiquement
+        language: Langue utilisée pour les aventures
 
       story:
         mode: Type d'aventure

@@ -1,4 +1,7 @@
 class NostrUser < ApplicationRecord
+  include ActionView::Helpers::AssetTagHelper
+  include Rails.application.routes.url_helpers
+
   enum mode: { generated: 0, imported: 1 }, _default: :generated
 
   has_many :nostr_users_relays, dependent: :delete_all
@@ -6,6 +9,7 @@ class NostrUser < ApplicationRecord
   has_many :stories, dependent: :destroy
 
   validates :name, presence: true, if: :generated?
+  validates :display_name, presence: true, if: :generated?
   validates :private_key, presence: true
   validates :relays, presence: true
   validates :language, presence: true
@@ -20,18 +24,25 @@ class NostrUser < ApplicationRecord
   encrypts :private_key
 
   before_validation :generate_private_key, on: :create, if: :generated?
+  before_validation :assign_name, if: -> { name.blank? && display_name.present? }
+  before_validation :strip_name, if: -> { name.present? }
 
   after_destroy_commit do
     broadcast_remove_to :nostr_users
   end
 
   scope :enabled, -> { where(enabled: true) }
+  scope :with_relays, -> { where.associated(:relays) }
   scope :by_language, ->(language) { where(language: language) }
 
   alias_attribute :profile, :metadata_response
 
   def public_key
     Nostr.new(private_key: private_key).bech32_keys[:public_key]
+  end
+
+  def reduced_public_key
+    "#{public_key.first(10)}:#{public_key.last(10)}"
   end
 
   def human_language
@@ -50,10 +61,30 @@ class NostrUser < ApplicationRecord
     "#{first[0]}#{last[0]}".upcase
   end
 
+  def banner_url
+    return 'placeholder_nostr_banner.png' unless banner.attached?
+
+    polymorphic_path(banner, only_path: true)
+  end
+
+  def picture_url
+    return 'placeholder_nostr_picture.png' unless picture.attached?
+
+    polymorphic_path(picture, only_path: true)
+  end
+
   private
 
   def generate_private_key
-    self.private_key = SecureRandom.hex(32)
+    self.private_key ||= SecureRandom.hex(32)
+  end
+
+  def assign_name
+    self.name = display_name.parameterize(separator: '_')
+  end
+
+  def strip_name
+    self.name = name.delete('@')
   end
 end
 
@@ -75,6 +106,7 @@ end
 #  nip05             :string
 #  website           :string
 #  lud16             :string
+#  display_name      :string
 #
 # Indexes
 #

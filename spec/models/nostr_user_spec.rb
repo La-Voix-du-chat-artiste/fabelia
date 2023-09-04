@@ -2,13 +2,20 @@ require 'rails_helper'
 
 RSpec.describe NostrUser do
   describe '#mode' do
-    subject { described_class.new(mode: mode) }
+    subject(:nostr_user) do
+      described_class.new(mode: mode, display_name: 'John Doe')
+    end
+
+    before do
+      relay = build_stubbed :relay
+      nostr_user.relays = [relay]
+    end
 
     context 'when generated' do
       let(:mode) { :generated }
 
-      it { is_expected.to validate_presence_of(:name) }
-      it { is_expected.to validate_presence_of(:private_key).allow_blank }
+      it { is_expected.to validate_presence_of(:display_name) }
+      it { is_expected.to validate_presence_of(:private_key).allow_nil }
       it { is_expected.to validate_presence_of(:relays) }
       it { is_expected.to validate_presence_of(:language) }
       it { is_expected.to_not validate_uniqueness_of(:language) }
@@ -21,7 +28,7 @@ RSpec.describe NostrUser do
     context 'when imported' do
       let(:mode) { :imported }
 
-      it { is_expected.to_not validate_presence_of(:name) }
+      it { is_expected.to_not validate_presence_of(:display_name) }
       it { is_expected.to validate_presence_of(:private_key) }
       it { is_expected.to validate_presence_of(:relays) }
       it { is_expected.to validate_presence_of(:language) }

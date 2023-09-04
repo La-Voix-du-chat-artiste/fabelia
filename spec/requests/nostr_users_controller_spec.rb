@@ -66,7 +66,7 @@ RSpec.describe NostrUsersController do
       context 'when params are invalid' do
         let(:params) do
           attributes_for(:nostr_user)
-            .merge(relay_ids: [relay.id], name: nil)
+            .merge(relay_ids: [relay.id], display_name: nil)
         end
 
         before { action }
@@ -127,7 +127,7 @@ RSpec.describe NostrUsersController do
       end
 
       context 'when params are invalid' do
-        let(:params) { { name: nil } }
+        let(:params) { { display_name: nil } }
 
         before { action }
 
@@ -138,7 +138,7 @@ RSpec.describe NostrUsersController do
         let(:params) { { private_key: Faker::Crypto.sha256 } }
 
         include_examples 'a redirect response with success message' do
-          let(:message) { 'Nostr user was successfully updated.' }
+          let(:message) { 'Le compte Nostr a bien été mis à jour.' }
           let(:url_to_redirect) { nostr_users_path }
         end
       end
@@ -158,7 +158,7 @@ RSpec.describe NostrUsersController do
       let(:role) { :super_admin }
 
       it_behaves_like 'a redirect response with success message' do
-        let(:message) { 'Nostr user was successfully destroyed.' }
+        let(:message) { 'Le compte Nostr a bien été supprimé.' }
         let(:url_to_redirect) { nostr_users_path }
       end
 
