@@ -87,18 +87,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_203935) do
     t.index ["nostr_user_id", "relay_id"], name: "index_nostr_users_relays_on_nostr_user_id_and_relay_id", unique: true
   end
 
-  create_table "organizations", force: :cascade do |t|
-    t.string "name"
-    t.integer "users_count", default: 0, null: false
-    t.integer "thematics_count", default: 0, null: false
-    t.integer "nostr_users_count", default: 0, null: false
-    t.integer "relays_count", default: 0, null: false
-    t.integer "stories_count", default: 0, null: false
-    t.boolean "enabled", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "relays", force: :cascade do |t|
     t.string "url"
     t.text "description"
