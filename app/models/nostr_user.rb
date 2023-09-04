@@ -69,7 +69,7 @@ end
 #  stories_count     :integer          default(0), not null
 #  enabled           :boolean          default(TRUE), not null
 #  metadata_response :json             not null
-#  mode              :integer          default(0), not null
+#  mode              :integer          default("generated"), not null
 #  name              :string
 #  about             :text
 #  nip05             :string
@@ -78,6 +78,5 @@ end
 #
 # Indexes
 #
-#  index_nostr_users_on_language     (language) UNIQUE
 #  index_nostr_users_on_private_key  (private_key) UNIQUE
 #
