@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_28_204725) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_03_203935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,7 +78,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_204725) do
     t.string "nip05"
     t.string "website"
     t.string "lud16"
-    t.index ["language"], name: "index_nostr_users_on_language", unique: true
     t.index ["private_key"], name: "index_nostr_users_on_private_key", unique: true
   end
 
@@ -86,6 +85,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_204725) do
     t.bigint "nostr_user_id", null: false
     t.bigint "relay_id", null: false
     t.index ["nostr_user_id", "relay_id"], name: "index_nostr_users_relays_on_nostr_user_id_and_relay_id", unique: true
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.integer "users_count", default: 0, null: false
+    t.integer "thematics_count", default: 0, null: false
+    t.integer "nostr_users_count", default: 0, null: false
+    t.integer "relays_count", default: 0, null: false
+    t.integer "stories_count", default: 0, null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "relays", force: :cascade do |t|

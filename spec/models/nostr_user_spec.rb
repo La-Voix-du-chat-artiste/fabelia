@@ -11,6 +11,7 @@ RSpec.describe NostrUser do
       it { is_expected.to validate_presence_of(:private_key).allow_blank }
       it { is_expected.to validate_presence_of(:relays) }
       it { is_expected.to validate_presence_of(:language) }
+      it { is_expected.to_not validate_uniqueness_of(:language) }
       it { is_expected.to allow_value(nil, '', 'foo@bar.com').for(:nip05) }
       it { is_expected.to_not allow_value('foobar', 'foobar.com').for(:nip05) }
       it { is_expected.to allow_value(nil, '', 'foo@bar.com').for(:lud16) }
@@ -24,6 +25,7 @@ RSpec.describe NostrUser do
       it { is_expected.to validate_presence_of(:private_key) }
       it { is_expected.to validate_presence_of(:relays) }
       it { is_expected.to validate_presence_of(:language) }
+      it { is_expected.to_not validate_uniqueness_of(:language) }
       it { is_expected.to allow_value(nil, '', 'foo@bar.com').for(:nip05) }
       it { is_expected.to_not allow_value('foobar', 'foobar.com').for(:nip05) }
       it { is_expected.to allow_value(nil, '', 'foo@bar.com').for(:lud16) }
