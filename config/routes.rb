@@ -49,7 +49,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :relays, except: :show
+  resources :relays, except: :show do
+    scope module: :relays do
+      collection do
+        resource :resets, only: :create, as: :relays_resets
+      end
+    end
+  end
+
   resources :thematics, except: :show
 
   resource :settings, only: %i[show edit update]

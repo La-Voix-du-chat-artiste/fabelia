@@ -4,5 +4,17 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
   - if allowed_to?(:create?, Relay)
     = link_to 'Ajouter un relais', new_relay_path, class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300'
 
+details.border.p-2.mb-5
+  summary.cursor-pointer.font-bold Relais par défaut
+
+  ul.list-disc.list-inside.mt-1.mb-3
+    - Relay::DEFAULT_LIST.each do |relay|
+      li= relay
+
+  = button_to 'Réinitialiser les relais',
+              relays_resets_path,
+              data: { turbo_confirm: 'Voulez-vous réinitialiser les relays ? ⚠️ Vous allez perdre toutes vos configurations actuelles avec vos comptes Nostr ⚠️' },
+              class: 'destroy-button'
+
 #relays data-controller="sortable" data-sortable-ghost-class="bg-gray-200" data-sortable-filter-class="opacity-25" data-sortable-model-value="relay"
   = render @relays

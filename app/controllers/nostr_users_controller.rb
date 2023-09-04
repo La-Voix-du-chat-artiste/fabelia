@@ -77,6 +77,7 @@ class NostrUsersController < ApplicationController
   def nostr_user_params
     params.require(:nostr_user)
           .permit(:name, :about, :nip05, :lud16, :website,
-                  :picture, :banner, :language, :enabled)
+                  :picture, :banner, :language, :enabled,
+                  relay_ids: [])
   end
 end

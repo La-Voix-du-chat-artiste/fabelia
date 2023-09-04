@@ -1,4 +1,16 @@
 class Relay < ApplicationRecord
+  DEFAULT_LIST = %w[
+    wss://no.str.cr
+    wss://relay.snort.social
+    wss://relay.damus.io
+    wss://nostr.bitcoiner.social
+    wss://relay.nostr.bg
+    wss://nostr.oxtr.dev
+    wss://nostr-pub.wellorder.net
+    wss://nostr.mom
+    wss://nos.lol
+  ].freeze
+
   has_many :nostr_users_relays, dependent: :destroy
   has_many :nostr_users, through: :nostr_users_relays
 
@@ -14,6 +26,16 @@ class Relay < ApplicationRecord
 
   def self.main
     enabled.by_position.first
+  end
+
+  def self.reset!
+    transaction do
+      Relay.delete_all
+
+      DEFAULT_LIST.each do |relay|
+        create!(url: relay)
+      end
+    end
   end
 
   # NOTE: title is used as alias to get correct form label association
