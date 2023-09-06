@@ -1,15 +1,18 @@
 = simple_form_for(nostr_user) do |f|
   .flex.flex-col.items-start.lg:flex-row.justify-between.gap-5
     div
-      .flex.items-center.justify-between.gap-3.mb-5
+      .flex.justify-between.gap-3.mb-5
+        = f.input :display_name,
+                  wrapper_html: { class: 'w-1/3' }
+
         = f.input :name,
-                  wrapper_html: { class: 'w-1/2' }
+                  wrapper_html: { class: 'w-1/3' }
 
         = f.input :language,
                   as: :select,
                   collection: nostr_user_languages_select_options,
                   include_blank: false,
-                  wrapper_html: { class: 'w-1/2' }
+                  wrapper_html: { class: 'w-1/3' }
 
       = f.input :about,
                 input_html: { class: 'h-32' },
@@ -27,23 +30,23 @@
         = f.input :website,
                   wrapper_html: { class: 'w-full lg:w-1/3' }
 
-    .flex.flex-col.justify-center.gap-12.mb-5
+    .flex.flex-col.justify-center.gap-6.mb-5
       div
         = f.input :picture, as: :file
 
-        - if f.object.picture.attached?
-          = image_tag polymorphic_path(f.object.picture), class: 'mx-auto mt-3 w-40 rounded-full'
+        = image_tag f.object.picture_url, class: 'mx-auto mt-3 w-40 rounded-full'
 
       div
         = f.input :banner, as: :file
 
-        - if f.object.banner.attached?
-          = image_tag polymorphic_path(f.object.banner), class: 'mx-auto mt-3 w-96'
+        = image_tag f.object.banner_url, class: 'mx-auto mt-3 w-96'
 
   = f.association :relays,
                   collection: Relay.enabled,
-                  as: :check_boxes,
-                  input_html: { class: 'ml-4 mr-1' },
+                  input_html: { \
+                    data: { controller: 'slim-select' }, \
+                    class: 'w-full' \
+                  },
                   wrapper_html: { class: 'block mb-5' }
 
   = f.input :enabled,

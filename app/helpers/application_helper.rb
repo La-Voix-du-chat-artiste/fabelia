@@ -21,7 +21,7 @@ module ApplicationHelper
   def story_nostr_users_select_options
     all_languages = I18nData.languages(I18n.locale)
 
-    NostrUser.enabled.map do |nostr_user|
+    NostrUser.enabled.with_relays.map do |nostr_user|
       language = nostr_user.language.upcase
       key = "#{nostr_user.profile.identity} (#{all_languages[language].capitalize})"
 
@@ -33,7 +33,7 @@ module ApplicationHelper
     all_languages = I18nData.languages(I18n.locale)
 
     all_languages.map do |code, name|
-      ["#{name.capitalize} (#{code})", code]
+      ["#{name.capitalize} (#{code})", code.downcase]
     end
   end
 

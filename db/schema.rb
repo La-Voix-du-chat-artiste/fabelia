@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_03_203935) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_04_163142) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_203935) do
     t.string "nip05"
     t.string "website"
     t.string "lud16"
+    t.string "display_name"
     t.index ["private_key"], name: "index_nostr_users_on_private_key", unique: true
   end
 

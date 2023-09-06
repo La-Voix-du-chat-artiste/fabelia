@@ -1,5 +1,6 @@
 class NostrUserErrors < BaseErrors
   MissingAssociatedRelay = Class.new(self)
+  MissingFavoriteRelay = Class.new(self)
   EmptyLightningNetworkAddress = Class.new(self)
 
   BotMissing = Class.new(self) do

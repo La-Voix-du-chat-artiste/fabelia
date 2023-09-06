@@ -30,17 +30,41 @@ relay = Relay.create!(
 
 puts 'Seeding nostr users...'
 
-NostrUser.create!(
-  private_key: ENV.fetch('NOSTR_USER_FR_PRIVATE_KEY', Faker::Crypto.sha256),
-  language: :fr,
-  relays: [relay]
-)
+if ENV.fetch('NOSTR_USER_FR_PRIVATE_KEY', nil).present?
+  nostr_user = NostrUser.create!(
+    private_key: ENV.fetch('NOSTR_USER_FR_PRIVATE_KEY'),
+    language: :fr,
+    relays: [relay],
+    mode: :imported
+  )
+  NostrAccounts::ImportProfile.call(nostr_user)
+else
+  NostrUser.create!(
+    display_name: Faker::Superhero.name,
+    private_key: Faker::Crypto.sha256,
+    language: :fr,
+    relays: [relay],
+    mode: :generated
+  )
+end
 
-NostrUser.create!(
-  private_key: ENV.fetch('NOSTR_USER_EN_PRIVATE_KEY', Faker::Crypto.sha256),
-  language: :en,
-  relays: [relay]
-)
+if ENV.fetch('NOSTR_USER_EN_PRIVATE_KEY', nil).present?
+  nostr_user = NostrUser.create!(
+    private_key: ENV.fetch('NOSTR_USER_EN_PRIVATE_KEY'),
+    language: :en,
+    relays: [relay],
+    mode: :imported
+  )
+  NostrAccounts::ImportProfile.call(nostr_user)
+else
+  NostrUser.create!(
+    display_name: Faker::Superhero.name,
+    private_key: Faker::Crypto.sha256,
+    language: :en,
+    relays: [relay],
+    mode: :generated
+  )
+end
 
 puts 'Seeding thematics...'
 

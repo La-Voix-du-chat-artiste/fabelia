@@ -6,8 +6,7 @@ ul#quick_look role="list"
 
         .flex.items-center.gap-3
           div
-            - if nostr_user.profile.picture
-              = image_tag polymorphic_path(nostr_user.picture), class: 'w-12 mx-auto mb-1 rounded-full bg-white'
+            = image_tag nostr_user.picture_url, class: 'w-12 mx-auto mb-1 rounded-full bg-white'
           div
             p Une nouvelle aventure sera créée à la prochaine exécution de la tâche
             p.text-xs

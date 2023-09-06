@@ -3,7 +3,8 @@
 class Nostr
   def build_metadata_event(opts = {})
     data = opts.slice(
-      :name, :about, :picture, :banner, :nip05, :lud16, :website
+      :name, :display_name, :about, :picture,
+      :banner, :nip05, :lud16, :website
     )
 
     event = {

@@ -14,6 +14,7 @@ module NostrAccounts
 
       metadata = nostr.build_metadata_event(
         name: nostr_user.name,
+        display_name: nostr_user.display_name,
         about: nostr_user.about,
         picture: picture,
         banner: banner,

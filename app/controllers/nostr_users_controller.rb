@@ -48,7 +48,7 @@ class NostrUsersController < ApplicationController
       @account = NostrAccounts::PublishProfile.new(@nostr_user)
       @account.build_and_publish_event
 
-      redirect_to nostr_users_path, notice: 'Nostr user was successfully updated.'
+      redirect_to nostr_users_path, notice: 'Le compte Nostr a bien été mis à jour.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -61,7 +61,7 @@ class NostrUsersController < ApplicationController
     @nostr_user.destroy
 
     respond_to do |format|
-      notice = 'Nostr user was successfully destroyed.'
+      notice = 'Le compte Nostr a bien été supprimé.'
 
       format.html { redirect_to nostr_users_path, notice: notice }
       format.turbo_stream { flash.now[:notice] = notice }
@@ -76,8 +76,8 @@ class NostrUsersController < ApplicationController
 
   def nostr_user_params
     params.require(:nostr_user)
-          .permit(:name, :about, :nip05, :lud16, :website,
-                  :picture, :banner, :language, :enabled,
+          .permit(:name, :display_name, :about, :nip05, :lud16,
+                  :website, :picture, :banner, :language, :enabled,
                   relay_ids: [])
   end
 end

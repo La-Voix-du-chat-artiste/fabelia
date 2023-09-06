@@ -6,14 +6,16 @@ html
     = csrf_meta_tags
     = csp_meta_tag
 
+    link rel="stylesheet" href="https://unpkg.com/slim-select@latest/dist/slimselect.css"
     = stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload'
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
+
     = javascript_importmap_tags
 
   body
     = render 'header'
 
-    main.container.mx-auto.p-5.lg:pb-10
+    main.container.mx-auto.p-5.lg:pb-16
       = turbo_stream_from :flashes
       #flashes= render 'flashes'
 
