@@ -47,10 +47,9 @@ ul#quick_look role="list"
                             data: { turbo_method: :patch, turbo_confirm: "Voulez-vous générer une nouvelle couverture pour cette aventure ?" }
                 |.
 
-        .text-base.font-semibold.text-gray-900
-          - if story.nostr_user.profile.picture
-            = image_tag polymorphic_path(story.nostr_user.picture), class: 'w-24 mx-auto mb-1 rounded-full'
+        .text-base.font-semibold.text-gray-900.text-center
+          = image_tag story.nostr_user.picture_url, class: 'w-24 mx-auto mb-1 rounded-full'
 
-          p= story.nostr_user.profile.identity
-          p.inline-block.text-xs.font-medium.p-1.rounded.bg-blue-500.text-white.ml-2
+          p.text-sm.mb-1= story.nostr_user.profile.identity
+          p.inline-block.text-xs.font-medium.p-1.rounded.bg-blue-500.text-white
             = story.nostr_user.human_language

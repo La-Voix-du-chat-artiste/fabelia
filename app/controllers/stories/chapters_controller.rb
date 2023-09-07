@@ -7,6 +7,18 @@ module Stories
     def create
       authorize! Chapter, context: { story: @story }
 
+      @last_chapter = @story.chapters.published.last
+
+      option_index = params[:option_index]
+      index = if option_index.present?
+        option_index
+      else
+        option_count = @last_chapter.options.count
+        rand(0..(option_count - 1))
+      end
+
+      @last_chapter.update(most_voted_option_index: index.to_i)
+
       GenerateDropperChapterJob.perform_later(@story, force_publish: true, force_ending: force_end_of_story?)
 
       respond_to do |format|

@@ -12,8 +12,8 @@
       .h-2.5.bg-gray-700.rounded-full.w-12
 
 - else
-  details.cursor-pointer.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacity-50 grayscale hover:opacity-100 hover:grayscale-0' unless chapter.published?) id=dom_id(chapter)
-    summary.flex.items-center.gap-3.justify-between.p-2
+  details.mb-2.bg-gray-100.rounded-lg.transition-all class=('opacity-50 grayscale hover:opacity-100 hover:grayscale-0' unless chapter.published?) id=dom_id(chapter)
+    summary.flex.items-center.gap-3.justify-between.p-2.cursor-pointer
       .flex.items-center.gap-3
         span.text-gray-600 ##{chapter.position}
 
@@ -67,8 +67,25 @@
 
         == chapter.content
 
-      - if chapter.options.any?
-        .grid.grid-cols-3.gap-3
-          - chapter.options.each do |option|
-            .border-2.border-blue-700.bg-blue-200.p-2.rounded-lg.flex.items-center
-              = option
+      - chapter.options.any?
+        .flex.items-center.gap-3
+          - if chapter.story.complete?
+            - chapter.options.each do |option, index|
+              .border-2.border-blue-700.bg-blue-200.p-2.rounded-lg.flex.items-center
+                = option
+
+          - else
+            - if chapter.published? && !chapter.last_to_publish?
+              - chapter.options.each_with_index do |option, index|
+                .relative.border-2.p-2.rounded-lg.flex.items-center.cursor-disabled class=(index == chapter.most_voted_option_index ? 'border-green-700 bg-green-200 hover:bg-green-300' : 'border-blue-700 bg-blue-200 hover:bg-blue-300')
+                  = option
+                  - if index == chapter.most_voted_option_index
+                    span.absolute.-top-3.-left-2.cursor-help.text-xl title="Choix" ⭐
+
+            - else
+              - chapter.options.each_with_index do |option, index|
+                = button_to option,
+                            story_chapters_path(chapter.story),
+                            data: { turbo_confirm: "Voulez-vous forcer la suite de l'aventure avec cette proposition ?" },
+                            params: { option_index: index },
+                            class: "flex items-center justify-center p-2 border-2 border-blue-700 bg-blue-200 rounded-lg transitions-colors cursor #{index == chapter.most_voted_option_index ? 'border-green-700 bg-green-200 hover:bg-green-300' : 'border-blue-700 bg-blue-200 hover:bg-blue-300' }"

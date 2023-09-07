@@ -9,6 +9,7 @@ class Chapter < ApplicationRecord
   after_create_commit do
     broadcast_append_to :chapters, target: "chapters_story_#{story.id}"
     generate_cover if completed?
+    refresh_previous_chapter if previous?
   end
 
   after_update_commit do
@@ -53,20 +54,28 @@ class Chapter < ApplicationRecord
     broadcast_replace_to :chapters
   end
 
-  # Simulate the most voted option waiting to implement
-  # poll zaps with Lightning Network
   def most_voted_option
-    options.sample
+    options[most_voted_option_index]
   end
 
   def previous
-    story.chapters.find_by(position: position - 1)
+    @previous ||= story.chapters.find_by(position: position - 1)
+  end
+
+  def previous?
+    previous.present?
   end
 
   private
 
   def generate_cover
     ReplicateServices::Picture.call(self, summary, publish: publish)
+  end
+
+  def refresh_previous_chapter
+    broadcast_replace_to :chapters,
+                         locals: { chapter: previous },
+                         target: "chapter_#{previous.id}"
   end
 end
 
@@ -91,6 +100,7 @@ end
 #  position                    :integer          default(1), not null
 #  publish                     :boolean          default(FALSE), not null
 #  status                      :integer          default("draft"), not null
+#  most_voted_option_index     :integer
 #
 # Indexes
 #
