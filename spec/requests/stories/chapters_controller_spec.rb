@@ -13,6 +13,10 @@ RSpec.describe Stories::ChaptersController do
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :admin }
 
+      before do
+        create :chapter, :published, story: story
+      end
+
       context 'when adventure is forced to end' do
         let(:params) { { force_end: true } }
 
