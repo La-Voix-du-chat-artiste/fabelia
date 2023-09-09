@@ -21,7 +21,11 @@ module Replicate
     def event
       model = ReplicateServices::Webhook.call(prediction, model_class)
 
-      model.broadcast_chapter if model.is_a?(Chapter)
+      if model.is_a?(Chapter)
+        model.broadcast_chapter
+        model.refresh_chapter_details
+      end
+
       model.broadcast_cover if model.is_a?(Story)
 
       story = model.is_a?(Story) ? model : model.story

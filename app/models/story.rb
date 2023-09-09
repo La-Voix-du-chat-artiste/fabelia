@@ -160,6 +160,10 @@ class Story < ApplicationRecord
     publish_all_chapters? || (publish_first_chapter? && index.zero?)
   end
 
+  def disabled?
+    !enabled?
+  end
+
   private
 
   def assign_random_thematic

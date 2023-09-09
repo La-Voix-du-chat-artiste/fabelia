@@ -1,0 +1,181 @@
+- story = chapter.story
+
+= turbo_frame_tag :chapter_details do
+  .fixed.bg-gray-600/75.inset-0.w-screen.h-screen.z-40
+    .max-h-full.max-w-4xl.mx-auto.overflow-x-hidden.overflow-y-auto.z-50.pb-16 class="h-[calc(100%-0rem)]" tabindex="-1" aria-modal="true" role="dialog" data-controller="modal" data-modal-url-value=Base64.strict_encode64(root_path(story_id: story.id, chapter_id: chapter.id))
+      .flex.items-center.justify-center.gap-3 data-modal-target="content"
+        - arrow_nav_klass = "hidden md:block text-5xl hover:text-secondary-color transition-colors text-white"
+        - if chapter.previous?
+          = link_to '➤',
+                    story_chapter_path(story, chapter.previous),
+                    data: { turbo_stream: true, modal_target: 'prev' },
+                    class: "#{arrow_nav_klass} rotate-180"
+        - else
+          p class="#{arrow_nav_klass} cursor-not-allowed opacity-25 rotate-180"
+            | ➤
+
+        / Modal content
+        .relative.bg-white.rounded-lg.shadow.w-full
+          / Modal header
+          .p-4.border-b.rounded-t
+            .flex.items-center.justify-between.mb-2
+              .flex.items-center.gap-2
+                - if chapter.draft?
+                  div class="h-5 bg-gray-200 rounded-full w-72 animate-pulse"
+                - else
+                  h3.text-md.md:text-xl.font-semibold.text-gray-900
+                    span.text-gray-400.mr-2
+                      | [##{chapter.position}]
+                    = chapter.title
+
+                - if chapter.published?
+                  .flex.items-center.justify-center.w-6.h-6.p-2.bg-green-500.rounded-full.text-white.text-lg title="Publié le #{l(chapter.published_at)}"
+                    | ✓
+
+                  .flex.items-center.justify-end
+                    = link_to nostr_client_chapter_url(chapter),
+                              class: 'text-gray-500',
+                              target: :_blank,
+                              title: "Ouvrir l'aventure dans un client Nostr" do
+                      svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24"
+                        path d="M 5 3 C 3.9069372 3 3 3.9069372 3 5 L 3 19 C 3 20.093063 3.9069372 21 5 21 L 19 21 C 20.093063 21 21 20.093063 21 19 L 21 12 L 19 12 L 19 19 L 5 19 L 5 5 L 12 5 L 12 3 L 5 3 z M 14 3 L 14 5 L 17.585938 5 L 8.2929688 14.292969 L 9.7070312 15.707031 L 19 6.4140625 L 19 10 L 21 10 L 21 3 L 14 3 z" fill="currentColor"
+                - else
+                  .flex.items-center.justify-center.w-6.h-6.p-2.bg-orange-500.rounded-full.text-white.text-2xl title="Chapitre non publié"
+                    | ⨯
+
+              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center" data-action="click->modal#close">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+
+            .flex.items-center.justify-between.gap-2.bg-gray-100.rounded-lg.p-2
+              .flex.items-center.gap-2
+                - if story.cover.attached?
+                  = image_tag polymorphic_path(story.cover.variant(:thumb)), class: 'rounded-lg w-12 h-12'
+
+                div
+                  h4.text-sm.text-gray-500.font-semibold= story.title
+                  .text-xs.text-gray-500
+                    = story.human_mode
+                    |< de <strong>#{story.chapters_count}</strong> chapitres
+
+              - if story.enabled? && !story.ended? && story.dropper? && story.chapters.first.published? && story.chapters.last == chapter && chapter.completed?
+                = button_to "Forcer la fin de l'aventure",
+                            story_chapters_path(story, force_end: true),
+                            method: :post,
+                            class: 'w-full bg-orange-500 text-white cursor-pointer px-3 py-2 text-sm w-full hover:bg-orange-400 rounded-lg',
+                            data: { turbo_confirm: "Voulez-vous générer et publier le dernier chapitre de cette aventure ?" }
+
+          .p-4.space-y-4
+            - if chapter.draft?
+              .flex.items-center.justify-center.w-full.h-72.bg-gray-300.rounded.animate-pulse.mb-3
+                svg.w-10.h-10.text-gray-600 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"
+                  path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"
+
+              .text-base.leading-relaxed.text-gray-500.animate-pulse
+                div class="h-2.5 bg-gray-200 rounded-full w-48 mb-4"
+                div class="h-2 bg-gray-200 rounded-full max-w-[480px] mb-2.5"
+                div class="h-2 bg-gray-200 rounded-full mb-2.5"
+                div class="h-2 bg-gray-200 rounded-full max-w-[440px] mb-2.5"
+                div class="h-2 bg-gray-200 rounded-full max-w-[460px] mb-2.5"
+                div class="h-2 bg-gray-200 rounded-full max-w-[360px]"
+
+
+            - else
+              .relative
+                - unless chapter.published?
+                  = link_to story_chapter_covers_path(story, chapter),
+                            class: 'absolute top-0 left-0 rounded-lg text-white bg-gray-700/75 p-2 hover:bg-gray-700 transition-colors',
+                            title: 'Générer une nouvelle couverture',
+                            data: { turbo_method: :patch, turbo_confirm: "Voulez-vous générer une nouvelle couverture pour ce chapitre ?" } do
+                    svg.transition-all.hover:rotate-180 xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30"
+                      path d="M 15 3 C 12.031398 3 9.3028202 4.0834384 7.2070312 5.875 A 1.0001 1.0001 0 1 0 8.5058594 7.3945312 C 10.25407 5.9000929 12.516602 5 15 5 C 20.19656 5 24.450989 8.9379267 24.951172 14 L 22 14 L 26 20 L 30 14 L 26.949219 14 C 26.437925 7.8516588 21.277839 3 15 3 z M 4 10 L 0 16 L 3.0507812 16 C 3.562075 22.148341 8.7221607 27 15 27 C 17.968602 27 20.69718 25.916562 22.792969 24.125 A 1.0001 1.0001 0 1 0 21.494141 22.605469 C 19.74593 24.099907 17.483398 25 15 25 C 9.80344 25 5.5490109 21.062074 5.0488281 16 L 8 16 L 4 10 z" fill="currentColor"
+
+                - if chapter.cover.attached?
+                  = image_tag url_for(chapter.cover), class: 'w-full object-cover rounded-lg h-72'
+                - else
+                  .flex.items-center.justify-center.w-full.h-72.bg-gray-300.rounded.animate-pulse.mb-3
+                    svg.w-10.h-10.text-gray-600 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"
+                      path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"
+
+
+              .text-base.leading-relaxed.text-gray-500
+                == chapter.content
+
+              - if chapter.options.any?
+                .grid.grid-rows-1.gap-3.lg:grid-flow-col-dense
+                  - if story.complete?
+                    - if story.disabled?
+                      - title = "L'aventure est en pause, vous ne pouvez pas publier de chapitre avant de la réactiver"
+                    - else
+                      - title = "L'aventure est déjà pré-générée, vous ne pouvez pas faire de choix :)"
+
+                    - chapter.options.each do |option, index|
+                      .w-full.border-2.border-gray-300.bg-gray-100.text-gray-500.p-2.rounded-lg.flex.items-center.cursor-not-allowed title=title
+                        = option
+
+                  - else
+                    - if chapter.published? && !chapter.last_to_publish?
+                      - chapter.options.each_with_index do |option, index|
+                        .w-full.border-2.p-2.rounded-lg.flex.items-center.cursor-not-allowed class=(index == chapter.most_voted_option_index ? 'border-green-700 bg-green-200 hover:bg-green-300' : 'border-gray-300 bg-gray-100 text-gray-500 hover:bg-gray-300')
+                          = option
+                          - if index == chapter.most_voted_option_index
+                            span.cursor-help.text-xl.ml-1 title="Option  plébiscitée par les utilisateurs" ⚡️
+
+                    - elsif story.disabled?
+                      - chapter.options.each do |option, index|
+                        .w-full.border-2.border-gray-300.bg-gray-100.p-2.rounded-lg.flex.items-center.cursor-not-allowed title="L'aventure est en pause, vous ne pouvez pas publier de chapitre avant de la réactiver"
+                          = option
+
+                    - else
+                      - chapter.options.each_with_index do |option, index|
+                        = button_to option,
+                                    story_chapters_path(story),
+                                    data: { turbo_confirm: "Voulez-vous forcer la suite de l'aventure avec cette proposition ?" },
+                                    params: { option_index: index },
+                                    class: "w-full text-left text-white p-2 border-2 rounded-lg transitions-colors cursor-pointer #{index == chapter.most_voted_option_index ? 'border-green-700 bg-green-200 hover:bg-green-300' : 'border-gray-600 bg-secondary-color hover:text-black hover:border-green-700 hover:bg-green-200' }",
+                                    form: { class: 'w-full' }
+
+              .flex.items-center.md:hidden.bg-gray-100.rounded-lg.p-2 class=(chapter.previous? ? 'justify-between' : 'justify-end')
+                - if chapter.previous?
+                  = link_to '<< Précédent',
+                            story_chapter_path(story, chapter.previous),
+                            data: { turbo_stream: true, modal_target: 'prev' },
+                            class: 'text-gray-700 hover:text-secondary-color transition-colors'
+
+                - if chapter.next_one?
+                  = link_to 'Suivant >>',
+                            story_chapter_path(story, chapter.next_one),
+                            data: { turbo_stream: true, modal_target: 'next' },
+                            class: 'text-gray-700 hover:text-secondary-color transition-colors'
+
+              - if chapter.completed? && !story.ended?
+                / Modal footer
+                .grid.grid-rows-1.gap-3.lg:grid-flow-col-dense.lg:auto-cols-max.pt-4.border-t.border-gray-200.rounded-b
+                    - if (story.dropper? && !chapter.published?) || (story.complete? && story.chapters.not_published.first == chapter)
+                      = button_to 'Publier le chapitre',
+                          publish_story_chapter_path(story, chapter),
+                          method: :post,
+                          class: 'w-full bg-orange-500 text-white cursor-pointer p-3 text-sm hover:bg-orange-400 rounded-lg',
+                          data: { turbo_confirm: 'Voulez-vous publier ce chapitre ?' },
+                          form: { class: 'w-full' }
+
+                    - if story.complete?
+                      = button_to 'Publier tous les chapitres restant',
+                                  publish_all_story_chapters_path(story),
+                                  method: :post,
+                                  class: 'w-full bg-gray-500 text-white cursor-pointer p-3 text-sm w-full hover:bg-gray-400 rounded-lg',
+                                  data: { turbo_confirm: "Voulez-vous publier tous les chapitres non publiés ?" }
+
+          = render 'turbo_confirm'
+
+        - if chapter.next_one?
+          = link_to '➤',
+                    story_chapter_path(story, chapter.next_one),
+                    data: { turbo_stream: true, modal_target: 'next' },
+                    class: arrow_nav_klass
+        - else
+          p class="#{arrow_nav_klass} cursor-not-allowed opacity-25"
+            | ➤

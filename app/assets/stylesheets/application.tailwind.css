@@ -133,3 +133,8 @@ input.boolean, input.check_boxes {
 .material-theme .nt {
   @apply inline-block indent-4;
 }
+
+.stop-scrolling {
+  @apply h-full;
+  overflow: hidden;
+}

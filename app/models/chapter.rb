@@ -10,13 +10,17 @@ class Chapter < ApplicationRecord
     broadcast_append_to :chapters, target: "chapters_story_#{story.id}"
     generate_cover if completed?
     refresh_previous_chapter if previous?
+    refresh_chapter_details
   end
 
   after_update_commit do
     if status_previously_changed?(from: :draft, to: :completed)
       broadcast_chapter
       generate_cover
+      refresh_chapter_details
     end
+
+    refresh_chapter_details if published_at_previously_changed?
   end
 
   scope :published, -> { where.not(published_at: nil) }
@@ -54,6 +58,13 @@ class Chapter < ApplicationRecord
     broadcast_replace_to :chapters
   end
 
+  def refresh_chapter_details
+    broadcast_update_to :chapters,
+                        locals: { chapter: self },
+                        target: :chapter_details,
+                        partial: 'stories/chapters/chapter_details'
+  end
+
   def most_voted_option
     options[most_voted_option_index]
   end
@@ -62,8 +73,16 @@ class Chapter < ApplicationRecord
     @previous ||= story.chapters.find_by(position: position - 1)
   end
 
+  def next_one
+    @next_one ||= story.chapters.find_by(position: position + 1)
+  end
+
   def previous?
     previous.present?
+  end
+
+  def next_one?
+    next_one.present?
   end
 
   private
