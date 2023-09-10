@@ -1,1 +1,5 @@
 = render_turbo_stream_flash_messages
+
+- if @story.enabled_previously_changed?
+  = turbo_stream.replace dom_id(@story) do
+    = render @story

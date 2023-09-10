@@ -1,13 +1,14 @@
 module Stories
   class ChaptersController < ApplicationController
     before_action :set_story
-    before_action :set_chapter, only: :publish
+    before_action :set_chapter, only: %i[show publish]
 
     # @route POST /stories/:story_id/chapters (story_chapters)
     def create
       authorize! Chapter, context: { story: @story }
 
       @last_chapter = @story.chapters.published.last
+      @last_chapter = @story.chapters.last if @last_chapter.blank? && @story.chapters.count == 1
 
       option_index = params[:option_index]
       index = if option_index.present?
@@ -27,6 +28,11 @@ module Stories
         format.html { redirect_to root_path, notice: notice }
         format.turbo_stream { flash.now[:notice] = notice }
       end
+    end
+
+    # @route GET /stories/:story_id/chapters/:id (story_chapter)
+    def show
+      authorize! @chapter, context: { story: @story }
     end
 
     # @route POST /stories/:story_id/chapters/publish_next (publish_next_story_chapters)

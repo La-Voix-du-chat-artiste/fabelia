@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     scope module: :stories do
       resource :covers, only: %i[update]
 
-      resources :chapters, only: %i[create] do
+      resources :chapters, only: %i[create show] do
         scope module: :chapters do
           resource :covers, only: %i[update]
         end
