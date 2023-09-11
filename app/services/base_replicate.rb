@@ -14,8 +14,4 @@ class BaseReplicate < ApplicationService
   def host
     Rails.application.config.action_controller.default_url_options[:host]
   end
-
-  def default_keywords
-    Setting.first.chapter_options.stable_diffusion_prompt
-  end
 end

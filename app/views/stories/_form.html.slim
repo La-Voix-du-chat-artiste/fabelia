@@ -1,6 +1,7 @@
 = simple_form_for @story,
                   html: { \
-                    class: 'flex flex-col items-center gap-6 justify-between' \
+                    class: 'flex flex-col items-center gap-6 justify-between' \,
+                    data: { turbo: false } \
                   } do |f|
 
   .flex.flex-col.lg:flex-row.gap-3.justify-between
@@ -43,6 +44,7 @@
 
         = ff.input :publish_previous
         = ff.input :stable_diffusion_prompt
+        = ff.input :stable_diffusion_negative_prompt
 
         .flex.justify-between.gap-6
           = ff.input :chatgpt_full_story_system_prompt,

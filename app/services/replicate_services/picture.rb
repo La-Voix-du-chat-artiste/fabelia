@@ -15,12 +15,15 @@ module ReplicateServices
 
       prediction = version.predict({
         prompt: prompt + default_keywords,
+        negative_prompt: negative_keywords,
         num_inference_steps: 20,
         width: 1024,
         height: model.is_a?(Story) ? 1024 : 768
       }, webhook_url)
 
       debug_logger('Prediction', prediction.inspect, :magenta)
+
+      model.broadcast_cover_placeholder
 
       model.replicate_identifier = prediction.id
       model.replicate_raw_request_body = prediction
@@ -35,8 +38,16 @@ module ReplicateServices
       replicate_webhook_url(host: host, model: model.class.to_s)
     end
 
+    def options
+      model.is_a?(Story) ? model.options : model.story.options
+    end
+
     def default_keywords
-      model.is_a?(Story) ? story.options : chapter.story.options
+      options.stable_diffusion_prompt
+    end
+
+    def negative_keywords
+      options.stable_diffusion_negative_prompt
     end
   end
 end

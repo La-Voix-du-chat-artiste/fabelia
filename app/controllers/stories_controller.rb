@@ -28,6 +28,7 @@ class StoriesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to root_path, notice: notice }
+        format.turbo_stream { flash[:notice] = notice }
       end
     else
       respond_to do |format|
@@ -83,7 +84,9 @@ class StoriesController < ApplicationController
             options: %i[
               minimum_chapters_count maximum_chapters_count
               minimum_poll_sats maximum_poll_sats
-              stable_diffusion_prompt publish_previous
+              stable_diffusion_prompt
+              stable_diffusion_negative_prompt
+              publish_previous
               chatgpt_full_story_system_prompt
               chatgpt_dropper_story_system_prompt
             ]

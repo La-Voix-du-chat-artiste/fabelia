@@ -7,7 +7,8 @@ class Setting
     MINIMUM_POLL_SATS = 42
     MAXIMUM_POLL_SATS = 420
     PUBLISH_PREVIOUS = false
-    STABLE_DIFFUSION_PROMPT = 'Beautiful, elegant, highly detailed, realistic, depth'.freeze
+    STABLE_DIFFUSION_PROMPT = 'Hyper realistic, epic composition, cinematic, landscape vista photography by Carr Clifton & Galen Rowell, Landscape veduta photo by Dustin Lefevre & tdraw, detailed landscape painting by Ivan Shishkin, rendered in Enscape, Miyazaki, Nausicaa Ghibli, 4k detailed post processing, unreal engine'.freeze
+    STABLE_DIFFUSION_NEGATIVE_PROMPT = 'Deformed, blurry, bad anatomy, disfigured, poorly drawn face, mutation, mutated, extra limb, ugly, poorly drawn hands, missing limb, blurry, floating limbs, disconnected limbs, malformed hands, blur, out of focus, long neck, long body, ((((mutated hands and fingers)))), (((out of frame)))'.freeze
     CHATGPT_FULL_STORY_SYSTEM_PROMPT = <<~PROMPT.strip.freeze
       You act as a story book adventure narrator. The adventure should be epic with elaborated scenario and plot twist. Make chapter from around ten paragraphs each, only in {{language}} language. For each chapter, choose a list of two options and then choose randomly one to be the prompt of the next chapter. Ensure returned chapters array contains between {{minimum_chapters_count}} and {{maximum_chapters_count}} only. Ensure the story is complete and have a real coherent ending.
     PROMPT
@@ -29,6 +30,8 @@ class Setting
               default: CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
     attribute :stable_diffusion_prompt, :string,
               default: STABLE_DIFFUSION_PROMPT
+    attribute :stable_diffusion_negative_prompt, :string,
+              default: STABLE_DIFFUSION_NEGATIVE_PROMPT
 
     validates :minimum_chapters_count,
               presence: true,

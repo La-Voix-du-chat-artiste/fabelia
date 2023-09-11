@@ -102,6 +102,12 @@ class Story < ApplicationRecord
                          partial: 'stories/cover'
   end
 
+  def broadcast_cover_placeholder
+    broadcast_update_to :stories,
+                        target: "cover_story_#{id}",
+                        partial: 'stories/cover_placeholder'
+  end
+
   def broadcast_next_quick_look_story
     stories = {}
     NostrUser.pluck(:language).each do |language|

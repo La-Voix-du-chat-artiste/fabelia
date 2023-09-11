@@ -9,30 +9,23 @@
       .absolute.right-0.mt-1.w-56.origin-top-right.divide-y.divide-gray-600.rounded-md.outline-none.border.border-gray-600 role="menu"
         - unless story.ended?
           - if story.enabled?
-            - if story.chapters.published.none?
-              = button_to "Regénérer la couverture de l'aventure",
-                          story_covers_path(story),
-                          method: :patch,
-                          class: 'bg-blue-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-blue-400',
-                          data: { turbo_confirm: "Voulez-vous générer une nouvelle couverture pour cette aventure ?" }
-
             = button_to "Mettre en pause l'aventure",
                         story_path(story),
                         method: :patch,
-                        class: 'bg-orange-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-orange-400',
+                        class: 'text-gray-700 bg-white cursor-pointer p-3 w-full text-sm hover:bg-gray-100 rounded-t-lg',
                         data: { turbo_confirm: "Voulez-vous mettre en pause cette aventure ? Vous ne pourrez plus publier de chapitres avant de la réactiver." }
 
           - else
             = button_to "Réactiver l'aventure",
                         story_path(story),
                         method: :patch,
-                        class: 'rounded-t-lg bg-green-500 text-white cursor-pointer p-3 w-full text-sm hover:bg-green-400',
+                        class: 'rounded-t-lg text-gray-700 bg-white cursor-pointer p-3 w-full text-sm hover:bg-gray-100',
                         data: { turbo_confirm: "Voulez-vous réactiver cette aventure ? Vous pourrez à nouveau publier des chapitres" }
 
-        - if story.current?
+        - if story.chapters.published.any?
           = link_to "Voir l'aventure en ligne",
                      nostr_client_story_url(story),
-                     class: 'block rounded-md bg-gray-500 text-white p-3 w-full text-sm hover:bg-gray-400 text-center',
+                     class: 'block bg-gray-500 text-white p-3 w-full text-sm hover:bg-gray-400 text-center',
                      target: :_blank
 
         = button_to "Supprimer l'aventure",

@@ -1,0 +1,8 @@
+figure id=dom_id(chapter, :cover)
+  - if chapter.cover.attached?
+    = image_tag url_for(chapter.cover), class: 'w-full object-cover rounded-lg h-96'
+    figcaption.text-xs.italic.text-center.text-gray-400.px-2.py-1
+      = chapter.summary
+      |< [#{chapter.story.options.stable_diffusion_prompt}]
+  - else
+    = render 'stories/chapters/cover_placeholder'
