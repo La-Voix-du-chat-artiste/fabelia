@@ -30,6 +30,6 @@ class NostrEvent < ApplicationService
   end
 
   def options
-    @options ||= Setting.first.chapter_options
+    @options ||= story.options
   end
 end

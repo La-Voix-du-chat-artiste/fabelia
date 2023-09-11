@@ -42,6 +42,11 @@
         | Mis à jour le
         =< l(story.updated_at)
 
+      = link_to 'Détails', story_path(story),
+                class: 'text-xs underline',
+                id: dom_id(story),
+                data: { turbo_stream: true }
+
     .w-full.lg:w-3/5.p-3.bg-stone-700.rounded-r-lg.lg:overflow-y-auto
       div id=dom_id(story, :chapters)
         = render story.chapters.with_attached_cover.order(id: :asc)

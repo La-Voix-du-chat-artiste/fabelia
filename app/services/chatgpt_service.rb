@@ -20,7 +20,7 @@ class ChatGPTService < ApplicationService
   end
 
   def chapter_options
-    @chapter_options ||= Setting.first.chapter_options
+    @chapter_options ||= story.options
   end
 
   def language_name

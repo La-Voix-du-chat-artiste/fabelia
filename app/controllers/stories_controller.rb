@@ -1,5 +1,12 @@
 class StoriesController < ApplicationController
-  before_action :set_story, only: %i[update destroy]
+  before_action :set_story, only: %i[show update destroy]
+
+  # @route GET /stories/new (new_story)
+  def new
+    authorize! Story
+
+    @story = Story.new
+  end
 
   # @route POST /stories (stories)
   def create
@@ -21,11 +28,17 @@ class StoriesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to root_path, notice: notice }
-        format.turbo_stream { flash.now[:notice] = notice }
       end
     else
-      redirect_to root_path, alert: @story.errors.full_messages.join(', ')
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
+  end
+
+  # @route GET /stories/:id (story)
+  def show
+    authorize! @story
   end
 
   # @route PATCH /stories/:id (story)
@@ -65,7 +78,16 @@ class StoriesController < ApplicationController
 
   def story_params
     params.require(:story)
-          .permit(:nostr_user_id, :mode, :thematic_id, :publication_rule)
+          .permit(
+            :nostr_user_id, :mode, :thematic_id, :publication_rule,
+            options: %i[
+              minimum_chapters_count maximum_chapters_count
+              minimum_poll_sats maximum_poll_sats
+              stable_diffusion_prompt publish_previous
+              chatgpt_full_story_system_prompt
+              chatgpt_dropper_story_system_prompt
+            ]
+          )
   end
 
   def mode

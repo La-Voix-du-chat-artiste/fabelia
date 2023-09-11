@@ -2,6 +2,8 @@ class Story < ApplicationRecord
   include Coverable
   include NSFWCoverable
 
+  attribute :options, Setting::ChapterOption.to_type
+
   enum mode: { complete: 0, dropper: 1 }, _default: :complete
   enum status: { draft: 0, completed: 1 }, _default: :draft
   enum publication_rule: {
@@ -41,6 +43,7 @@ class Story < ApplicationRecord
 
   validates :mode, presence: true, inclusion: { in: modes.keys }
   validates :publication_rule, presence: true, inclusion: { in: publication_rules.keys }
+  validates :options, store_model: { merge_errors: true }
 
   scope :currents, -> { where(adventure_ended_at: nil) }
   scope :ended, -> { where.not(adventure_ended_at: nil) }
@@ -186,7 +189,7 @@ end
 #  raw_response_body           :json             not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  mode                        :integer          default("complete"), not null
+#  mode                        :integer          default(0), not null
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
@@ -196,8 +199,9 @@ end
 #  nostr_user_id               :bigint(8)
 #  summary                     :string
 #  back_cover_nostr_identifier :string
-#  status                      :integer          default("draft"), not null
-#  publication_rule            :integer          default("do_not_publish"), not null
+#  publication_rule            :integer          default(0), not null
+#  status                      :integer          default(0), not null
+#  options                     :jsonb            not null
 #
 # Indexes
 #

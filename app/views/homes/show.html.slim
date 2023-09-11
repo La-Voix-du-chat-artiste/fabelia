@@ -7,9 +7,9 @@
   = turbo_stream_from %i[stories current]
 
 - if allowed_to?(:create?, Story) && !display_ended?
-  details.bg-gray-200.mb-6.border.border-primary-color.rounded-lg open="open"
+  details.bg-gray-200.mb-6.border.border-primary-color.rounded-lg open="open" data-controller="quick-stories" data-action="click->quick-stories#setCookie"
     summary.bg-primary-color.text-white.p-2.cursor-pointer.rounded-lg Générateur d'aventures
-    = render 'quick_custom_story_generator', stories: @active_stories
+    = render 'stories/form_light', stories: @active_stories
 
 header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
   h1.text-3xl
@@ -48,6 +48,8 @@ header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
 
 #empty_stories
   = render 'empty_stories' if @stories.empty?
+
+= turbo_frame_tag :story_details
 
 - if @chapter_popup && allowed_to?(:show?, @chapter_popup, with: Stories::ChapterPolicy, context: { story: @chapter_popup.story })
   = turbo_frame_tag :chapter_details, src: story_chapter_path(@chapter_popup.story, @chapter_popup, format: :turbo_stream)

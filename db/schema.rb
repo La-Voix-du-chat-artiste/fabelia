@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_06_124602) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_171947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -124,6 +124,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_124602) do
     t.string "back_cover_nostr_identifier"
     t.integer "publication_rule", default: 0, null: false
     t.integer "status", default: 0, null: false
+    t.jsonb "options", default: {}, null: false
     t.index ["back_cover_nostr_identifier"], name: "index_stories_on_back_cover_nostr_identifier", unique: true
     t.index ["nostr_identifier"], name: "index_stories_on_nostr_identifier", unique: true
     t.index ["nostr_user_id"], name: "index_stories_on_nostr_user_id"

@@ -12,6 +12,15 @@ fr:
       story:
         publication_rule: Règles de publication
         nostr_user_id: Compte Nostr
+        options:
+          minimum_chapters_count: Nombre de chapitres minimum
+          maximum_chapters_count: Nombre de chapitres maximum
+          minimum_poll_sats: Nombre minimum de sats pour voter
+          maximum_poll_sats: Nombre maximum de sats pour voter
+          publish_previous: Publier le chapitre précédent ?
+          chatgpt_full_story_system_prompt: Prompt ChatGPT pour les aventures complètes
+          chatgpt_dropper_story_system_prompt: Prompt ChatGPT pour les aventures avec votes
+          stable_diffusion_prompt: Prompt pour StableDiffusion
 
     hints:
       nostr_user:
@@ -28,6 +37,8 @@ fr:
         mode: Type d'aventure
         thematic: Thème de l'aventure
         nostr_user: Le compte Nostr de publication définit la langue de l'aventure
+        options:
+          publish_previous: Si coché, le chapitre précédent le chapitre courant sera publié s'il ne l'a pas encore été
 
     placeholders:
       nostr_user:

@@ -1,12 +1,6 @@
-= simple_form_for Story.new,
-                  url: stories_path,
+= simple_form_for @story,
                   html: { \
-                    class: 'flex flex-col items-center gap-6 justify-between p-4 bg-gray-200 rounded-b-lg', \
-                    data: { \
-                      controller: 'jumpto', \
-                      action: 'turbo:submit-end->jumpto#jump', \
-                      jumpto_div_id_value: 'stories' \
-                    } \
+                    class: 'flex flex-col items-center gap-6 justify-between' \
                   } do |f|
 
   .flex.flex-col.lg:flex-row.gap-3.justify-between
@@ -37,6 +31,29 @@
               label_html: { class: 'block italic mb-2' },
               input_html: { class: 'w-full' },
               wrapper_html: { class: 'text-center w-full' }
+
+  div
+    = f.simple_fields_for :options, f.object.options do |ff|
+      .flex.flex-col.gap-6
+        .grid.grid-cols-1.lg:grid-cols-4.gap-3
+          = ff.input :minimum_chapters_count
+          = ff.input :maximum_chapters_count
+          = ff.input :minimum_poll_sats
+          = ff.input :maximum_poll_sats
+
+        = ff.input :publish_previous
+        = ff.input :stable_diffusion_prompt
+
+        .flex.justify-between.gap-6
+          = ff.input :chatgpt_full_story_system_prompt,
+                     as: :text,
+                     input_html: { class: 'h-72' },
+                     wrapper_html: { class: 'w-full' }
+
+          = ff.input :chatgpt_dropper_story_system_prompt,
+                     as: :text,
+                     input_html: { class: 'h-72' },
+                     wrapper_html: { class: 'w-full' }
 
   = f.button :submit, 'Créer une aventure sur mesure',
              class: 'bg-green-600 p-2 rounded-lg text-white cursor-pointer hover:bg-green-500 transition-colors'
