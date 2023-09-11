@@ -34,5 +34,9 @@ module ReplicateServices
 
       replicate_webhook_url(host: host, model: model.class.to_s)
     end
+
+    def default_keywords
+      model.is_a?(Story) ? story.options : chapter.story.options
+    end
   end
 end

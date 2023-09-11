@@ -33,11 +33,11 @@ class GenerateStoryJob < ApplicationJob
 
     Retry.on(*retryable_ai_errors) do
       if draft_story.complete?
-        @json = ChatGPTCompleteService.call(prompt, nostr_user.language)
+        @json = ChatGPTCompleteService.call(prompt, nostr_user.language, draft_story)
 
         raise ChapterErrors::FullStoryMissingChapters if @json['chapters'].count < 3
       else
-        @json = ChatGPTDropperService.call(prompt, nostr_user.language)
+        @json = ChatGPTDropperService.call(prompt, nostr_user.language, draft_story)
       end
     end
 
