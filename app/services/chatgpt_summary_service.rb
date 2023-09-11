@@ -33,8 +33,8 @@ class ChatGPTSummaryService < ChatGPTService
 
   def user_prompt
     <<~STRING.strip
-      Make a summary of the prompt using maximum ten adjectives.
-      Keywords must be english comma separated from the given prompt.
+      Make a summary of the prompt using maximum ten descriptive words (eg: "blue sky", "tree house", "flying bird", ...).
+      Keywords must be translated in english comma separated from the given prompt.
       Removes any NSFW words that could be misinterpreted.
 
       Here is the prompt: #{prompt}
