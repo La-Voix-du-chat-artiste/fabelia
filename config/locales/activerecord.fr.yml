@@ -2,6 +2,10 @@ fr:
   activerecord:
     models:
       character: personnage
+      place:
+        zero: lieu
+        one: lieu
+        other: lieux
 
     attributes:
       story:
@@ -9,6 +13,7 @@ fr:
         thematic: Thématique
         nostr_user: Compte Nostr
         characters: Personnages
+        places: Lieux
         modes:
           complete: Aventure pré-générée
           dropper: Aventure au fur et à mesure
@@ -49,4 +54,9 @@ fr:
         last_name: Nom
         biography: Biographie
         avatar: Avatar
+        enabled: Activé ?
+
+      place:
+        name: Nom
+        description: Description
         enabled: Activé ?

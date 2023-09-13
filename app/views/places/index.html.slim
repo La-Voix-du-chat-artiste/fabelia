@@ -1,0 +1,10 @@
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  .flex.items-end.gap-3
+    h1.text-3xl Les lieux
+
+  - if allowed_to?(:create?, Place)
+    .flex.items-center.gap-3
+      = link_to 'Créer un lieu', new_place_path, class: 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300'
+
+#places.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-3
+  = render @places

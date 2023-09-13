@@ -47,7 +47,7 @@ module ApplicationHelper
       if character.avatar.attached?
         data_html = <<~HTML
           <div class="flex items-center gap-2">
-            #{image_tag(url_for(character.avatar), class: 'w-10 h-10 object-cover rounded-full')}
+            #{image_tag(url_for(character.avatar), class: 'w-12 h-12 object-cover rounded-full')}
             <div class="flex flex-col items-start">
               <p>#{character.full_name}</p>
               <p class="text-gray-400 text-xs">#{character.biography.truncate(80)}</p>
@@ -57,6 +57,26 @@ module ApplicationHelper
       end
 
       [character.full_name, character.id, { 'data-html': data_html }]
+    end
+  end
+
+  def story_places_select_options
+    Place.enabled.with_attached_photo.map do |place|
+      data_html = nil
+
+      if place.photo.attached?
+        data_html = <<~HTML
+          <div class="flex items-center gap-2">
+            #{image_tag(url_for(place.photo), class: 'w-12 h-12 object-cover rounded-full')}
+            <div class="flex flex-col items-start">
+              <p>#{place.name}</p>
+              <p class="text-gray-400 text-xs">#{place.description.truncate(80)}</p>
+            </div>
+          </div>
+        HTML
+      end
+
+      [place.name, place.id, { 'data-html': data_html }]
     end
   end
 

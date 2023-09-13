@@ -12,5 +12,7 @@ end
 #
 # Indexes
 #
+#  index_characters_stories_on_character_id               (character_id)
 #  index_characters_stories_on_character_id_and_story_id  (character_id,story_id) UNIQUE
+#  index_characters_stories_on_story_id                   (story_id)
 #

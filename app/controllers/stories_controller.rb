@@ -82,7 +82,7 @@ class StoriesController < ApplicationController
           .permit(
             :mode, :publication_rule,
             :nostr_user_id, :thematic_id,
-            character_ids: [],
+            character_ids: [], place_ids: [],
             options: %i[
               minimum_chapters_count maximum_chapters_count
               minimum_poll_sats maximum_poll_sats

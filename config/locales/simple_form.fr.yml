@@ -39,6 +39,7 @@ fr:
         thematic: Thème de l'aventure
         nostr_user: Le compte Nostr de publication définit la langue de l'aventure
         characters: Personnages à intégrer au fil de l'aventure
+        places: Lieux d'intérêt à intégrer au fil de l'aventure
         options:
           publish_previous: Si coché, le chapitre précédent le chapitre courant sera publié s'il ne l'a pas encore été
           stable_diffusion_prompt: Orientation complémentaire pour générer l'image finale

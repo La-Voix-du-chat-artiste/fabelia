@@ -1,0 +1,21 @@
+= simple_form_for(@place) do |f|
+  .flex.flex-col.lg:flex-row.justify-between.gap-5.mb-5
+    .w-full
+      = f.input :name,
+                wrapper_html: { class: 'mb-5' }
+
+      = f.input :description,
+                input_html: { class: 'h-48' },
+                wrapper_html: { class: 'mb-5' }
+
+    .flex.flex-col.justify-center.gap-6.mb-5
+      div
+        = f.input :photo, as: :file
+
+        = image_tag f.object.photo_url, class: 'mx-auto mt-3 w-40 h-40 rounded-full object-cover'
+
+  = f.input :enabled,
+            as: :boolean,
+            wrapper_html: { class: 'mb-5' }
+
+  = f.button :submit

@@ -25,7 +25,8 @@
 
       - if destroy_record
         = button_to 'Supprimer',
-                    refresh_profiles_path(character),
+                    character_path(character),
+                    method: :delete,
                     class: "inline-block bg-red-500 text-white w-full p-4 text-center hover:bg-red-600 transition-colors #{update_record ? 'w-1/2' : 'w-full'}",
                     data: { turbo_confirm: 'Voulez-vous supprimer ce personnage ? Il ne sera plus utilisable dans les aventures générées' },
                     form: { class: 'w-1/2' }
