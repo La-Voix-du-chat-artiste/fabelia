@@ -20,11 +20,13 @@ class GenerateStoryJob < ApplicationJob
     nostr_user = draft_story.nostr_user
 
     flash_message = <<~MESSAGE
-      • Mode: <strong>#{draft_story.human_mode}</strong>
-      • Thématique: <strong>#{draft_story.thematic_name}</strong>
       • Compte Nostr: <strong>#{nostr_user.profile.identity}</strong>
+      • Thématique: <strong>#{draft_story.thematic_name}</strong>
+      • Mode: <strong>#{draft_story.human_mode}</strong>
       • Langue: <strong>#{nostr_user.human_language}</strong>
       • Stratégie de publication: <strong>#{draft_story.human_publication_rule}</strong>
+      • Personnages: <strong>#{draft_story.characters.map(&:full_name).join(', ').presence || '/'}</strong>
+      • Lieux: <strong>#{draft_story.places.map(&:name).join(', ').presence || '/'}</strong>
     MESSAGE
 
     Story.broadcast_flash(:info, flash_message, disappear: false)

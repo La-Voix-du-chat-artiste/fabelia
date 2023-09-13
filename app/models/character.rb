@@ -2,7 +2,7 @@ class Character < ApplicationRecord
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
-  has_many :characters_stories, dependent: :destroy
+  has_many :characters_stories, dependent: :delete_all
   has_many :stories, through: :characters_stories
 
   has_one_attached :avatar

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_090502) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_153935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_090502) do
     t.bigint "character_id", null: false
     t.bigint "story_id", null: false
     t.index ["character_id", "story_id"], name: "index_characters_stories_on_character_id_and_story_id", unique: true
+    t.index ["character_id"], name: "index_characters_stories_on_character_id"
+    t.index ["story_id"], name: "index_characters_stories_on_story_id"
   end
 
   create_table "nostr_users", force: :cascade do |t|
@@ -103,6 +105,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_090502) do
     t.bigint "nostr_user_id", null: false
     t.bigint "relay_id", null: false
     t.index ["nostr_user_id", "relay_id"], name: "index_nostr_users_relays_on_nostr_user_id_and_relay_id", unique: true
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "places_stories", id: false, force: :cascade do |t|
+    t.bigint "place_id", null: false
+    t.bigint "story_id", null: false
+    t.index ["place_id"], name: "index_places_stories_on_place_id"
+    t.index ["story_id"], name: "index_places_stories_on_story_id"
   end
 
   create_table "relays", force: :cascade do |t|

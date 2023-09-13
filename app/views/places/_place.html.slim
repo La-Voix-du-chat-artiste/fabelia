@@ -1,0 +1,24 @@
+.border.mb-3.rounded-lg.border-gray-300.bg-gray-100 id=dom_id(place) class=('opacity-50' unless place.enabled?)
+  = image_tag url_for(place.photo_url), class: 'w-full h-72 object-cover rounded-t-lg'
+
+  .mb-3.p-2
+    h2= place.name
+    .text-sm.text-gray-700= place.description
+
+  - update_record = allowed_to?(:update?, place)
+  - destroy_record = allowed_to?(:destroy?, place)
+
+  - if update_record || destroy_record
+    footer.border-t.text-xs.text-gray-700.flex.items-center
+      - if update_record
+        => link_to 'Modifier',
+           edit_place_path(place),
+           class: "inline-block bg-orange-500 p-4 text-center hover:bg-orange-600 transition-colors #{destroy_record ? 'w-1/2 rounded-bl-lg' : 'w-full rounded-b-lg'}"
+
+      - if destroy_record
+        = button_to 'Supprimer',
+                    place_path(place),
+                    method: :delete,
+                    class: "inline-block bg-red-500 text-white w-full p-4 text-center hover:bg-red-600 transition-colors #{update_record ? 'w-1/2 rounded-br-lg' : 'w-full rounded-b-lg'}",
+                    data: { turbo_confirm: 'Voulez-vous supprimer ce lieu ? Il ne sera plus utilisable dans les aventures générées' },
+                    form: { class: 'w-1/2' }

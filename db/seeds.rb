@@ -158,3 +158,93 @@ characters = [
 characters.each do |character|
   Character.create!(character)
 end
+
+
+puts 'Seeding places...'
+
+places = [
+  {
+    name: "The Great Wall of China",
+    description: "Spanning over 13,000 miles, this ancient architectural wonder offers breathtaking views and a glimpse into China's rich history.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['great-wall-china'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "Machu Picchu, Peru",
+    description: "Nestled high in the Andes mountains, this mystical Incan city is renowned for its stunning ruins and panoramic vistas.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['machu-picchu-peru'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Taj Mahal, India",
+    description: "A UNESCO World Heritage Site, this marble mausoleum is an awe-inspiring symbol of love, featuring intricate architecture and enchanting gardens.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['taj-mahal-india'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Pyramids of Giza, Egypt",
+    description: "These iconic structures date back to ancient times and hold many secrets, attracting visitors with their grandeur and mystical allure.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['giza-pyramids-egypt'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Colosseum, Italy",
+    description: "In the heart of Rome, this colossal amphitheater is a symbol of the ancient Roman Empire, offering visitors a glimpse into the world of gladiator battles.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['colosseum-italy'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Great Barrier Reef, Australia",
+    description: "A natural wonder of the world, this underwater paradise is home to thousands of marine species and mesmerizing coral formations.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['barrier-reef-australia'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Statue of Liberty, United States",
+    description: "Standing tall in New York Harbor, this iconic monument serves as a symbol of freedom and democracy, welcoming visitors to the land of opportunity.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['statue-of-liberty-usa'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Serengeti National Park, Tanzania",
+    description: "Known for its vast savannahs and annual wildebeest migration, this renowned wildlife sanctuary offers unforgettable safari experiences.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['serengeti-national-park-tanzania'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Angkor Wat, Cambodia",
+    description: "A UNESCO World Heritage Site, this magnificent temple complex features stunning architecture and is the largest religious monument in the world.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['angkor-wat-cambodia'])).open,
+      filename: 'place_photo.png'
+    }
+  },
+  {
+    name: "The Eiffel Tower, France",
+    description: "A timeless symbol of Paris, this monumental iron lattice tower offers stunning views of the city and is an emblem of architectural innovation.",
+    photo: {
+      io: URI.parse(Faker::LoremFlickr.image(size: '300x300', search_terms: ['eiffel-tower-france'])).open,
+      filename: 'place_photo.png'
+    }
+  }
+]
+
+places.each do |place|
+  Place.create!(place)
+end

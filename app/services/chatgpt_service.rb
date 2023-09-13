@@ -33,7 +33,7 @@ class ChatGPTService < ApplicationService
              .gsub('{{minimum_chapters_count}}', minimum_chapters_count.to_s)
              .gsub('{{maximum_chapters_count}}', maximum_chapters_count.to_s)
 
-    prompt + characters_prompt + response_format
+    prompt + characters_prompt + places_prompt + response_format
   end
 
   def response_format
@@ -51,6 +51,17 @@ class ChatGPTService < ApplicationService
       Integrate the following characters into the adventure:
 
       #{story.characters.map { |character| "#{character.full_name}: #{character.biography}" }.join("\n")}
+      .
+    STRING
+  end
+
+  def places_prompt
+    return unless story.places.any?
+
+    <<~STRING
+      Integrate the following places into the adventure:
+
+      #{story.places.map { |place| "#{place.name}: #{place.description}" }.join("\n")}
       .
     STRING
   end

@@ -15,12 +15,14 @@ class Story < ApplicationRecord
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
 
+  has_many :chapters, dependent: :destroy
+  has_many :characters_stories, dependent: :delete_all
+  has_many :characters, through: :characters_stories
+  has_many :places_stories, dependent: :delete_all
+  has_many :places, through: :places_stories
+
   humanize :mode, enum: true
   humanize :publication_rule, enum: true
-
-  has_many :characters_stories, dependent: :destroy
-  has_many :characters, through: :characters_stories
-  has_many :chapters, dependent: :destroy
 
   before_validation :assign_random_thematic, if: -> { thematic.blank? }
 
