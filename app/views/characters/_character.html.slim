@@ -1,0 +1,31 @@
+.flex.flex-col.justify-between.block.bg-white.shadow-md.hover:shadow-xl.rounded-lg.overflow-hidden id=dom_id(character) class=('opacity-50' unless character.enabled?)
+  div
+    .px-4.py-3
+      .flex.items-center.gap-2.mb-3
+        = image_tag character.avatar_url, class: 'rounded-full w-16 h-16 object-cover'
+
+        h2.font-bold= character.full_name
+
+      .text-sm.mb-3
+        - if character.biography.present?
+          div title=character.biography
+            == character.biography.truncate(300)
+        - else
+          p.italic.text-sm.text-gray-500 Aucune description
+
+  - update_record = allowed_to?(:update?, character)
+  - destroy_record = allowed_to?(:destroy?, character)
+
+  - if update_record || destroy_record
+    footer.border-t.text-xs.text-gray-700.flex.items-center
+      - if update_record
+        => link_to 'Modifier',
+           edit_character_path(character),
+           class: "inline-block bg-orange-500 p-4 text-center hover:bg-orange-600 transition-colors #{destroy_record ? 'w-1/2' : 'w-full'}"
+
+      - if destroy_record
+        = button_to 'Supprimer',
+                    refresh_profiles_path(character),
+                    class: "inline-block bg-red-500 text-white w-full p-4 text-center hover:bg-red-600 transition-colors #{update_record ? 'w-1/2' : 'w-full'}",
+                    data: { turbo_confirm: 'Voulez-vous supprimer ce personnage ? Il ne sera plus utilisable dans les aventures générées' },
+                    form: { class: 'w-1/2' }

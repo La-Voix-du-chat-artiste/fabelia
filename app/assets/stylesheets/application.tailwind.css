@@ -138,3 +138,17 @@ input.boolean, input.check_boxes {
   @apply h-full;
   overflow: hidden;
 }
+
+/* Slim select */
+
+.ss-main {
+  @apply px-1 py-2;
+}
+
+.ss-option:hover {
+  @apply !bg-gray-100 !text-gray-700;
+}
+
+.ss-selected {
+  @apply !bg-secondary-color;
+}

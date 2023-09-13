@@ -18,6 +18,8 @@ class Story < ApplicationRecord
   humanize :mode, enum: true
   humanize :publication_rule, enum: true
 
+  has_many :characters_stories, dependent: :destroy
+  has_many :characters, through: :characters_stories
   has_many :chapters, dependent: :destroy
 
   before_validation :assign_random_thematic, if: -> { thematic.blank? }
@@ -195,7 +197,7 @@ end
 #  raw_response_body           :json             not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  mode                        :integer          default(0), not null
+#  mode                        :integer          default("complete"), not null
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
@@ -205,8 +207,8 @@ end
 #  nostr_user_id               :bigint(8)
 #  summary                     :string
 #  back_cover_nostr_identifier :string
-#  publication_rule            :integer          default(0), not null
-#  status                      :integer          default(0), not null
+#  publication_rule            :integer          default("do_not_publish"), not null
+#  status                      :integer          default("draft"), not null
 #  options                     :jsonb            not null
 #
 # Indexes

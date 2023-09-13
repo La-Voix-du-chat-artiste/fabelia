@@ -33,7 +33,7 @@ class ChatGPTService < ApplicationService
              .gsub('{{minimum_chapters_count}}', minimum_chapters_count.to_s)
              .gsub('{{maximum_chapters_count}}', maximum_chapters_count.to_s)
 
-    prompt + response_format
+    prompt + characters_prompt + response_format
   end
 
   def response_format
@@ -41,6 +41,17 @@ class ChatGPTService < ApplicationService
       Provide a RFC 8259 compliant JSON response following this format without deviation:
 
       #{json_format.to_json}
+    STRING
+  end
+
+  def characters_prompt
+    return unless story.characters.any?
+
+    <<~STRING
+      Integrate the following characters into the adventure:
+
+      #{story.characters.map { |character| "#{character.full_name}: #{character.biography}" }.join("\n")}
+      .
     STRING
   end
 end

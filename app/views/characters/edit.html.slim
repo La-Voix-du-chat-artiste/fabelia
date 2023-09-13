@@ -1,0 +1,6 @@
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  h1.text-3xl Modifier le personnage
+
+  = link_to '<< Retour', characters_path, class: 'back-link'
+
+= render 'form', character: @character

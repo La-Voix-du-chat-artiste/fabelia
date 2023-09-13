@@ -1,0 +1,24 @@
+= simple_form_for(@character) do |f|
+  .flex.flex-col.items-start.lg:flex-row.justify-between.gap-5.mb-5
+    .w-full
+      .flex.justify-between.gap-3.mb-5
+        = f.input :first_name,
+                  wrapper_html: { class: 'w-1/2' }
+
+        = f.input :last_name,
+                  wrapper_html: { class: 'w-1/2' }
+
+      = f.input :biography,
+                input_html: { class: 'h-48' }
+
+    .flex.flex-col.justify-center.gap-6.mb-5
+      div
+        = f.input :avatar, as: :file
+
+        = image_tag f.object.avatar_url, class: 'mx-auto mt-3 w-40 h-40 rounded-full object-cover'
+
+  = f.input :enabled,
+            as: :boolean,
+            wrapper_html: { class: 'mb-5' }
+
+  = f.button :submit
