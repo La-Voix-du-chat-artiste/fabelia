@@ -8,7 +8,8 @@ export default class extends Controller {
       settings: {
         searchPlaceholder: 'Rechercher',
         searchText: 'Pas de résultat',
-        searchingText: 'Recherche en cours...'
+        searchingText: 'Recherche en cours...',
+        placeholderText: 'Sélectionner une option'
       }
     })
   }

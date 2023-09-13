@@ -80,7 +80,9 @@ class StoriesController < ApplicationController
   def story_params
     params.require(:story)
           .permit(
-            :nostr_user_id, :mode, :thematic_id, :publication_rule,
+            :mode, :publication_rule,
+            :nostr_user_id, :thematic_id,
+            character_ids: [],
             options: %i[
               minimum_chapters_count maximum_chapters_count
               minimum_poll_sats maximum_poll_sats

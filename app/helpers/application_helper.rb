@@ -21,11 +21,42 @@ module ApplicationHelper
   def story_nostr_users_select_options
     all_languages = I18nData.languages(I18n.locale)
 
-    NostrUser.enabled.with_relays.map do |nostr_user|
+    NostrUser.enabled.with_relays.with_attached_picture.map do |nostr_user|
       language = nostr_user.language.upcase
-      key = "#{nostr_user.profile.identity} (#{all_languages[language].capitalize})"
 
-      [key, nostr_user.id]
+      [
+        nostr_user.profile.identity,
+        nostr_user.id,
+        { 'data-html': <<~HTML }
+          <div class="flex items-center gap-2">
+            #{image_tag(nostr_user.picture_url, class: 'w-10 rounded-full')}
+            <div class="flex flex-col items-start">
+              <p>#{nostr_user.profile.identity}</p>
+              <p class="text-gray-400 text-xs">#{all_languages[language].capitalize}</p>
+            </div>
+          </div>
+        HTML
+      ]
+    end
+  end
+
+  def story_characters_select_options
+    Character.enabled.with_attached_avatar.map do |character|
+      data_html = nil
+
+      if character.avatar.attached?
+        data_html = <<~HTML
+          <div class="flex items-center gap-2">
+            #{image_tag(url_for(character.avatar), class: 'w-10 h-10 object-cover rounded-full')}
+            <div class="flex flex-col items-start">
+              <p>#{character.full_name}</p>
+              <p class="text-gray-400 text-xs">#{character.biography.truncate(80)}</p>
+            </div>
+          </div>
+        HTML
+      end
+
+      [character.full_name, character.id, { 'data-html': data_html }]
     end
   end
 

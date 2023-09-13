@@ -58,6 +58,7 @@ Rails.application.routes.draw do
   end
 
   resources :thematics, except: :show
+  resources :characters, except: :show
 
   resource :settings, only: %i[show edit update]
   resolve('Setting') { [:settings] }

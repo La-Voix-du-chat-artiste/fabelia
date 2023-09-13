@@ -114,3 +114,47 @@ thematics = [
 ]
 
 Thematic.insert_all(thematics)
+
+puts 'Seeding characters...'
+
+characters = [
+  {
+    first_name: 'Jean',
+    last_name: 'De la Fontaine',
+    biography: 'A renowned French poet and fabulist, Jean de la Fontaine is best known for his collection of fables, which combine imaginative storytelling with moral lessons. Exploring his creative process, his influential works, and his impact on French literature would offer a window into the life of a celebrated writer of the 17th century.',
+    avatar: {
+      io: URI.parse('https://wikiless.org/media/wikipedia/commons/thumb/d/dd/Jean_de_La_Fontaine.PNG/520px-Jean_de_La_Fontaine.PNG').open,
+      filename: 'character_avatar.png'
+    }
+  },
+  {
+    first_name: 'Satoshi',
+    last_name: 'Nakamoto',
+    biography: "The enigmatic and pseudonymous creator of Bitcoin and the concept of blockchain technology, Satoshi Nakamoto's true identity remains unknown. Delving into the origins of Bitcoin, analyzing Nakamoto's motivations, and examining the global impact of decentralized cryptocurrencies would present a fascinating exploration of the future of finance and technology.",
+    avatar: {
+      io: URI.parse('https://wikiless.org/media/wikipedia/commons/thumb/7/77/Satoshi_Nakamoto.jpg/520px-Satoshi_Nakamoto.jpg').open,
+      filename: 'character_avatar.png'
+    }
+  },
+  {
+    first_name: 'Zinedine',
+    last_name: 'Zidane',
+    biography: "A legendary French footballer and coach, Zinedine Zidane's incredible skill, elegance, and success on the field have made him one of the greatest players of all time. Unpacking his rise from humble beginnings, his key moments in football history, and his transition into coaching would provide a comprehensive look at a football icon's life and legacy.",
+    avatar: {
+      io: URI.parse('https://wikiless.org/media/wikipedia/commons/thumb/4/4b/Zinedine_Zidane_2015_%28cropped%29.jpg/500px-Zinedine_Zidane_2015_%28cropped%29.jpg').open,
+      filename: 'character_avatar.png'
+    }
+  },
+  {
+    first_name: 'Spider-Man',
+    biography: "Spider-Man, also known as Peter Parker, is one of Marvel's most beloved and iconic superheroes. Peter Parker, an intelligent and shy high school student from Queens, New York, gained his arachnid-like powers after being bitten by a radioactive spider during a science experiment. This transformative event bestowed him with incredible abilities, including superhuman strength, agility, and the ability to cling to walls. Inspired by his uncle's tragic death, Peter takes on the mantle of Spider-Man, dedicating himself to using his powers responsibly and protecting the innocent. At first, Peter's life as a superhero and his personal life clash. Juggling his studies, part-time jobs, and crime-fighting duties becomes an immense challenge. However, he finds solace in the support of his Aunt May and his best friend, Harry Osborn. Another important figure in his life is his love interest, Mary Jane Watson, a spirited and charismatic classmate who eventually becomes a source of strength and emotional support for Peter. Over the years, Spider-Man has encountered a vast array of rogues and villains in his crime-fighting endeavors, including the sinister Green Goblin, the symbiotic Venom, and the brilliant but deranged Doctor Octopus. These intense confrontations test Spider-Man's physical and mental fortitude while shaping him into a formidable and resilient hero. Even when facing personal challenges and tragedy, such as the loss of loved ones and strained relationships, Spider-Man remains a symbol of hope and perseverance. He embodies the values of responsibility, using his powers to protect the innocent, and striving to make a positive difference in his community. Throughout his comic book series, numerous adaptations in films, TV shows, and video games, Spider-Man's popularity has endured for generations. He continues to be a relatable and inspiring character, showcasing the triumph of the ordinary individual overcoming adversity and embracing their true potential. Spider-Man's journey as a superhero is a testament to the enduring power of courage, resilience, and the ability to rise above one's limitations. With great power comes great responsibility, and Spider-Man exemplifies the spirit of a selfless hero who fights to make the world a better place.",
+    avatar: {
+      io: URI.parse('https://whatsondisneyplus.com/wp-content/uploads/2022/12/spiderman.png.webp').open,
+      filename: 'character_avatar.png'
+    }
+  }
+]
+
+characters.each do |character|
+  Character.create!(character)
+end

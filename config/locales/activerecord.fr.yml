@@ -1,10 +1,14 @@
 fr:
   activerecord:
+    models:
+      character: personnage
+
     attributes:
       story:
         mode: Mode
         thematic: Thématique
         nostr_user: Compte Nostr
+        characters: Personnages
         modes:
           complete: Aventure pré-générée
           dropper: Aventure au fur et à mesure
@@ -38,4 +42,11 @@ fr:
         name_en: Nom en anglais
         description_fr: Description en français
         description_en: Description en anglais
+        enabled: Activé ?
+
+      character:
+        first_name: Prénom
+        last_name: Nom
+        biography: Biographie
+        avatar: Avatar
         enabled: Activé ?

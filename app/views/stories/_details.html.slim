@@ -40,17 +40,30 @@
 
 
           .p-4.space-y-4
-            div
-              p.text-xs.italic
-                | Créé le
-                =< l(story.created_at)
-              p.text-xs.italic
-                | Mis à jour le
-                =< l(story.updated_at)
+            - if story.characters.any?
+              section.flex.items-center.gap-3.mb-3
+                h3.text-lg.font-semibold.mb-2 Les personnages
+                .flex.items-center.gap-3
+                  - story.characters.each do |character|
+                    .flex.items-center.bg-gray-200.rounded-full.border.border-gray-700
+                      = image_tag character.avatar_url, class: 'w-8 h-8 rounded-full object-cover border border-gray-700'
+                      .font-medium.pl-1.pr-2
+                        p.text-sm.text-gray-700= character.full_name
 
             .material-theme== highlight_code(story.options.to_json)
 
+            / Modal footer
+            footer.pt-4.border-t.border-gray-200.rounded-b
+              div
+                p.text-xs.italic
+                  | Créé le
+                  =< l(story.created_at)
+                p.text-xs.italic
+                  | Mis à jour le
+                  =< l(story.updated_at)
+
           = render 'turbo_confirm'
+
 
 css:
   #{Pygments.css('.material-theme', style: :material)}
