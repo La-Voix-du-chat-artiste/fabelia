@@ -145,10 +145,18 @@ input.boolean, input.check_boxes {
   @apply px-1 py-2;
 }
 
+.ss-option {
+  @apply transition-colors;
+}
+
 .ss-option:hover {
-  @apply !bg-gray-100 !text-gray-700;
+  @apply !bg-secondary-color !text-white;
 }
 
 .ss-selected {
-  @apply !bg-secondary-color;
+  @apply !bg-gray-300 !text-gray-700;
+}
+
+.ss-main .ss-values .ss-value {
+  @apply bg-secondary-color;
 }
