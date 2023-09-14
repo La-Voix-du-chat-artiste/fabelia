@@ -8,6 +8,10 @@
     = f.input :language,
               as: :select,
               collection: nostr_user_languages_select_options,
+              input_html: { \
+                data: { controller: 'slim-select' }, \
+                class: 'w-full' \
+              },
               include_blank: false,
               wrapper_html: { class: 'mb-5' }
 
