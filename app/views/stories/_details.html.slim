@@ -18,13 +18,9 @@
                     |< de <strong>#{story.chapters_count}</strong> chapitres
 
                   .flex.items-center.justify-start.gap-1.mt-2.bg-gray-200.p-1.rounded-lg
-                    - if story.nostr_user.profile.picture
-                      = image_tag polymorphic_path(story.nostr_user.picture),
-                                  class: 'w-12 rounded-full border-2 bg-white',
-                                  title: story.nostr_user.display_name
-                    - else
-                      .flex.items-center.justify-center.w-12.h-12.text-4xl.text-gray-100.rounded-full.border-2.bg-gray-800 title=story.nostr_user.display_name
-                        = story.nostr_user.initials
+                    = image_tag story.nostr_user.picture_url,
+                                class: 'w-12 rounded-full border-2 bg-white',
+                                title: story.nostr_user.display_name
 
                     div
                       p.text-sm.text-gray-600= story.nostr_user.display_name
@@ -40,6 +36,27 @@
 
 
           .p-4.space-y-4
+            section.flex.items-center.gap-3.mb-3
+              h3.text-lg.font-semibold
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                  <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+                  <path d="M3 6l0 13" />
+                  <path d="M12 6l0 13" />
+                  <path d="M21 6l0 13" />
+                </svg>
+
+              .flex.items-center.gap-3
+                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700
+                  p.text-xs.text-gray-700= story.media_prompt.title
+
+                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700
+                  p.text-xs.text-gray-700= story.narrator_prompt.title
+
+                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700
+                  p.text-xs.text-gray-700= story.atmosphere_prompt.title
+
             - if story.characters.any?
               section.flex.items-center.gap-3.mb-3
                 h3.text-lg.font-semibold

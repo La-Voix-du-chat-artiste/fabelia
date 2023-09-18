@@ -29,7 +29,8 @@ Rails/BulkChangeTable:
 
 RSpec/MultipleMemoizedHelpers:
   Exclude:
-    - spec/models/setting/chapter_option_spec.rb
+    - spec/models/option_spec.rb
+    - spec/requests/stories_controller_spec.rb
 
 Performance/CollectionLiteralInLoop:
   Exclude:

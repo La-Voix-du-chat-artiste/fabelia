@@ -14,7 +14,7 @@ div id=dom_id(setting)
           | Nombre de chapitres minimum à générer
           span.bg-white.p-1.rounded-lg<
             | (défaut:
-            i=< Setting::ChapterOption::MINIMUM_CHAPTERS_COUNT
+            i=< Option::MINIMUM_CHAPTERS_COUNT
             | )
 
         li
@@ -22,7 +22,7 @@ div id=dom_id(setting)
           | Nombre de chapitres maximum à générer
           span.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::MAXIMUM_CHAPTERS_COUNT
+            i=< Option::MAXIMUM_CHAPTERS_COUNT
             | )
 
         li
@@ -31,7 +31,7 @@ div id=dom_id(setting)
 
           span.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::MINIMUM_POLL_SATS
+            i=< Option::MINIMUM_POLL_SATS
             | )
 
         li
@@ -40,7 +40,7 @@ div id=dom_id(setting)
 
           span.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::MAXIMUM_POLL_SATS
+            i=< Option::MAXIMUM_POLL_SATS
             | )
 
         li.mb-2
@@ -49,19 +49,19 @@ div id=dom_id(setting)
 
           span.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::PUBLISH_PREVIOUS
+            i=< Option::PUBLISH_PREVIOUS
             | )
 
-        li.mb-2
+        / li.mb-2
           strong stable_diffusion_prompt:
           |< Prompt système pour orienter la génération de visuels avec StableDiffusion
 
           p.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::STABLE_DIFFUSION_PROMPT
+            i=< Option::STABLE_DIFFUSION_PROMPT
             | )
 
-        li.mb-3
+        / li.mb-3
           strong> chatgpt_full_story_system_prompt:
           | Prompt système pour les aventure complètes générées par ChatGPT.
           |< Le contenu utilise des variables (englobées de <code class="border border-blue-300 bg-white p-1 rounded-lg">{{variable}}</code>) qui seront remplacées dynamiquement par les valeurs correspondantes:
@@ -74,12 +74,12 @@ div id=dom_id(setting)
 
           p.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::CHATGPT_FULL_STORY_SYSTEM_PROMPT
+            i=< Option::CHATGPT_FULL_STORY_SYSTEM_PROMPT
             | )
 
-        li.mb-3
+        / li.mb-3
           strong chatgpt_dropper_story_system_prompt:
-          |< Prompt système pour les aventure générées au fur et à mesure par ChatGPT.
+          |< Prompt système pour les aventure avec votes générées par ChatGPT.
           |< Le contenu utilise des variables (englobées de <code class="border border-blue-300 bg-white p-1 rounded-lg">{{variable}}</code>) qui seront remplacées dynamiquement par les valeurs correspondantes:
           ul.list-disc.list-inside.indent-4.mb-1
             li
@@ -90,7 +90,7 @@ div id=dom_id(setting)
 
           p.bg-white.p-1.rounded-lg
             | (défaut:
-            i=< Setting::ChapterOption::CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
+            i=< Option::CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
             | )
 
 css:

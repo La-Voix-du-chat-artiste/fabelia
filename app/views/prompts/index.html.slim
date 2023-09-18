@@ -1,0 +1,34 @@
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  .flex.items-center.gap-3
+    h1.text-3xl Les prompts
+    - if params[:archived].to_bool
+      = link_to 'Disponibles', prompts_path, class: 'bg-black text-white p-1 text-sm'
+    - else
+      = link_to 'Archivés', prompts_path(archived: true), class: 'bg-black text-white p-1 text-sm'
+
+  - if allowed_to?(:create?, Prompt)
+    - klass = 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none'
+
+    .flex.items-center.gap-3
+      = link_to 'Ajouter un prompt média', new_prompt_path(type: Base64.encode64('MediaPrompt')), class: "#{klass} bg-green-700 hover:bg-green-800 focus:ring-green-300"
+      = link_to 'Ajouter un prompt narrateur', new_prompt_path(type: Base64.encode64('NarratorPrompt')), class: "#{klass} bg-blue-700 hover:bg-blue-800 focus:ring-blue-300"
+      = link_to 'Ajouter un prompt ambiance', new_prompt_path(type: Base64.encode64('AtmospherePrompt')), class: "#{klass} bg-orange-700 hover:bg-orange-800 focus:ring-orange-300"
+
+.border.text-blue-500.bg-blue-50.border-blue-800.p-2.mb-5.rounded-lg.text-sm
+  p Cette page permet de configurer les différents prompts pour orienter l'aventure.
+  p Vous pouvez glisser/déposer les prompts de chaque colonne pour définir l'ordre de priorité: le premier de chaque colonne sera utilisé par défaut lors de la création rapide d'une aventure.
+  p Vous ne pourrez pas supprimer le dernier prompt car il en faut toujours au minimum un pour définir le rendu des aventures.
+
+#prompts.flex.flex-col.lg:flex-row.justify-between.gap-3
+  - @prompts.by_position.group_by(&:type).each do |label, prompts|
+    .w-full.lg:w-1/3
+      - prompts.each_with_index do |prompt, index|
+        - if index.zero?
+          header.mb-3
+            p.text-center.font-bold.text-lg= prompt.model_name.human.capitalize
+
+      div data-controller="sortable" data-sortable-ghost-class="bg-gray-200" data-sortable-filter-class="opacity-25" data-sortable-model-value=label.underscore
+        = render collection: prompts, partial: 'prompts/prompt'
+
+css:
+  #{Pygments.css('.material-theme', style: :material)}

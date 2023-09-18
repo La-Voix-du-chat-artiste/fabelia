@@ -127,7 +127,7 @@
                                     story_chapters_path(story),
                                     data: { turbo_confirm: "Voulez-vous forcer la suite de l'aventure avec cette proposition ?" },
                                     params: { option_index: index },
-                                    class: "w-full text-left text-white p-2 border-2 rounded-lg transitions-colors cursor-pointer #{index == chapter.most_voted_option_index ? 'border-green-700 bg-green-200 hover:bg-green-300' : 'border-gray-600 bg-secondary-color hover:text-black hover:border-green-700 hover:bg-green-200' }",
+                                    class: "w-full text-left p-2 border-2 rounded-lg transitions-colors cursor-pointer #{index == chapter.most_voted_option_index ? 'border-green-700 bg-green-200 hover:bg-green-300' : 'text-white border-gray-600 bg-secondary-color hover:text-black hover:border-green-700 hover:bg-green-200' }",
                                     form: { class: 'w-full' }
 
               .flex.items-center.md:hidden.bg-gray-100.rounded-lg.p-2 class=(chapter.previous? ? 'justify-between' : 'justify-end')

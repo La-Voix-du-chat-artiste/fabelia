@@ -1,0 +1,6 @@
+header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
+  h1.text-3xl Modifier un prompt
+
+  = link_to '<< Retour', prompts_path, class: 'back-link'
+
+= render 'form', prompt: @prompt

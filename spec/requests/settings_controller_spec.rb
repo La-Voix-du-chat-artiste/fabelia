@@ -42,6 +42,10 @@ RSpec.describe SettingsController do
 
     let(:params) { {} }
 
+    before do
+      stub_const('MAXIMUM_CHAPTERS_COUNT', 10)
+    end
+
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
     it_behaves_like 'unauthorized request when logged in as admin'
@@ -51,7 +55,7 @@ RSpec.describe SettingsController do
 
       context 'when params are invalid' do
         let(:params) do
-          { chapter_options: { stable_diffusion_prompt: nil }.to_json }
+          { chapter_options: { maximum_chapters_count: 12 }.to_json }
         end
 
         before { action }
@@ -61,7 +65,7 @@ RSpec.describe SettingsController do
 
       context 'when params are valid' do
         let(:params) do
-          { chapter_options: { stable_diffusion_prompt: 'a prompt' }.to_json }
+          { chapter_options: { maximum_chapters_count: 8 }.to_json }
         end
 
         include_examples 'a redirect response with success message' do

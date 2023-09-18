@@ -16,7 +16,7 @@ module ReplicateServices
       prediction = version.predict({
         prompt: prompt + default_keywords,
         negative_prompt: negative_keywords,
-        num_inference_steps: 20,
+        num_inference_steps: num_inference_steps,
         width: 1024,
         height: model.is_a?(Story) ? 1024 : 768
       }, webhook_url)
@@ -38,16 +38,20 @@ module ReplicateServices
       replicate_webhook_url(host: host, model: model.class.to_s)
     end
 
-    def options
-      model.is_a?(Story) ? model.options : model.story.options
+    def story
+      model.is_a?(Story) ? model : model.story
     end
 
     def default_keywords
-      options.stable_diffusion_prompt
+      story.media_prompt.body
     end
 
     def negative_keywords
-      options.stable_diffusion_negative_prompt
+      story.media_prompt.negative_body.presence || ''
+    end
+
+    def num_inference_steps
+      story.media_prompt.options.num_inference_steps
     end
   end
 end

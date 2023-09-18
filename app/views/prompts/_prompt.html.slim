@@ -1,0 +1,42 @@
+details.border.mb-3.rounded-lg.hover:bg-gray-50.transition-colors id=dom_id(prompt) class=('opacity-50' unless prompt.enabled?) class=prompt_background_color(prompt.class) data-sortable-url=prompt_path(prompt)
+  summary.p-2.block.handle
+    .flex.items-center.gap-3.justify-between
+      p.font-bold= prompt.title
+
+      - if prompt.archived?
+        - if allowed_to?(:archive?, prompt, with: PromptPolicy)
+          = button_to 'Désarchiver',
+                      archive_prompt_path(prompt),
+                      class: 'destroy-button',
+                      data: { turbo_confirm: "Voulez-vous désarchiver ce prompt ?" }
+      - else
+        .flex.items-center.gap-3
+          - if allowed_to?(:update?, prompt, with: PromptPolicy)
+            => link_to 'Modifier', edit_prompt_path(prompt), class: 'edit-link'
+
+          - if allowed_to?(:destroy?, prompt, with: PromptPolicy)
+            = button_to 'Supprimer',
+                        prompt_path(prompt),
+                        class: 'destroy-button',
+                        method: :delete,
+                        data: { turbo_confirm: 'Voulez-vous supprimer ce prompt ?' }
+
+          - elsif allowed_to?(:archive?, prompt, with: PromptPolicy)
+            = button_to 'Archiver',
+                        archive_prompt_path(prompt),
+                        class: 'destroy-button',
+                        data: { turbo_confirm: "Ce prompt a été utilisé sur au moins une aventure, il n'est donc pas possible de le supprimer. Voulez-vous l'archiver ?" }
+
+
+  .p-2
+    .border.rounded-lg.p-2.text-gray-500.text-sm.mb-3
+      p.font-medium.underline Prompt:
+      = prompt.body
+
+    - if prompt.negative_body.present?
+      .border.rounded-lg.p-2.text-gray-500.text-sm.mb-3
+        p.font-medium.underline Prompt négatif:
+        = prompt.negative_body
+
+    - if prompt.options.present?
+      .material-theme== highlight_code(prompt.options.to_json)

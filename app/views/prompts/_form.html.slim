@@ -1,0 +1,37 @@
+.border.text-blue-500.bg-blue-50.border-blue-800.p-2.mb-5.rounded-lg.text-sm
+  p Sur cette page, vous allez pouvoir configurer un prompt (une suite d'instructions permettant d'orienter le rendu final généré par l'IA) sur mesure qui sera utilisable lors de la construction des prochaines aventures.
+
+  ul.list-disc.list-inside.mt-3
+    li Un <strong>prompt media</strong> oriente la création des images d'illustration des chapitres et de la couverture des histoires
+    li Un <strong>prompt narrateur</strong> donne le style d'écriture à donner l'histoire (JRR Tolkien, Stephen King, Musso, ...)
+    li Un <strong>prompt ambiance</strong> donne une atmosphère à l'histoire (comique, tragique, horreur, romance, ...)
+
+= simple_form_for(prompt, url: prompt.persisted? ? prompt_path(prompt) : prompts_path) do |f|
+  = f.input :type,
+            as: :hidden,
+            wrapper: false,
+            input_html: { name: :type, value: Base64.encode64(prompt.type) }
+
+  = f.input :title,
+            wrapper_html: { class: 'w-full mb-6' }
+
+  .flex.items-center.justify-between.gap-3.mb-6
+    = f.input :body,
+              as: :text,
+              input_html: { class: 'h-72' },
+              wrapper_html: { class: 'w-full' }
+
+    = f.input :negative_body,
+              as: :text,
+              input_html: { class: 'h-72' },
+              wrapper_html: { class: 'w-full' }
+
+  - if prompt.is_a?(MediaPrompt)
+    .mb-6
+      = f.simple_fields_for :options, f.object.options do |ff|
+        = ff.input :num_inference_steps
+
+  = f.input :enabled,
+            wrapper_html: { class: 'mb-6' }
+
+  = f.button :submit

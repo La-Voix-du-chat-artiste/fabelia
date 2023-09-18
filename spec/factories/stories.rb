@@ -5,6 +5,10 @@ FactoryBot.define do
     thematic
     nostr_user
 
+    media_prompt
+    narrator_prompt
+    atmosphere_prompt
+
     trait :enabled do
       enabled { true }
     end

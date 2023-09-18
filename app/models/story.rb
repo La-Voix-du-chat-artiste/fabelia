@@ -2,8 +2,6 @@ class Story < ApplicationRecord
   include Coverable
   include NSFWCoverable
 
-  attribute :options, Setting::ChapterOption.to_type
-
   enum mode: { complete: 0, dropper: 1 }, _default: :complete
   enum status: { draft: 0, completed: 1 }, _default: :draft
   enum publication_rule: {
@@ -12,8 +10,18 @@ class Story < ApplicationRecord
     publish_all_chapters: 2
   }, _default: :do_not_publish
 
+  attribute :options, StoryOption.to_type
+
+  attr_reader :light_form
+
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
+
+  with_options inverse_of: :stories do
+    belongs_to :media_prompt, -> { where(type: 'MediaPrompt') }, counter_cache: true
+    belongs_to :narrator_prompt, -> { where(type: 'NarratorPrompt') }, counter_cache: true
+    belongs_to :atmosphere_prompt, -> { where(type: 'AtmospherePrompt') }, counter_cache: true
+  end
 
   has_many :chapters, dependent: :destroy
   has_many :characters_stories, dependent: :delete_all
@@ -25,6 +33,9 @@ class Story < ApplicationRecord
   humanize :publication_rule, enum: true
 
   before_validation :assign_random_thematic, if: -> { thematic.blank? }
+  before_validation :assign_media_prompt, if: :light_form?
+  before_validation :assign_narrator_prompt, if: :light_form?
+  before_validation :assign_atmosphere_prompt, if: :light_form?
 
   after_create_commit do
     broadcast_prepend_to :stories
@@ -177,10 +188,26 @@ class Story < ApplicationRecord
     !enabled?
   end
 
+  def light_form?
+    light_form.to_bool
+  end
+
   private
 
   def assign_random_thematic
     self.thematic = Thematic.enabled.sample
+  end
+
+  def assign_media_prompt
+    self.media_prompt = MediaPrompt.enabled.first
+  end
+
+  def assign_narrator_prompt
+    self.narrator_prompt = NarratorPrompt.enabled.first
+  end
+
+  def assign_atmosphere_prompt
+    self.atmosphere_prompt = AtmospherePrompt.enabled.first
   end
 
   def generate_cover
@@ -212,10 +239,16 @@ end
 #  publication_rule            :integer          default("do_not_publish"), not null
 #  status                      :integer          default("draft"), not null
 #  options                     :jsonb            not null
+#  media_prompt_id             :bigint(8)
+#  narrator_prompt_id          :bigint(8)
+#  atmosphere_prompt_id        :bigint(8)
 #
 # Indexes
 #
+#  index_stories_on_atmosphere_prompt_id         (atmosphere_prompt_id)
 #  index_stories_on_back_cover_nostr_identifier  (back_cover_nostr_identifier) UNIQUE
+#  index_stories_on_media_prompt_id              (media_prompt_id)
+#  index_stories_on_narrator_prompt_id           (narrator_prompt_id)
 #  index_stories_on_nostr_identifier             (nostr_identifier) UNIQUE
 #  index_stories_on_nostr_user_id                (nostr_user_id)
 #  index_stories_on_replicate_identifier         (replicate_identifier) UNIQUE
@@ -223,6 +256,9 @@ end
 #
 # Foreign Keys
 #
+#  fk_rails_...  (atmosphere_prompt_id => prompts.id)
+#  fk_rails_...  (media_prompt_id => prompts.id)
+#  fk_rails_...  (narrator_prompt_id => prompts.id)
 #  fk_rails_...  (nostr_user_id => nostr_users.id)
 #  fk_rails_...  (thematic_id => thematics.id)
 #

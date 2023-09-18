@@ -62,19 +62,15 @@ module ApplicationHelper
 
   def story_places_select_options
     Place.enabled.with_attached_photo.map do |place|
-      data_html = nil
-
-      if place.photo.attached?
-        data_html = <<~HTML
-          <div class="flex items-center gap-2">
-            #{image_tag(url_for(place.photo), class: 'w-12 h-12 object-cover rounded-full')}
-            <div class="flex flex-col items-start">
-              <p>#{place.name}</p>
-              <p class="text-gray-400 text-xs">#{place.description.truncate(80)}</p>
-            </div>
+      data_html = <<~HTML
+        <div class="flex items-center gap-2">
+          #{image_tag(place.photo_url, class: 'w-12 h-12 object-cover rounded-full')}
+          <div class="flex flex-col items-start">
+            <p>#{place.name}</p>
+            <p class="text-gray-400 text-xs">#{place.description.truncate(80)}</p>
           </div>
-        HTML
-      end
+        </div>
+      HTML
 
       [place.name, place.id, { 'data-html': data_html }]
     end
@@ -90,13 +86,21 @@ module ApplicationHelper
 
   def highlight_code(json)
     json = json.gsub(',"', ",\n\"")
-               .gsub('{"', "{\n\"")
-               .gsub('"}', "\"\n}")
+               .gsub('{', "{\n")
+               .gsub('}', "\n}")
                .gsub('":', '": ')
                .gsub('true}', "true\n}")
                .gsub('false}', "false\n}")
 
     Pygments.highlight(json, lexer: :json)
+  end
+
+  def prompt_background_color(model)
+    {
+      'MediaPrompt' => 'bg-green-400/25 border-green-700',
+      'NarratorPrompt' => 'bg-blue-400/25 border-blue-700',
+      'AtmospherePrompt' => 'bg-orange-400/25 border-orange-700'
+    }[model.to_s]
   end
 
   private

@@ -25,9 +25,24 @@ class GenerateStoryJob < ApplicationJob
       • Mode: <strong>#{draft_story.human_mode}</strong>
       • Langue: <strong>#{nostr_user.human_language}</strong>
       • Stratégie de publication: <strong>#{draft_story.human_publication_rule}</strong>
-      • Personnages: <strong>#{draft_story.characters.map(&:full_name).join(', ').presence || '/'}</strong>
-      • Lieux: <strong>#{draft_story.places.map(&:name).join(', ').presence || '/'}</strong>
+      • Prompt média: <strong>#{draft_story.media_prompt.title}</strong>
+      • Prompt narrateur: <strong>#{draft_story.narrator_prompt.title}</strong>
+      • Prompt ambiance: <strong>#{draft_story.atmosphere_prompt.title}</strong>
     MESSAGE
+
+    if draft_story.characters.any?
+      flash_message = <<~MESSAGE
+        #{flash_message}
+        • Personnages: <strong>#{draft_story.characters.map(&:full_name).join(', ')}</strong>
+      MESSAGE
+    end
+
+    if draft_story.places.any?
+      flash_message = <<~MESSAGE
+        #{flash_message}
+        • Lieux: <strong>#{draft_story.places.map(&:name).join(', ')}</strong>
+      MESSAGE
+    end
 
     Story.broadcast_flash(:info, flash_message, disappear: false)
 
