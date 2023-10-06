@@ -5,7 +5,7 @@ class PlacesController < ApplicationController
   def index
     authorize! Place
 
-    @places = Place.all.order(id: :desc)
+    @places = Place.order(id: :desc)
   end
 
   # @route GET /places/new (new_place)
