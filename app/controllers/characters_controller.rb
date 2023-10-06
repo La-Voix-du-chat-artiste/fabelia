@@ -5,7 +5,7 @@ class CharactersController < ApplicationController
   def index
     authorize! Character
 
-    @characters = Character.all.order(id: :desc)
+    @characters = Character.order(id: :desc)
   end
 
   # @route GET /characters/new (new_character)

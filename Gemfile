@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.0'
-gem 'rails', '~> 7.0.6'
+ruby '3.2.2'
+gem 'rails', '~> 7.1.0'
 
 gem 'action_policy'
 gem 'acts_as_list'
@@ -19,10 +19,10 @@ gem 'nostr_ruby'
 gem 'openai_chatgpt'
 gem 'pagy'
 gem 'pg'
-gem 'puma', '~> 5.0'
+gem 'puma'
 gem 'pygments.rb'
 gem 'rails-i18n'
-gem 'redis', '~> 4.0'
+gem 'redis'
 gem 'replicate-ruby'
 gem 'sidekiq'
 gem 'simple_form'

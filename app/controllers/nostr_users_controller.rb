@@ -5,7 +5,7 @@ class NostrUsersController < ApplicationController
   def index
     authorize! NostrUser
 
-    @nostr_users = NostrUser.all.order(id: :asc)
+    @nostr_users = NostrUser.order(id: :asc)
   end
 
   # @route GET /nostr_users/new (new_nostr_user)
