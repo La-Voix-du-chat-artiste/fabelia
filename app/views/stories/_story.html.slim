@@ -34,8 +34,8 @@
         = render 'stories/cover', story: story
 
         .absolute.-bottom-4.-right-10
-          - if story.nostr_user.profile.picture
-            = image_tag url_for(story.nostr_user.picture),
+          - if story.nostr_user.picture.attached?
+            = image_tag url_for(story.nostr_user.picture_url),
                         class: 'w-20 mx-auto mb-1 rounded-full border-2 bg-white',
                         title: story.nostr_user.name
           - else
