@@ -1,7 +1,7 @@
 ul#quick_look role="list"
   - stories.each do |language, story|
     - if story.nil?
-      li.bg-green-500.px-4.py-2.rounded-lg.italic.text-white.mb-1
+      li.panel-info.mb-2
         - nostr_user = NostrUser.find_sole_by(language: language)
 
         .flex.items-center.gap-3
@@ -12,28 +12,28 @@ ul#quick_look role="list"
             p.text-xs
               = nostr_user.profile.identity
 
-              span.inline-block.text-xs.font-medium.p-1.rounded.bg-gray-100.text-gray-800.ml-2
+              span.ml-2.highlight-code.inline-block
                 = nostr_user.human_language
 
     - else
       - active_chapter = story.chapters.not_published.first
 
-      li.p-4.hover:bg-gray-100.transition-colors.flex.flex-col.lg:flex-row.items-center.justify-between.gap-6
+      li.row.p-4.hover:bg-gray-100.dark:hover:bg-gray-700.transition-colors.flex.flex-col.lg:flex-row.items-center.justify-between.gap-6.mb-2
         .flex.flex-col.lg:flex-row.items-center.gap-6.w-full
           = image_tag polymorphic_path(story.cover.variant(:small)), class: 'w-48 rounded-lg' if story.cover.attached?
 
           .w-full
-            p.text-lg.font-bold.text-gray-900.truncate.mb-1
+            p.text-lg.font-bold.text-gray-900.dark:text-white.truncate.mb-1
               = story.title
 
             p.mb-1 Prochain chapitre:
 
-            .flex.flex-col.lg:flex-row.items-center.gap-3.p-2.bg-gray-100.rounded-lg.border.border-gray-300
+            .flex.flex-col.lg:flex-row.items-center.gap-3.p-2.bg-gray-100.rounded-lg.border.border-gray-300.dark:bg-gray-500.dark:border-gray-600
               - if active_chapter.cover.attached?
                 p.flex-none= image_tag polymorphic_path(active_chapter.cover.variant(:small)), class: 'w-40 rounded-lg'
 
               div
-                p.text-gray-500.font-bold
+                p.text-gray-500.font-bold.dark:text-white
                   = "[##{active_chapter.position}] #{active_chapter.title}"
                 .text-sm.w-full
                   = active_chapter.content
@@ -47,7 +47,7 @@ ul#quick_look role="list"
                             data: { turbo_method: :patch, turbo_confirm: "Voulez-vous générer une nouvelle couverture pour cette aventure ?" }
                 |.
 
-        .text-base.font-semibold.text-gray-900.text-center
+        .text-base.font-semibold.text-gray-900.text-center.dark:text-white
           = image_tag story.nostr_user.picture_url, class: 'w-24 mx-auto mb-1 rounded-full'
 
           p.text-sm.mb-1= story.nostr_user.profile.identity

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SettingsController do
-  before { create :setting }
+  before { create(:setting) unless Setting.exists? }
 
   describe 'GET /settings' do
     subject(:action) { get '/settings' }
@@ -55,7 +55,7 @@ RSpec.describe SettingsController do
 
       context 'when params are invalid' do
         let(:params) do
-          { chapter_options: { maximum_chapters_count: 12 }.to_json }
+          { chapter_options: { maximum_chapters_count: 12 } }
         end
 
         before { action }
@@ -65,11 +65,11 @@ RSpec.describe SettingsController do
 
       context 'when params are valid' do
         let(:params) do
-          { chapter_options: { maximum_chapters_count: 8 }.to_json }
+          { chapter_options: { maximum_chapters_count: 8 } }
         end
 
         include_examples 'a redirect response with success message' do
-          let(:message) { 'Setting was successfully updated.' }
+          let(:message) { 'Les paramètres ont bien été mis à jour' }
           let(:url_to_redirect) { settings_path }
         end
       end

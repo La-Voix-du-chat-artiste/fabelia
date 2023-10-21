@@ -1,0 +1,34 @@
+/* Slim select */
+
+.ss-main {
+  @apply px-1 py-2 dark:bg-slate-700/25 dark:text-white dark:border-gray-600;
+}
+
+.ss-option {
+  @apply transition-colors dark:!bg-slate-700 dark:!text-white;
+}
+
+.ss-content {
+  @apply dark:!border-gray-600;
+}
+
+.ss-option:hover {
+  @apply !bg-secondary-color !text-white dark:!bg-gray-600 dark:text-white;
+}
+
+.ss-selected {
+  @apply !bg-gray-300 !text-gray-700 dark:!bg-gray-600 dark:!text-white;
+}
+
+.ss-main .ss-values .ss-value {
+  @apply bg-secondary-color;
+}
+
+.ss-search,
+.ss-list {
+  @apply dark:!bg-slate-700 dark:!text-white;
+}
+
+.ss-search input[type=search] {
+  @apply dark:bg-slate-700/25 dark:text-white;
+}

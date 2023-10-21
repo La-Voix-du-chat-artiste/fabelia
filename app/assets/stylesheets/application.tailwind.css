@@ -1,3 +1,10 @@
+@import './components/form';
+@import './components/panels';
+@import './components/flash';
+@import './plugins/pygment';
+@import './plugins/slim-select';
+@import './plugins/pagy';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,145 +25,39 @@
   }
 }
 
-/* Flash */
-#flashes {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 21;
+body {
+  @apply dark:bg-slate-800;
 }
 
-.appear-then-fade {
-  animation: appear-then-fade 10s both;
+h1, h2, h3, h4 {
+  @apply dark:text-white;
 }
 
-@keyframes appear-then-fade {
-  0%, 100% {
-    opacity: 0
-  }
-  5%, 60% {
-    opacity: 1
-  }
-}
-
-.fade-out {
-  animation: fade-out 1s both;
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 1
-  }
-  100% {
-    opacity: 0
-  }
-}
-
-/* Pagy pagination style */
-
-.pagy-nav {
-  @apply flex space-x-2 justify-center my-8;
-}
-
-.pagy-nav .page a,
-.pagy-nav .page.active,
-.pagy-nav .page.prev.disabled,
-.pagy-nav .page.next.disabled {
-  @apply block rounded px-3 py-1 text-sm text-black hover:text-secondary-color;
-}
-
-.pagy-nav .page.prev.disabled,
-.pagy-nav .page.next.disabled {
-  @apply text-gray-400 cursor-default;
-  &:hover {
-    @apply text-gray-400 bg-gray-200;
-  }
-  &:active {
-    @apply text-gray-400 bg-gray-200;
-  }
-}
-
-.pagy-nav .page.active {
-  @apply text-white cursor-default bg-secondary-color hover:text-white hover:bg-primary-color;
-
-  &:active {
-    @apply text-white bg-primary-color;
-  }
-}
-
-input.boolean, input.check_boxes {
-  @apply inline-block w-4 mr-2;
-}
-
-.hint {
-  @apply block text-sm text-green-700 italic mt-2;
-}
-
-.error, .error_notification {
-  @apply text-red-500 italic text-sm;
-}
-
-.field_with_errors input,
-.field_with_errors textarea {
-  @apply border-red-500;
-}
-
-.field_with_errors input:focus,
-.field_with_errors textarea:focus {
-  @apply border-red-500 ring-red-500;
+.base-link {
+  @apply text-white text-sm p-2 rounded-lg dark:bg-transparent dark:hover:text-white transition-colors focus:ring-4 focus:outline-none;
 }
 
 .back-link {
-  @apply bg-gray-700 text-white text-sm px-2 py-1 rounded-lg;
+  @apply base-link bg-gray-700 focus:ring-gray-600 dark:border dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-500;
+}
+
+.add-link {
+  @apply base-link bg-green-700 focus:ring-green-600 dark:border dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500;
 }
 
 .edit-link {
-  @apply back-link !bg-orange-700;
+  @apply base-link bg-orange-700 focus:ring-orange-600 dark:border dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-500;
 }
 
 .destroy-button {
-  @apply back-link !bg-red-700;
+  @apply base-link bg-red-700 focus:ring-red-600 dark:border dark:border-red-500 dark:text-red-500 dark:hover:bg-red-500;
 }
 
 .blue-button {
-  @apply back-link !bg-blue-700;
-}
-
-.material-theme {
-  @apply p-3 rounded-lg overflow-x-auto;
-}
-
-.material-theme pre {
-  @apply whitespace-pre-wrap;
-}
-
-.material-theme .nt {
-  @apply inline-block indent-4;
+  @apply base-link bg-blue-700 focus:ring-blue-600 dark:border dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-500;
 }
 
 .stop-scrolling {
   @apply h-full;
   overflow: hidden;
-}
-
-/* Slim select */
-
-.ss-main {
-  @apply px-1 py-2;
-}
-
-.ss-option {
-  @apply transition-colors;
-}
-
-.ss-option:hover {
-  @apply !bg-secondary-color !text-white;
-}
-
-.ss-selected {
-  @apply !bg-gray-300 !text-gray-700;
-}
-
-.ss-main .ss-values .ss-value {
-  @apply bg-secondary-color;
 }

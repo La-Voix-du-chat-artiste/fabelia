@@ -1,59 +1,71 @@
 / @see: https://play.tailwindcss.com/3Tox96tRmY
-header.relative.z-20.border-b.bg-slate-800
+header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
   .px-6.md:px-12.py-3.lg:container.lg:mx-auto.lg:px-6.lg:py-2
     .flex.items-center.justify-between
       .relative.z-20
-        = link_to root_path, class: 'flex items-center gap-3 px-2 py-1 hover:rounded-lg hover:bg-white/25 transition-colors' do
+        = link_to root_path, class: 'flex items-center gap-3 px-2 py-1' do
           = image_tag '/logo.png', class: 'w-12 lg:w-16'
           div
-            h1.text-lg.lg:text-2xl.text-white Fabelia
-            h2.text-sm.lg:text-md.text-gray-300 Contes générés par IA
+            h1.text-lg.lg:text-2xl.dark:text-white Fabelia
+            h2.text-sm.lg:text-md.dark:text-gray-300 Contes générés par IA
 
-      .flex.items-center.justify-end.border-l.lg:border-l-0
+      .flex.items-center.justify-end.border-l.lg:border-l-0.dark:border-gray-600
         input#hamburger.peer.hidden type="checkbox" name="hamburger" hidden="hidden"
 
         label.peer-checked:hamburger.block.relative.z-20.p-6.-mr-6.cursor-pointer.md:-mr-12.lg:hidden for="hamburger"
-          .m-auto.w-6.rounded.bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
-          .m-auto.mt-2.w-6.rounded.bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
+          .m-auto.w-6.rounded.bg-black.dark:bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
+          .m-auto.mt-2.w-6.rounded.bg-black.dark:bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
 
-        .peer-checked:translate-x-0.fixed.inset-0.bg-slate-800.border-r.shadow-xl.transition.duration-300.lg:border-r-0.lg:w-auto.lg:static.lg:shadow-none.lg:translate-x-0 class="w-[calc(100%-4.5rem)] translate-x-[-100%]"
+        .peer-checked:translate-x-0.fixed.inset-0.border-r.shadow-xl.transition.duration-300.lg:border-r-0.lg:w-auto.lg:static.lg:shadow-none.lg:translate-x-0.bg-white.dark:bg-slate-800.dark:border-gray-600 class="w-[calc(100%-4.5rem)] translate-x-[-100%]"
           .flex.flex-col.h-full.justify-between.lg:items-center.lg:flex-row
             ul.px-6.pt-32.text-gray-700.space-y-8.md:px-12.lg:space-y-0.lg:flex.lg:space-x-8.lg:pt-0
-              - link_class = 'group relative before:absolute before:inset-x-0 before:-bottom-2 before:h-2 before:origin-right before:scale-x-0 before:bg-white before:transition before:duration-200 hover:before:origin-left hover:before:scale-x-100 text-white'
+              - link_class = 'group relative before:absolute before:inset-x-0 before:-bottom-2 before:h-2 before:origin-right before:scale-x-0 before:bg-black dark:before:bg-white before:transition before:duration-200 hover:before:origin-left hover:before:scale-x-100 dark:text-white'
               li
                 = link_to root_path, class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'homes'}" do
-                  span.relative.group-hover:text-white Accueil
+                  span.relative.dark:group-hover:text-white Accueil
 
               - if allowed_to?(:index?, NostrUser)
                 li
                   = link_to nostr_users_path,
                             class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'nostr_users'}" do
-                    span.relative.group-hover:text-white Comptes Nostr
+                    span.relative.dark:group-hover:text-white Comptes Nostr
 
               - if allowed_to?(:index?, Relay)
                 li
                   = link_to relays_path,
                             class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'relays'}" do
-                    span.relative.group-hover:text-white Relays
+                    span.relative.dark:group-hover:text-white Relays
 
               - if allowed_to?(:index?, Thematic)
                 li
                   = link_to thematics_path,
                             class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'thematics'}" do
-                    span.relative.group-hover:text-white Thématiques
+                    span.relative.dark:group-hover:text-white Thématiques
 
               - if allowed_to?(:show?, Setting)
                 li
                   = link_to settings_path,
                             class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'settings'}" do
-                    span.relative.group-hover:text-white Paramètres
+                    span.relative.dark:group-hover:text-white Paramètres
+
+              li
+                - switch_theme = dark_theme? ? :light : :dark
+                = button_to settings_path,
+                            method: :patch,
+                            params: { setting: { chapter_options: { theme: switch_theme } } },
+                            form: { data: { turbo: false } } do
+                  span.relative.dark:group-hover:text-white
+                    - if dark_theme?
+                      span title="Thème clair" ☀️
+                    - else
+                      span title="Thème sombre" 🌙
 
 
-            .border-t.py-8.px-6.md:px-12.md:py-16.lg:border-t-0.lg:border-l.lg:py-0.lg:pr-0.lg:pl-6
+            .border-t.dark:border-gray-600.py-8.px-6.md:px-12.md:py-16.lg:border-t-0.lg:border-l.lg:py-0.lg:pr-0.lg:pl-6
               .flex.items-center.gap-3.p-2
                 - if current_user.avatar.attached?
                   = image_tag polymorphic_path(current_user.avatar), class: 'w-12 h-12 rounded-full'
-                .text-sm.text-white
+                .text-sm.dark:text-white
                   p= current_user.email
                   p= link_to 'Déconnexion',
                              sessions_path,
@@ -63,4 +75,4 @@ header.relative.z-20.border-b.bg-slate-800
                   p.mt-1
                     = link_to 'Nouvelle aventure',
                              new_story_path,
-                             class: 'inline-block px-2 py-1 rounded-lg text-xs bg-green-700'
+                             class: 'add-link inline-block !px-2 !py-1 !text-xs'

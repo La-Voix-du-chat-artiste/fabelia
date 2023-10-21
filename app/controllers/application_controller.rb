@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :warning, :info
 
+  helper_method :options
+
   private
 
   def not_authenticated
@@ -24,5 +26,9 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_root(e)
     redirect_to root_path, alert: e.message
+  end
+
+  def options
+    @options ||= Setting.first.chapter_options
   end
 end

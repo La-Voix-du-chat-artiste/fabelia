@@ -5,14 +5,12 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
     = link_to '<< Retour', prompts_path, class: 'back-link'
 
     - if allowed_to?(:create?, Prompt)
-      - klass = 'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none'
-
       .flex.items-center.gap-3
         - unless @prompt.is_a?(MediaPrompt)
-          = link_to 'Ajouter un prompt média', new_prompt_path(type: Base64.encode64('MediaPrompt')), class: "#{klass} bg-green-700 hover:bg-green-800 focus:ring-green-300"
+          = link_to 'Ajouter un prompt média', new_prompt_path(type: Base64.encode64('MediaPrompt')), class: 'add-link'
         - unless @prompt.is_a?(NarratorPrompt)
-          = link_to 'Ajouter un prompt narrateur', new_prompt_path(type: Base64.encode64('NarratorPrompt')), class: "#{klass} bg-blue-700 hover:bg-blue-800 focus:ring-blue-300"
+          = link_to 'Ajouter un prompt narrateur', new_prompt_path(type: Base64.encode64('NarratorPrompt')), class: 'blue-button'
         - unless @prompt.is_a?(AtmospherePrompt)
-          = link_to 'Ajouter un prompt ambiance', new_prompt_path(type: Base64.encode64('AtmospherePrompt')), class: "#{klass} bg-orange-700 hover:bg-orange-800 focus:ring-orange-300"
+          = link_to 'Ajouter un prompt ambiance', new_prompt_path(type: Base64.encode64('AtmospherePrompt')), class: 'edit-link'
 
 = render 'form', prompt: @prompt

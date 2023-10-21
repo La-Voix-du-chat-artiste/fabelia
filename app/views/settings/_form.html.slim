@@ -1,13 +1,31 @@
-= simple_form_for @setting do |f|
-  = f.input :chapter_options,
-            input_html: { \
-              data: { \
-                controller: :settings, \
-                settings_chapter_options_value: f.object.chapter_options \
-              }, \
-              class: 'h-72', \
-              value: f.object.chapter_options.as_json \
-            }
+= simple_form_for @setting, html: { data: { turbo: false } } do |f|
+  = f.simple_fields_for :chapter_options, f.object.chapter_options do |ff|
+    .flex.flex-col.lg:flex-row.items-center.justify-between.gap-5.mb-3
+      = ff.input :minimum_chapters_count,
+                 include_blank: false,
+                 wrapper_html: { class: 'mb-3' }
 
-  .mt-6
-    = f.button :submit
+      = ff.input :maximum_chapters_count,
+                 include_blank: false,
+                 wrapper_html: { class: 'mb-3' }
+
+      = ff.input :minimum_poll_sats,
+                 include_blank: false,
+                 wrapper_html: { class: 'mb-3' }
+
+      = ff.input :maximum_poll_sats,
+                 include_blank: false,
+                 wrapper_html: { class: 'mb-3' }
+
+    .flex.flex-col.lg:flex-row.items-center.justify-between.gap-5.mb-3
+      = ff.input :publish_previous,
+                 include_blank: false,
+                 wrapper_html: { class: 'mb-3' }
+
+    .flex.flex-col.lg:flex-row.items-center.justify-between.gap-5.mb-3
+      = ff.input :theme,
+                 collection: settings_theme_select_options,
+                 include_blank: false,
+                 wrapper_html: { class: 'mb-3' }
+
+  = f.button :submit

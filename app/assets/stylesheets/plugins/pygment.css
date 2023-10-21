@@ -1,0 +1,15 @@
+.pygment {
+  @apply p-3 rounded-lg overflow-x-auto;
+}
+
+.pygment pre {
+  @apply whitespace-pre-wrap;
+}
+
+.pygment .nt {
+  @apply inline-block indent-4;
+}
+
+.highlight-code {
+  @apply text-sm bg-white p-1 rounded-lg dark:bg-gray-600 dark:text-white;
+}

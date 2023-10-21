@@ -3,16 +3,16 @@ div id=dom_id(setting)
 
   .flex.flex-col.lg:flex-row.justify-center.gap-2
     .lg:w-1/3
-      .material-theme== highlight_code(settings.to_json)
+      .pygment== highlight_code(settings.to_json)
 
-    .lg:w-2/3.p-4.text-sm.border.rounded-lg.text-blue-500.bg-blue-50.border-blue-800
+    .lg:w-2/3.panel-info.p-4
       p.text-lg.mb-2 Explications des options
 
       ul.list-disc.list-inside.columns-1
         li
           strong> minimum_chapters_count:
           | Nombre de chapitres minimum à générer
-          span.bg-white.p-1.rounded-lg<
+          span.highlight-code<
             | (défaut:
             i=< Option::MINIMUM_CHAPTERS_COUNT
             | )
@@ -20,7 +20,7 @@ div id=dom_id(setting)
         li
           strong> maximum_chapters_count:
           | Nombre de chapitres maximum à générer
-          span.bg-white.p-1.rounded-lg
+          span.highlight-code<
             | (défaut:
             i=< Option::MAXIMUM_CHAPTERS_COUNT
             | )
@@ -29,7 +29,7 @@ div id=dom_id(setting)
           strong minimum_poll_sats:
           |< Quantité de satoshis minimum à payer pour participer au sondage
 
-          span.bg-white.p-1.rounded-lg
+          span.highlight-code<
             | (défaut:
             i=< Option::MINIMUM_POLL_SATS
             | )
@@ -38,25 +38,38 @@ div id=dom_id(setting)
           strong maximum_poll_sats:
           |< Quantité de satoshis minimum à payer pour participer au sondage
 
-          span.bg-white.p-1.rounded-lg
+          span.highlight-code<
             | (défaut:
             i=< Option::MAXIMUM_POLL_SATS
             | )
 
-        li.mb-2
+        li
           strong publish_previous:
           |< Si un ou plusieurs précédents chapitres n'ont pas été publiés avant d'en générer un nouveau, doivent-ils être publiés avant ? Si non, une publication manuelle devra être faîte.
 
-          span.bg-white.p-1.rounded-lg
+          span.highlight-code<
             | (défaut:
             i=< Option::PUBLISH_PREVIOUS
+            | )
+
+        li
+          strong theme:
+          |< Thème du site,
+
+          span.highlight-code< Light
+          |>< ou
+          span.highlight-code Dark
+
+          span.highlight-code<
+            | (défaut:
+            i=< Option::THEMES[0]
             | )
 
         / li.mb-2
           strong stable_diffusion_prompt:
           |< Prompt système pour orienter la génération de visuels avec StableDiffusion
 
-          p.bg-white.p-1.rounded-lg
+          p.highlight-code
             | (défaut:
             i=< Option::STABLE_DIFFUSION_PROMPT
             | )
@@ -72,7 +85,7 @@ div id=dom_id(setting)
             li: strong.font-medium minimum_chapters_count
             li: strong.font-medium maximum_chapters_count
 
-          p.bg-white.p-1.rounded-lg
+          p.highlight-code
             | (défaut:
             i=< Option::CHATGPT_FULL_STORY_SYSTEM_PROMPT
             | )
@@ -88,10 +101,11 @@ div id=dom_id(setting)
             li: strong.font-medium minimum_chapters_count
             li: strong.font-medium maximum_chapters_count
 
-          p.bg-white.p-1.rounded-lg
+          p.highlight-code
             | (défaut:
             i=< Option::CHATGPT_DROPPER_STORY_SYSTEM_PROMPT
             | )
 
 css:
-  #{Pygments.css('.material-theme', style: :material)}
+  #{Pygments.css('.pygment', style: :material) if dark_theme?}
+  #{Pygments.css('.pygment', style: :manni) if light_theme?}

@@ -1,15 +1,15 @@
 - if flash_type == 'notice'
-  - flash_classes = 'text-green-500 bg-green-50 border-green-800'
-  - close_button_classes = 'text-green-500 focus:ring-green-400 bg-green-100 hover:bg-green-200'
+  - flash_classes = 'flash-notice'
+  - close_button_classes = 'text-green-500 focus:ring-green-400 hover:bg-green-200 dark:hover:bg-gray-700'
 - elsif flash_type == 'info'
-  - flash_classes = 'text-blue-500 bg-blue-50 border-blue-800'
-  - close_button_classes = 'text-blue-500 focus:ring-blue-400 bg-blue-100 hover:bg-blue-200'
+  - flash_classes = 'flash-info'
+  - close_button_classes = 'text-blue-500 focus:ring-blue-400 hover:bg-blue-200 dark:hover:bg-gray-700'
 - elsif flash_type == 'warning'
-  - flash_classes = 'text-orange-500 bg-orange-50 border-orange-800'
-  - close_button_classes = 'text-orange-500 focus:ring-orange-400 bg-orange-100 hover:bg-orange-200'
+  - flash_classes = 'flash-warning'
+  - close_button_classes = 'text-orange-500 focus:ring-orange-400 hover:bg-orange-200 dark:hover:bg-gray-700'
 - else
-  - flash_classes = 'text-red-500 bg-red-50 border-red-800'
-  - close_button_classes = 'text-red-500 focus:ring-red-400 bg-red-100 hover:bg-red-200'
+  - flash_classes = 'flash-alert'
+  - close_button_classes = 'text-red-500 focus:ring-red-400 hover:bg-red-200 dark:hover:bg-gray-700'
 
 .flex.p-4.mb-4.text-sm.border.rounded-lg role="alert" data-controller="removals" data-action="animationend->removals#remove" class=flash_classes class=('appear-then-fade' if disappear)
   <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

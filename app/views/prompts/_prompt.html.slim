@@ -1,4 +1,4 @@
-details.border.mb-3.rounded-lg.hover:bg-gray-50.transition-colors id=dom_id(prompt) class=('opacity-50' unless prompt.enabled?) class=prompt_background_color(prompt.class) data-sortable-url=prompt_path(prompt)
+details.row id=dom_id(prompt) class=('opacity-50' unless prompt.enabled?) class=prompt_background_color(prompt.class) data-sortable-url=prompt_path(prompt)
   summary.p-2.block.handle
     .flex.items-center.gap-3.justify-between
       p.font-bold= prompt.title
@@ -29,14 +29,14 @@ details.border.mb-3.rounded-lg.hover:bg-gray-50.transition-colors id=dom_id(prom
 
 
   .p-2
-    .border.rounded-lg.p-2.text-gray-500.text-sm.mb-3
-      p.font-medium.underline Prompt:
+    .border.rounded-lg.p-2.text-gray-500.text-sm.dark:border-gray-600
+      p.font-medium.underline.mb-1 Prompt:
       = prompt.body
 
     - if prompt.negative_body.present?
-      .border.rounded-lg.p-2.text-gray-500.text-sm.mb-3
-        p.font-medium.underline Prompt négatif:
+      .border.rounded-lg.p-2.text-gray-500.text-sm.mt-3.dark:border-gray-600
+        p.font-medium.underline.mb-1 Prompt négatif:
         = prompt.negative_body
 
     - if prompt.options.present?
-      .material-theme== highlight_code(prompt.options.to_json)
+      .pygment.mt-3== highlight_code(prompt.options.to_json)

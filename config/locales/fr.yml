@@ -1,4 +1,7 @@
 fr:
+  light: Clair
+  dark: Sombre
+
   time:
     formats:
       default: "%d/%m/%Y à %Hh%M"

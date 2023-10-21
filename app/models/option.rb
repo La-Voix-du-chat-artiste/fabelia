@@ -6,6 +6,7 @@ class Option
   MINIMUM_POLL_SATS = 42
   MAXIMUM_POLL_SATS = 420
   PUBLISH_PREVIOUS = true
+  THEMES = %w[light dark].freeze
 
   attribute :minimum_chapters_count, :integer,
             default: MINIMUM_CHAPTERS_COUNT
@@ -14,6 +15,7 @@ class Option
   attribute :minimum_poll_sats, :integer, default: MINIMUM_POLL_SATS
   attribute :maximum_poll_sats, :integer, default: MAXIMUM_POLL_SATS
   attribute :publish_previous, :boolean, default: PUBLISH_PREVIOUS
+  attribute :theme, :string, default: -> { THEMES[1] }
 
   validates :minimum_chapters_count,
             presence: true,
@@ -44,6 +46,7 @@ class Option
             }
 
   validates :publish_previous, allow_blank: false, inclusion: [true, false]
+  validates :theme, presence: true, inclusion: THEMES
 
   def publish_previous=(value)
     super(value.to_bool)

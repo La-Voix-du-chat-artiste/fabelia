@@ -1,7 +1,7 @@
 = simple_form_for Story.new,
                   url: stories_path,
                   html: { \
-                    class: 'flex flex-col items-center gap-6 justify-between p-4 bg-gray-200 rounded-b-lg', \
+                    class: 'flex flex-col items-center gap-6 justify-between p-4 bg-gray-200 dark:bg-gray-800 rounded-b-lg', \
                     data: { \
                       controller: 'jumpto', \
                       action: 'turbo:submit-end->jumpto#jump', \
@@ -69,7 +69,7 @@
     = f.button :submit, 'Créer une aventure rapide',
                class: 'bg-green-600 p-2 rounded-lg text-white cursor-pointer hover:bg-green-500 transition-colors'
 
-    p
+    p.dark:text-white
       | ou
 
       =< link_to 'Créer une aventure sur mesure',

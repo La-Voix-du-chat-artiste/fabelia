@@ -1,4 +1,4 @@
-.flex.flex-col.justify-between.block.bg-white.shadow-md.hover:shadow-xl.rounded-lg.overflow-hidden
+.row.flex.flex-col.justify-between.shadow-md.hover:shadow-xl.overflow-hidden
   div
     .relative.pb-44.overflow-hidden
       = image_tag nostr_user.banner_url, class: 'absolute inset-0 h-full w-full object-cover transition-transform hover:scale-105'
@@ -16,11 +16,11 @@
             | @
             = nostr_user.name
 
-      .text-sm.mb-3
+      .text-sm.mb-3.dark:text-white
         - if nostr_user.about.present?
           == nostr_user.about
         - else
-          p.italic.text-sm.text-gray-500 Aucune description
+          p.italic.text-sm.text-gray-500.dark:text-white Aucune description
 
       div
         p.text-sm.text-gray-500.mb-1
@@ -46,12 +46,12 @@
         - if nostr_user.relays.blank?
           p.bg-orange-50.text-orange-500.mt-3.text-sm.p-2 ⚠️ Aucun relais n'est associé à ce compte, vous ne pourrez rien publier avant d'en associer un.
         - else
-          details.mt-3.text-sm
+          details.mt-3.dark:text-white
             summary.cursor-pointer.mb-1 Les relais
 
-            ul.list-disc.list-inside.bg-green-50.text-green-500.p-2
+            ul.list-disc.list-inside
               - nostr_user.relays.first(3).each_with_index do |relay, index|
-                li
+                li.panel-success
                   = relay.url
                   - if index.zero?
                     span.cursor-help.ml-1 title="Relay favori" ⭐
@@ -60,7 +60,7 @@
   - refresh_profile = allowed_to?(:create?, nostr_user, with: NostrUsers::ProfilePolicy)
 
   - if update_account || refresh_profile
-    footer.border-t.text-xs.text-gray-700.flex.items-center
+    footer.border-t.text-xs.text-gray-700.flex.items-center.dark:border-gray-600
       - if refresh_profile
         = button_to 'Rafraîchir les métadonnées',
                     refresh_profiles_path(nostr_user),

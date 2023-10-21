@@ -3,27 +3,27 @@
     .max-h-full.max-w-4xl.mx-auto.overflow-x-hidden.overflow-y-auto.z-50.pb-16 class="h-[calc(100%-0rem)]" tabindex="-1" aria-modal="true" role="dialog" data-controller="modal"
       .flex.items-center.justify-center.gap-3 data-modal-target="content"
         / Modal content
-        .relative.bg-white.rounded-lg.shadow.w-full
+        .relative.bg-white.rounded-lg.shadow.w-full.dark:bg-slate-700.dark:text-white
           / Modal header
-          .p-4.border-b.rounded-t
-            .flex.justify-between.gap-2.bg-gray-100.rounded-lg.p-2
+          .px-4.pt-4.pb-2.rounded-t
+            .flex.justify-between.gap-2.bg-gray-100.rounded-lg.p-2.dark:bg-gray-600
               .flex.gap-2
                 - if story.cover.attached?
                   = image_tag polymorphic_path(story.cover.variant(:small)), class: 'rounded-lg w-28 h-28'
 
-                .text-gray-500
+                .text-gray-500.dark:text-white
                   h2.text-lg.font-semibold= story.title
                   p.text-sm
                     = story.human_mode
                     |< de <strong>#{story.chapters_count}</strong> chapitres
 
-                  .flex.items-center.justify-start.gap-1.mt-2.bg-gray-200.p-1.rounded-lg
+                  .flex.items-center.justify-start.gap-1.mt-2.bg-gray-200.p-1.rounded-lg.dark:bg-gray-700
                     = image_tag story.nostr_user.picture_url,
                                 class: 'w-12 rounded-full border-2 bg-white',
                                 title: story.nostr_user.display_name
 
                     div
-                      p.text-sm.text-gray-600= story.nostr_user.display_name
+                      p.text-sm.text-gray-600.dark:text-white= story.nostr_user.display_name
                       p.text-xs.text-gray-400= "@#{story.nostr_user.name}"
 
 
@@ -35,10 +35,10 @@
               </button>
 
 
-          .p-4.space-y-4
+          .px-4.pt-2.pb-4.space-y-4
             section.flex.items-center.gap-3.mb-3
-              h3.text-lg.font-semibold
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              h3.text-lg.font-semibold.dark:text-white
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                   <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
                   <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
@@ -48,19 +48,19 @@
                 </svg>
 
               .flex.items-center.gap-3
-                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700
-                  p.text-xs.text-gray-700= story.media_prompt.title
+                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700.dark:bg-gray-600.dark:border-gray-600
+                  p.text-xs.text-gray-700.dark:text-white= story.media_prompt.title
 
-                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700
-                  p.text-xs.text-gray-700= story.narrator_prompt.title
+                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700.dark:bg-gray-600.dark:border-gray-600
+                  p.text-xs.text-gray-700.dark:text-white= story.narrator_prompt.title
 
-                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700
-                  p.text-xs.text-gray-700= story.atmosphere_prompt.title
+                .font-medium.p-2.bg-gray-200.rounded-full.border.border-gray-700.dark:bg-gray-600.dark:border-gray-600
+                  p.text-xs.text-gray-700.dark:text-white= story.atmosphere_prompt.title
 
             - if story.characters.any?
               section.flex.items-center.gap-3.mb-3
-                h3.text-lg.font-semibold
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                h3.text-lg.font-semibold.dark:text-white
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
                     <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
@@ -70,15 +70,15 @@
 
                 .flex.items-center.gap-3
                   - story.characters.each do |character|
-                    .flex.items-center.bg-gray-200.rounded-full.border.border-gray-700
+                    .flex.items-center.bg-gray-200.rounded-full.border.border-gray-700.dark:bg-gray-600.dark:border-gray-600
                       = image_tag character.avatar_url, class: 'w-10 h-10 rounded-full object-cover border border-gray-700'
                       .font-medium.px-2
-                        p.text-xs.text-gray-700= character.full_name
+                        p.text-xs.text-gray-700.dark:text-white= character.full_name
 
             - if story.places.any?
               section.flex.items-center.gap-3
-                h3.text-lg.font-semibold
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                h3.text-lg.font-semibold.dark:text-white
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
                     <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
@@ -86,16 +86,19 @@
 
                 .flex.items-center.gap-3
                   - story.places.each do |place|
-                    .flex.items-center.bg-gray-200.rounded-full.border.border-gray-700
+                    .flex.items-center.bg-gray-200.rounded-full.border.border-gray-700.dark:bg-gray-600.dark:border-gray-600
                       = image_tag place.photo_url, class: 'w-10 h-10 rounded-full object-cover border border-gray-700'
 
                       .font-medium.px-2
-                        p.text-xs.text-gray-700= place.name
+                        p.text-xs.text-gray-700.dark:text-white= place.name
 
-            .material-theme== highlight_code(story.options.to_json)
+            .pygment
+              - hash = story.options.attributes.except(*Option.new.attributes.keys)
+
+              == highlight_code(hash.to_json)
 
             / Modal footer
-            footer.pt-4.border-t.border-gray-200.rounded-b
+            footer.pt-4.border-t.border-gray-200.rounded-b.dark:border-gray-600
               div
                 p.text-xs.italic
                   | Créé le
@@ -106,6 +109,6 @@
 
           = render 'turbo_confirm'
 
-
 css:
-  #{Pygments.css('.material-theme', style: :material)}
+  #{Pygments.css('.pygment', style: :material) if dark_theme?}
+  #{Pygments.css('.pygment', style: :manni) if light_theme?}

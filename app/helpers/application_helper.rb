@@ -84,22 +84,11 @@ module ApplicationHelper
     end
   end
 
-  def highlight_code(json)
-    json = json.gsub(',"', ",\n\"")
-               .gsub('{', "{\n")
-               .gsub('}', "\n}")
-               .gsub('":', '": ')
-               .gsub('true}', "true\n}")
-               .gsub('false}', "false\n}")
-
-    Pygments.highlight(json, lexer: :json)
-  end
-
   def prompt_background_color(model)
     {
-      'MediaPrompt' => 'bg-green-400/25 border-green-700',
-      'NarratorPrompt' => 'bg-blue-400/25 border-blue-700',
-      'AtmospherePrompt' => 'bg-orange-400/25 border-orange-700'
+      'MediaPrompt' => 'bg-green-400/25 border-green-700 dark:bg-gray-800 dark:text-green-400 dark:border-green-600',
+      'NarratorPrompt' => 'bg-blue-400/25 border-blue-700 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-600',
+      'AtmospherePrompt' => 'bg-orange-400/25 border-orange-700 dark:bg-gray-800 dark:text-orange-400 dark:border-orange-600'
     }[model.to_s]
   end
 
