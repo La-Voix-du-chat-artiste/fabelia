@@ -14,10 +14,20 @@ RSpec.describe StoriesController do
 
       let(:thematic) { create :thematic }
       let(:nostr_user) { create :nostr_user }
+      let(:media_prompt) { create :media_prompt }
+      let(:narrator_prompt) { create :narrator_prompt }
+      let(:atmosphere_prompt) { create :atmosphere_prompt }
       let(:mode) { :complete }
 
       let(:params) do
-        { mode: mode, thematic_id: thematic.id, nostr_user_id: nostr_user.id }
+        {
+          mode: mode,
+          thematic_id: thematic.id,
+          nostr_user_id: nostr_user.id,
+          media_prompt_id: media_prompt.id,
+          narrator_prompt_id: narrator_prompt.id,
+          atmosphere_prompt_id: atmosphere_prompt.id
+        }
       end
 
       context 'when mode is dropper' do

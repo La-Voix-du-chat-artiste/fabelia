@@ -1,5 +1,5 @@
 class Setting < ApplicationRecord
-  attribute :chapter_options, ChapterOption.to_type
+  attribute :chapter_options, Option.to_type
 
   validates :chapter_options, store_model: { merge_errors: true }
 

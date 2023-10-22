@@ -9,6 +9,11 @@
                     } \
                   } do |f|
 
+  = f.input :light_form,
+            as: :hidden,
+            input_html: { value: true },
+            wrapper: false
+
   .flex.flex-col.lg:flex-row.gap-3.justify-between.w-full
     = f.association :thematic,
                     collection: Thematic.enabled,

@@ -60,6 +60,11 @@ Rails.application.routes.draw do
   resources :thematics, except: :show
   resources :characters, except: :show
   resources :places, except: :show
+  resources :prompts, except: :show do
+    member do
+      post :archive
+    end
+  end
 
   resource :settings, only: %i[show edit update]
   resolve('Setting') { [:settings] }

@@ -248,3 +248,136 @@ places = [
 places.each do |place|
   Place.create!(place)
 end
+
+puts 'Seeding prompts...'
+
+media_prompts = [
+  {
+    type: 'MediaPrompt',
+    title: 'Prompt média par défaut',
+    body: 'Hyper realistic, epic composition, cinematic, landscape vista photography by Carr Clifton & Galen Rowell, Landscape veduta photo by Dustin Lefevre & tdraw, detailed landscape painting by Ivan Shishkin, rendered in Enscape, Miyazaki, Nausicaa Ghibli, 4k detailed post processing, unreal engine',
+    negative_body: 'Deformed, blurry, bad anatomy, disfigured, poorly drawn face, mutation, mutated, extra limb, ugly, poorly drawn hands, missing limb, blurry, floating limbs, disconnected limbs, malformed hands, blur, out of focus, long neck, long body, ((((mutated hands and fingers)))), (((out of frame)))'
+  },
+  {
+    type: 'MediaPrompt',
+    title: 'Prompt bande dessinée',
+    body: 'comic book',
+    negative_body: nil
+  }
+]
+
+narrator_prompts = [
+  {
+    type: 'NarratorPrompt',
+    title: "Stephen King - Horror",
+    body: "From his chilling tales of supernatural entities to psychological thrillers, Stephen King's books plunge readers into a world of fear and suspense, keeping them on the edge of their seats."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "J.R.R. Tolkien - High Fantasy",
+    body: "J.R.R. Tolkien's masterpieces transport readers to enchanting realms filled with epic quests, mythical creatures, and intricate world-building, captivating the imagination of generations."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Guillaume Musso - Romantic Mystery",
+    body: "Guillaume Musso's books blend romance and mystery, weaving intricate tales of love, loss, and serendipitous encounters, leaving readers captivated by the twists and turns of his narratives."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Dan Brown - Thriller",
+    body: "With heart-pounding suspense and intricate conspiracies, Dan Brown's thrillers take readers on fast-paced adventures, unraveling hidden secrets and unveiling shocking revelations."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Jane Austen - Regency Romance",
+    body: "Jane Austen's novels transport readers to the elegant world of Regency England, where love, social manners, and societal expectations intertwine, delivering timeless tales of romance and wit."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "George Orwell - Dystopian Fiction",
+    body: "George Orwell's dystopian works paint bleak visions of a future society ruled by oppression and surveillance, raising questions about power, freedom, and the nature of truth."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Gillian Flynn - Psychological Thriller",
+    body: "Gillian Flynn's gripping psychological thrillers delve into the darker corners of the human mind, exploring twisted relationships, complex characters, and shocking revelations."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Gabriel Garcia Marquez - Magical Realism",
+    body: "Gabriel Garcia Marquez's magical realism transports readers to dreamlike worlds where reality and fantasy blend seamlessly, creating a unique narrative style that enchants and captivates."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Agatha Christie - Mystery",
+    body: "Agatha Christie's intricate mysteries challenge readers to solve crimes alongside her brilliant detectives, leading them through puzzling plots and surprising conclusions."
+  },
+  {
+    type: 'NarratorPrompt',
+    title: "Haruki Murakami - Surreal Fiction",
+    body: "Haruki Murakami's surreal novels blur the boundaries between reality and imagination, diving into the subconscious and exploring themes of loneliness, identity, and memory."
+  }
+]
+
+atmosphere_prompts = [
+  {
+    type: 'AtmospherePrompt',
+    title: "Romantic Prose",
+    body: "Her words flowed like a gentle river, painting vivid images of love and longing, weaving intricate stories of passion and heartbreak."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Magical Realism",
+    body: "In a world where reality and enchantment intertwine, her words painted surreal landscapes, blurring the lines between what is real and what is imagined."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Gothic Horror",
+    body: "From the dark corners of haunted mansions to the eerie whispers of ghosts, her stories delved into the depths of fear, leaving readers chilled to the bone."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Existential Prose",
+    body: "Through introspective characters and philosophical musings, her writing explored the complexities of human existence and the search for meaning in life."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Historical Fiction",
+    body: "Transporting readers back in time, her stories breathed life into forgotten eras, immersing them in historical settings filled with vivid characters and riveting narratives."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: 'Satirical Comedy',
+    body: "With a sharp wit and biting humor, her words danced on the pages, exposing the follies of society and provoking laughter as she poked fun at the world around us."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Sci-Fi Dystopia",
+    body: "In future worlds plagued by oppression and technological dominance, her books painted dystopian landscapes, exploring the darker side of humanity and its consequences."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Young Adult Fantasy",
+    body: "Her words conjured magical realms and courageous heroes, capturing the hearts of young readers as they embarked on epic quests and discovered their inner strength."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Crime Thriller",
+    body: "Through gripping suspense and cunning plot twists, her writing plunged readers into a world of crime and detectives, keeping them on the edge of their seats until the final revelation."
+  },
+  {
+    type: 'AtmospherePrompt',
+    title: "Poetic Prose",
+    body: "Her lyrical words danced off the page, evoking emotions with every line, taking readers on a sensory journey through the beauty and complexity of life."
+  }
+]
+
+MediaPrompt.insert_all(media_prompts)
+NarratorPrompt.insert_all(narrator_prompts)
+AtmospherePrompt.insert_all(atmosphere_prompts)
+
+[MediaPrompt, NarratorPrompt, AtmospherePrompt].each do |model|
+  model.order(:updated_at).each.with_index(1) do |prompt, index|
+    prompt.update_column(:position, index)
+  end
+end

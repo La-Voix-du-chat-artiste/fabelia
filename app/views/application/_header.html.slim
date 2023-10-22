@@ -59,3 +59,8 @@ header.relative.z-20.border-b.bg-slate-800
                              sessions_path,
                              data: { turbo_method: :delete },
                              class: 'text-gray-500'
+
+                  p.mt-1
+                    = link_to 'Nouvelle aventure',
+                             new_story_path,
+                             class: 'inline-block px-2 py-1 rounded-lg text-xs bg-green-700'

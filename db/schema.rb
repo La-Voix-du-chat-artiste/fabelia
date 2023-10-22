@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_153935) do
+ActiveRecord::Schema[7.1].define(version: 2023_09_14_084838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -122,6 +122,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_153935) do
     t.index ["story_id"], name: "index_places_stories_on_story_id"
   end
 
+  create_table "prompts", force: :cascade do |t|
+    t.string "type"
+    t.string "title"
+    t.text "body"
+    t.text "negative_body"
+    t.jsonb "options", default: {}, null: false
+    t.integer "stories_count", default: 0, null: false
+    t.boolean "enabled", default: true, null: false
+    t.integer "position", default: 1, null: false
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "relays", force: :cascade do |t|
     t.string "url"
     t.text "description"
@@ -158,7 +172,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_153935) do
     t.integer "publication_rule", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.jsonb "options", default: {}, null: false
+    t.bigint "media_prompt_id"
+    t.bigint "narrator_prompt_id"
+    t.bigint "atmosphere_prompt_id"
+    t.index ["atmosphere_prompt_id"], name: "index_stories_on_atmosphere_prompt_id"
     t.index ["back_cover_nostr_identifier"], name: "index_stories_on_back_cover_nostr_identifier", unique: true
+    t.index ["media_prompt_id"], name: "index_stories_on_media_prompt_id"
+    t.index ["narrator_prompt_id"], name: "index_stories_on_narrator_prompt_id"
     t.index ["nostr_identifier"], name: "index_stories_on_nostr_identifier", unique: true
     t.index ["nostr_user_id"], name: "index_stories_on_nostr_user_id"
     t.index ["replicate_identifier"], name: "index_stories_on_replicate_identifier", unique: true
@@ -200,5 +220,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_153935) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "stories"
   add_foreign_key "stories", "nostr_users"
+  add_foreign_key "stories", "prompts", column: "atmosphere_prompt_id"
+  add_foreign_key "stories", "prompts", column: "media_prompt_id"
+  add_foreign_key "stories", "prompts", column: "narrator_prompt_id"
   add_foreign_key "stories", "thematics"
 end

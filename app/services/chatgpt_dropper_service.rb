@@ -19,7 +19,7 @@ class ChatGPTDropperService < ChatGPTService
     return json if json['adventure_ended'].to_bool
 
     raise ChapterErrors::EmptyPollOptions if json['options'].blank?
-    raise ChapterErrors::MissingPollOptions if json['options'].size <= 1
+    raise ChapterErrors::MissingPollOptions if json['options'].size < 2
 
     json
   end
@@ -41,32 +41,21 @@ class ChatGPTDropperService < ChatGPTService
     array
   end
 
-  def system_prompt_for_mode
-    chapter_options.chatgpt_dropper_story_system_prompt
+  def prompt_instance
+    @prompt_instance ||= Prompts::DropperStoryPrompt.new(story)
   end
 
-  def json_format
-    {
-      story_title: 'Story title',
-      title: 'Chapter title',
-      content: 'Chapter story narration',
-      summary: 'Chapter, summary, commas, separated, english',
-      options: [
-        'First option',
-        'Second option',
-        'Third option'
-      ],
-      adventure_ended: true
-    }
+  def system_prompt
+    prompt_instance.call
+  end
+
+  def reminder
+    prompt_instance.reminder
   end
 
   def chapters
     return [] if story.nil?
 
     story.chapters.not_draft.by_position.last(10)
-  end
-
-  def reminder
-    " Reply in JSON RFC 8259 compliant format as instructed, respond in #{language_name} language only."
   end
 end

@@ -29,39 +29,15 @@ class ChatGPTCompleteService < ChatGPTService
     array
   end
 
-  def system_prompt_for_mode
-    chapter_options.chatgpt_full_story_system_prompt
+  def prompt_instance
+    @prompt_instance ||= Prompts::FullStoryPrompt.new(story)
   end
 
-  def json_format
-    {
-      title: 'Adventure title',
-      chapters: [
-        {
-          title: 'Chapter title',
-          content: 'Chapter story narration',
-          summary: 'Chapter, summary, commas, separated, english',
-          options: [
-            'First option',
-            'Second option',
-            'Third option'
-          ]
-        },
-        {
-          title: 'Another chapter title',
-          content: 'Another chapter story narration',
-          summary: 'another, chapter, summary, commas, separated, english',
-          options: [
-            'Another first option',
-            'Another second option',
-            'Another third option'
-          ]
-        }
-      ]
-    }
+  def system_prompt
+    prompt_instance.call
   end
 
   def reminder
-    " Ensure the story is complete and have a real coherent ending. Also reply in JSON RFC 8259 compliant format as instructed. Respond in #{language_name} language only."
+    prompt_instance.reminder
   end
 end

@@ -1,5 +1,5 @@
 class NostrUser < ApplicationRecord
-  include ActionView::Helpers::AssetTagHelper
+  # include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
   enum mode: { generated: 0, imported: 1 }, _default: :generated

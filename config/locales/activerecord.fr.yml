@@ -6,6 +6,9 @@ fr:
         zero: lieu
         one: lieu
         other: lieux
+      media_prompt: prompt média
+      narrator_prompt: prompt narrateur
+      atmosphere_prompt: prompt ambiance
 
     attributes:
       story:
@@ -14,9 +17,12 @@ fr:
         nostr_user: Compte Nostr
         characters: Personnages
         places: Lieux
+        media_prompt: Prompt média
+        narrator_prompt: Prompt narrateur
+        atmosphere_prompt: Prompt ambiance
         modes:
           complete: Aventure pré-générée
-          dropper: Aventure au fur et à mesure
+          dropper: Aventure avec votes
         publication_rules:
           do_not_publish: Ne pas publier
           publish_first_chapter: Publier le premier chapitre
@@ -59,4 +65,10 @@ fr:
       place:
         name: Nom
         description: Description
+        enabled: Activé ?
+
+      prompt:
+        title: Titre
+        body: Instructions à suivre
+        negative_body: Instructions négatives
         enabled: Activé ?
