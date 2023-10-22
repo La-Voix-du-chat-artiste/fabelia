@@ -1,4 +1,6 @@
-.border.text-blue-500.bg-blue-50.border-blue-800.p-2.mb-5.rounded-lg.text-sm
+details.panel-info.mb-5
+  summary Explications à lire
+
   p.mb-3 Sur cette page, vous allez pouvoir configurer de manière avancée l'orientation de l'histoire.
 
   p Amusez-vous à faire des combinaisons inédites pour plus de fun !
@@ -6,10 +8,10 @@
 
 = simple_form_for @story,
                   html: { \
-                    class: 'flex flex-col items-center gap-6 justify-between bg-gray-100 rounded-lg p-5', \
+                    class: 'flex flex-col items-center gap-6 justify-between rounded-lg', \
                     data: { turbo: false } \
                   } do |f|
-  p.text-secondary-color.text-xl.font-semibold.mb-3.border-b.border-secondary-color.text-left.w-full Général
+  p.text-xl.font-semibold.mb-3.border-b.dark:border-gray-600.dark:text-gray-600.w-full Général
 
   .flex.flex-col.lg:flex-row.gap-3.justify-between.w-full.mb-2
     = f.association :nostr_user,
@@ -94,7 +96,7 @@
     = f.simple_fields_for :options, f.object.options do |ff|
       .flex.flex-col.gap-6
         section.mb-5
-          p.text-secondary-color.text-xl.font-semibold.mb-3.border-b.border-secondary-color Options
+          p.text-xl.font-semibold.mb-3.border-b.dark:border-gray-600.dark:text-gray-600 Options
 
           .grid.grid-cols-1.lg:grid-cols-4.gap-3.mb-5
             = ff.input :minimum_chapters_count
@@ -105,7 +107,7 @@
           = ff.input :publish_previous
 
         section.mb-5
-          p.text-secondary-color.text-xl.font-semibold.mb-3.border-b.border-secondary-color Média
+          p.text-xl.font-semibold.mb-3.border-b.dark:border-gray-600.dark:text-gray-600 Média
 
           .flex.flex-col.lg:flex-row.justify-center.gap-6
             = f.association :media_prompt,
@@ -126,7 +128,7 @@
                        wrapper_html: { class: 'w-full' }
 
         section.mb-5
-          p.text-secondary-color.text-xl.font-semibold.mb-3.border-b.border-secondary-color Narration
+          p.text-xl.font-semibold.mb-3.border-b.dark:border-gray-600.dark:text-gray-600 Narration
 
           .flex.flex-col.lg:flex-row.justify-center.gap-6
             = f.association :narrator_prompt,

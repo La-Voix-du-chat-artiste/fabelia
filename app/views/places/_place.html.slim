@@ -1,15 +1,15 @@
-.border.mb-3.rounded-lg.border-gray-300.bg-gray-100 id=dom_id(place) class=('opacity-50' unless place.enabled?)
+.row.mb-3 id=dom_id(place) class=('opacity-50' unless place.enabled?)
   = image_tag url_for(place.photo_url), class: 'w-full h-72 object-cover rounded-t-lg'
 
   .mb-3.p-2
-    h2= place.name
-    .text-sm.text-gray-700= place.description
+    h2.text-lg.mb-2= place.name
+    .text-sm.text-gray-700.dark:text-white= place.description
 
   - update_record = allowed_to?(:update?, place)
   - destroy_record = allowed_to?(:destroy?, place)
 
   - if update_record || destroy_record
-    footer.border-t.text-xs.text-gray-700.flex.items-center
+    footer.border-t.text-xs.text-gray-700.flex.items-center.dark:border-gray-600
       - if update_record
         => link_to 'Modifier',
            edit_place_path(place),

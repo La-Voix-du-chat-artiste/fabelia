@@ -1,4 +1,4 @@
-.flex.flex-col.justify-between.block.bg-white.shadow-md.hover:shadow-xl.rounded-lg.overflow-hidden id=dom_id(character) class=('opacity-50' unless character.enabled?)
+.row.flex.flex-col.justify-between.block.shadow-md.hover:shadow-xl.overflow-hidden id=dom_id(character) class=('opacity-50' unless character.enabled?)
   div
     .px-4.py-3
       .flex.items-center.gap-2.mb-3
@@ -17,7 +17,7 @@
   - destroy_record = allowed_to?(:destroy?, character)
 
   - if update_record || destroy_record
-    footer.border-t.text-xs.text-gray-700.flex.items-center
+    footer.border-t.text-xs.text-gray-700.flex.items-center.dark:border-gray-600
       - if update_record
         => link_to 'Modifier',
            edit_character_path(character),

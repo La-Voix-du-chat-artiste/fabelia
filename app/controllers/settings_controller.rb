@@ -18,7 +18,12 @@ class SettingsController < ApplicationController
 
     respond_to do |format|
       if @setting.update(setting_params)
-        format.html { redirect_to settings_path, notice: 'Setting was successfully updated.' }
+        format.html do
+          notice = 'Les paramètres ont bien été mis à jour'
+          path = request.referer.presence || settings_path
+
+          redirect_back_or_to path, notice: notice
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -32,6 +37,6 @@ class SettingsController < ApplicationController
   end
 
   def setting_params
-    params.require(:setting).permit(:chapter_options)
+    params.require(:setting).permit(chapter_options: {})
   end
 end

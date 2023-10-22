@@ -7,8 +7,8 @@
   = turbo_stream_from %i[stories current]
 
 - if allowed_to?(:create?, Story) && !display_ended?
-  details.bg-gray-200.mb-6.border.border-primary-color.rounded-lg open="open" data-controller="quick-stories" data-action="click->quick-stories#setCookie"
-    summary.bg-primary-color.text-white.p-2.cursor-pointer.rounded-lg Générateur d'aventures
+  details.bg-gray-200.mb-6.border.border-primary-color.rounded-lg.dark:bg-gray-600.dark:border-gray-600 open="open" data-controller="quick-stories" data-action="click->quick-stories#setCookie"
+    summary.bg-primary-color.text-white.p-2.cursor-pointer.rounded-lg.dark:bg-gray-600 Générateur d'aventures
     = render 'stories/form_light', stories: @active_stories
 
 header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
@@ -18,7 +18,7 @@ header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
     - else
       | Les aventures en cours
 
-  p.text-sm
+  p.text-sm.dark:text-gray-600
     - if display_ended?
       = link_to 'Voir les aventures en cours', root_path, class: 'underline'
     - else

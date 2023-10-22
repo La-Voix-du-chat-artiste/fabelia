@@ -1,4 +1,4 @@
-details.border.mb-3.rounded-lg.border-gray-300.bg-gray-100 id=dom_id(thematic) class=('opacity-50' unless thematic.enabled?)
+details.row.mb-3 id=dom_id(thematic) class=('opacity-50' unless thematic.enabled?)
   summary.flex.items-center.gap-3.justify-between.p-2.relative
     .flex.items-center.gap-1
       p= thematic.name
@@ -15,5 +15,5 @@ details.border.mb-3.rounded-lg.border-gray-300.bg-gray-100 id=dom_id(thematic) c
                     method: :delete,
                     data: { turbo_confirm: 'Voulez-vous supprimer cette thématique ?' }
 
-  .p-2.text-gray-600.border-t
+  .p-2.text-gray-600.dark:text-white.border-t.dark:border-gray-600
     = thematic.description

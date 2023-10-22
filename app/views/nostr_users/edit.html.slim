@@ -3,13 +3,13 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
 
   = link_to '<< Retour', nostr_users_path, class: 'back-link'
 
-.border.text-orange-500.bg-orange-50.border-orange-800.p-2.mb-5.rounded-lg.text-sm
+.panel-warning.mb-5
   p Pour éviter des conflits sur les données du compte Nostr, il est recommandé de ne pas faire de modifications sur d'autres clients autres qu'à travers cette interface.
   p En effet, certains clients n'implémentent pas les mêmes métadonnées du profil ce qui peut résulter en l'écrasement de certains champs.
 
 = render 'form', nostr_user: @nostr_user
 
-footer.border.text-red-500.bg-red-50.border-red-300.px-5.py-3.rounded-b-lg.mt-5.rounded-lg
+footer.panel-alert.mt-5
   p.text-xl.mb-3 ⚠️ Zone de danger ⚠️
 
   .flex.flex-col.lg:flex-row.justify-between.gap-5.mb-2

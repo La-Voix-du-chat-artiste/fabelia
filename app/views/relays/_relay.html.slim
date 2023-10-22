@@ -5,7 +5,7 @@
 - elsif Relay.main == relay
   - favorite = true
 
-details.border.mb-3.rounded-lg id=dom_id(relay) data-sortable-url=relay_path(relay) class=('opacity-50' unless relay.enabled?) class=(favorite ? 'border-green-300 bg-green-100' : 'border-gray-300 bg-gray-100')
+details.row.mb-3 id=dom_id(relay) data-sortable-url=relay_path(relay) class=('opacity-50' unless relay.enabled?)
   summary.flex.items-center.gap-3.justify-between.p-2.relative
     - if favorite
       span.absolute.-top-3.-left-2.cursor-help title="Relay favori" ⭐
@@ -25,5 +25,5 @@ details.border.mb-3.rounded-lg id=dom_id(relay) data-sortable-url=relay_path(rel
                     method: :delete,
                     data: { turbo_confirm: 'Voulez-vous supprimer ce relay ?' }
 
-  .p-2
+  .p-2.border-t.dark:border-gray-600
     = relay.description

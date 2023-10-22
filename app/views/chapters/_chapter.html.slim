@@ -1,24 +1,24 @@
 - if chapter.draft?
-  .flex.items-center.gap-3.mb-2.bg-gray-100/50.rounded-lg.p-3 id=dom_id(chapter)
-    span.text-gray-600 ##{chapter.position}
+  .inline-row.p-3.flex.items-center.gap-3 id=dom_id(chapter)
+    span.text-gray-200.dark:text-gray-600 ##{chapter.position}
 
-    .flex.items-center.justify-center.w-10.h-6.bg-gray-700.rounded.animate-pulse
-      svg.w-10.h-10.text-gray-300 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"
+    .flex.items-center.justify-center.w-10.h-6.bg-gray-300.dark:bg-gray-700.rounded.animate-pulse
+      svg.w-10.h-10.text-gray-200.dark:text-gray-600 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18"
         path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"
 
     .flex.items-center.w-full.space-x-2.animate-pulse
-      .h-2.5.bg-gray-600.rounded-full.w-32
-      .h-2.5.bg-gray-500.rounded-full.w-24
-      .h-2.5.bg-gray-700.rounded-full.w-12
+      .h-2.bg-gray-200.dark:bg-gray-700.rounded-full.w-24
+      .h-2.bg-gray-200.dark:bg-gray-700.rounded-full.w-32
+      .h-2.bg-gray-200.dark:bg-gray-700.rounded-full.w-12
 
 - else
   = link_to story_chapter_path(chapter.story, chapter),
-            class: "block mb-2 bg-gray-100 rounded-lg transition-all hover:bg-gray-200 #{'opacity-50 grayscale hover:opacity-100 hover:grayscale-0' unless chapter.published?}",
+            class: "inline-row block px-3 #{'opacity-50 grayscale hover:opacity-100 hover:grayscale-0' unless chapter.published?}",
             id: dom_id(chapter),
             data: { turbo_stream: true } do
     span.flex.items-center.gap-3.justify-between.p-2.cursor-pointer
       span.flex.items-center.gap-3
-        span.text-gray-600 ##{chapter.position}
+        span.text-gray-600.dark:text-gray-400 ##{chapter.position}
 
         - if chapter.cover.attached?
           = image_tag url_for(chapter.cover.variant(:thumb)), class: 'w-12 rounded-lg'

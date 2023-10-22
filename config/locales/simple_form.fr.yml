@@ -2,6 +2,16 @@ prompt_hints: &prompt_hints
   body: "Saisissez ici les instructions qui doivent être impérativement suivies par l'IA (Note: il est recommandé d'écrire en anglais directement pour une meilleur pertinence)"
   negative_body: "Saisissez ici les instructions de ce que vous ne voulez pas que l'IA génère (Note: il est recommandé d'écrire en anglais directement pour une meilleur pertinence)"
 
+option_labels: &option_labels
+  minimum_chapters_count: Nombre de chapitres minimum
+  maximum_chapters_count: Nombre de chapitres maximum
+  minimum_poll_sats: Nombre minimum de sats pour voter
+  maximum_poll_sats: Nombre maximum de sats pour voter
+  publish_previous: Publier le chapitre précédent ?
+
+option_hints: &option_hints
+  publish_previous: Si coché, le chapitre précédent le chapitre courant sera publié s'il ne l'a pas encore été
+
 fr:
   simple_form:
     "yes": 'Oui'
@@ -17,11 +27,7 @@ fr:
         publication_rule: Règles de publication
         nostr_user_id: Compte Nostr
         options:
-          minimum_chapters_count: Nombre de chapitres minimum
-          maximum_chapters_count: Nombre de chapitres maximum
-          minimum_poll_sats: Nombre minimum de sats pour voter
-          maximum_poll_sats: Nombre maximum de sats pour voter
-          publish_previous: Publier le chapitre précédent ?
+          <<: *option_labels
           chatgpt_full_story_system_prompt: Prompt ChatGPT pour les aventures pré-générées
           chatgpt_dropper_story_system_prompt: Prompt ChatGPT pour les aventures avec votes
           stable_diffusion_prompt: Prompt pour StableDiffusion
@@ -29,6 +35,11 @@ fr:
       media_prompt:
         options:
           num_inference_steps: Etapes d'inférence
+
+      setting:
+        chapter_options:
+          <<: *option_labels
+          theme: Thème
 
     hints:
       nostr_user:
@@ -51,7 +62,7 @@ fr:
         narrator_prompt: Sélectionner un prompt "narrateur" pour orienter le style d'écriture des chapitres par rapport à ceux pré-configurés en base de données
         atmosphere_prompt: Sélectionner un prompt "ambiance" pour orienter l'ambiance des chapitres par rapport à ceux pré-configurés en base de données
         options:
-          publish_previous: Si coché, le chapitre précédent le chapitre courant sera publié s'il ne l'a pas encore été
+          <<: *option_hints
           stable_diffusion_prompt: Orientation complémentaire pour générer l'image finale
           stable_diffusion_negative_prompt: Mots ou termes à exclure de l'image finale générée
           chatgpt_full_story_system_prompt: Informations systèmes complémentaires
@@ -63,6 +74,11 @@ fr:
         <<: *prompt_hints
       atmosphere_prompt:
         <<: *prompt_hints
+
+      setting:
+        chapter_options:
+          <<: *option_hints
+          theme: Thème du site
 
     placeholders:
       nostr_user:

@@ -1,7 +1,7 @@
 .border.border-primary-color.rounded-lg.p-5.mb-3
   h2.text-xl.mb-6 Se connecter
 
-  = simple_form_for :session, url: sessions_path do |f|
+  = simple_form_for :session, url: sessions_path, html: { data: { turbo: false } } do |f|
     = f.input :email,
               wrapper_html: { class: 'mb-5' },
               autofocus: true
