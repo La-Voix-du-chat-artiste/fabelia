@@ -8,21 +8,38 @@ Fabelia is a Nostr bot that publish AI generated stories to relays.
 
 [![Ruby on Rails CI](https://github.com/La-Voix-du-chat-artiste/fabelia/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/La-Voix-du-chat-artiste/fabelia/actions/workflows/rubyonrails.yml)
 
-## AI tools
+## Features
+
+- Generate full stories (pregenerated) or voting stories (one chapter at a time)
+- Management of prompts:
+  - `MediaPrompt` for StableDiffusion generation (comic book, manga, photo, draw, ...)
+  - `NarratorPrompt` as author narrative style (Tolkien, King, Musso, Orwell, ...)
+  - `AtmospherePrompt` as ambiant of the story (comedy, romantic, horror, ...)
+- Management of relays
+- Management of characters to include in stories
+- Management of places to include in stories
+- Management of thematics
+- Management of nostr accounts to publish
+  - Import existing Nostr accounts
+  - Create brand new account from scratch
+- Basic settings
+- Publish stories in autopilot mode
+
+## Tools
 
 Fabelia rely currently on two AI to build stories:
 
 - [chatGPT](https://openai.com/chatgpt) : generate the story
 - [StableDiffusion](https://replicate.com/stability-ai/stable-diffusion) : generate stories and chapters cover
 
-## Development tools
-
-Fabelia is built with the following technologies:
+and is built with the following technologies:
 
 - [Ruby on Rails](https://rubyonrails.org)
 - [PostgreSQL](https://www.postgresql.org)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Docker](https://www.docker.com)
+
+## Setup project
 
 To setup the development project, follow these instructions:
 
@@ -76,24 +93,28 @@ Fabelia provide several rake tasks to easily manage stories publications:
 
 Note: for a complete automation of stories publication, configure a CRON job that will run any of these tasks to a specified recurrence.
 
+## Screenshots
+
+### Home page
+
+![Homepage](public/readme/homepage.png)
+
+### Story details
+
+![Story details](public/readme/story_details.png)
+
+### Chapter details
+
+![Chapter details](public/readme/chapter_details.png)
+
+### Story form
+
+![Story details](public/readme/story_form.png)
+
+
 ## Roadmap
 
-Fabelia is still in early development, here are some of planned enhancements:
-
-- [x] Use `action_policy` to protect controller actions
-- [ ] Filter rake task adding more options (language, thematics)
-- [ ] Document code
-- [ ] Add `RSpec` tests
-- [x] Generate different version of images with ActiveStorage variants
-- [ ] Refactor duplicated code
-- [ ] Extract texts to I18n
-- [ ] When removing a story from interface, send a deletion event to Nostr relays
-- [ ] Add an option in interface to ask if adventure should be published immediately
-- [ ] Improve design rendering and responsive
-- [x] Handle more relays configuration to published to
-- [ ] Switch IA tools to open source equivalent
-- [ ] Add CI actions (Rubocop, RSpec)
-- [ ] Fix more hidden bugs ! 🤓
+Fabelia is still in early development, check the [project page](https://github.com/orgs/La-Voix-du-chat-artiste/projects/2) to check the planned features and enhancements.
 
 ## Sponsoring
 
@@ -102,4 +123,10 @@ If you appreciate this project and would like to support developpers team, you c
 - subscribe to an "Expresso" plan on [Flownaely Café](https://flownaely.cafe) ☕
 - send some satochis to **bc1qkaq059gxysmrvsuv2ut7cnjnvec557dep5zjgk** address
   
-  ![Bitcoin address](public/bc1qkaq059gxysmrvsuv2ut7cnjnvec557dep5zjgk.png)
+  <img src="public/readme/bc1qkaq059gxysmrvsuv2ut7cnjnvec557dep5zjgk.png" alt="image" width="100" height="auto" />
+
+Thank you ! 🥳🍻
+
+## License
+
+Fabelia is released under the MIT License.
