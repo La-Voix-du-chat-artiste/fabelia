@@ -3,3 +3,6 @@
 - if @story.enabled_previously_changed?
   = turbo_stream.replace dom_id(@story) do
     = render @story
+
+= turbo_stream.replace :panel_details do
+  = render 'details', story: @story

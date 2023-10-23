@@ -4,7 +4,7 @@ import { useHotkeys } from "stimulus-use/hotkeys"
 import { fadeIn, fadeOut } from '../mixins/utils'
 
 export default class extends Controller {
-  static targets = ['prev', 'next', 'content']
+  static targets = ['prev', 'next']
   static values = {
     url: String // Base64 encoded
   }
@@ -14,7 +14,7 @@ export default class extends Controller {
 
     fadeIn(this.element, this.duration)
 
-    useClickOutside(this, { element: this.contentTarget })
+    useClickOutside(this)
 
     useHotkeys(this, {
       'esc': [this.close],
@@ -29,14 +29,14 @@ export default class extends Controller {
       window.history.pushState({ path: url.href }, '', url.href)
     }
 
-    this._disableScroll()
+    // this._disableScroll()
   }
 
   close(e) {
     e.preventDefault()
 
     fadeOut(this.element, this.duration, () => {
-      this.element.parentNode.remove()
+      this.element.remove()
     })
 
     if (this.hasUrlValue) {
@@ -46,7 +46,7 @@ export default class extends Controller {
       window.history.pushState({ path: url.href }, '', url.href)
     }
 
-    this._enableScroll()
+    // this._enableScroll()
   }
 
   clickOutside(e) {

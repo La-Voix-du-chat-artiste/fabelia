@@ -4,8 +4,6 @@
 - else
   .flex.flex-col.lg:flex-row.justify-between.mb-6 class=('opacity-75' unless story.enabled?) class="lg:max-h-[30rem]" id=dom_id(story)
     .w-full.lg:w-2/5.p-3.flex.flex-col.items-center.text-white.rounded-t-lg.lg:rounded-tr-none.lg:rounded-bl-lg.relative class="px-2.5 #{story.complete? ? 'bg-blue-600 dark:bg-blue-600/50' : 'bg-yellow-600 dark:bg-yellow-600/50' }"
-      = render 'stories/menu', story: story
-
       header.flex.items-center.gap-2.mb-1
         h2.text-lg.font-bold= story.title
 
@@ -50,10 +48,10 @@
         =< l(story.updated_at)
 
       = link_to 'Détails', story_path(story),
-                class: 'text-xs underline',
+                class: 'absolute inset-0 indent-[-9999px]',
                 id: dom_id(story),
                 data: { turbo_stream: true }
 
     .w-full.lg:w-3/5.bg-gray-50.dark:bg-slate-700/25.rounded-r-lg.lg:overflow-y-auto
       .divide-y.dark:divide-gray-600 id=dom_id(story, :chapters)
-        = render story.chapters.with_attached_cover.order(id: :asc)
+        = render story.chapters.with_attached_cover.order(position: :asc)

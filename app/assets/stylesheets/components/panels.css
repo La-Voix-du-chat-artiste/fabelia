@@ -32,10 +32,14 @@
   @apply panel-base text-red-500 bg-red-50 border-red-500 dark:bg-gray-800 dark:text-red-400;
 }
 
+.panel-details {
+  @apply fixed top-0 right-0 bottom-0 h-full w-full lg:w-1/2 xl:w-2/5 p-4 z-30 dark:text-white border-l dark:border-gray-600 overflow-y-auto dark:bg-slate-700/[0.95] bg-white/[0.95] md:rounded-l-lg;
+}
+
 .row {
   @apply border mb-3 rounded-lg border-gray-300 bg-gray-100 dark:bg-slate-700/50 dark:text-white dark:border-gray-600 hover:dark:bg-slate-700 transition-colors;
 }
 
 .inline-row {
-  @apply border-gray-300 bg-gray-100 dark:bg-slate-700/50 dark:text-white dark:border-gray-600 hover:dark:bg-slate-700 transition-colors;
+  @apply border-gray-300 bg-gray-100 dark:bg-slate-700/50 dark:text-white dark:border-gray-600 hover:dark:bg-slate-600 transition-colors;
 }
