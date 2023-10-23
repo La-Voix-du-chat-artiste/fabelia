@@ -63,8 +63,8 @@ class Chapter < ApplicationRecord
   def broadcast_chapter_details
     broadcast_update_to :chapters,
                         locals: { chapter: self },
-                        target: :chapter_details,
-                        partial: 'stories/chapters/chapter_details'
+                        target: :panel_details,
+                        partial: 'stories/chapters/details'
   end
 
   def broadcast_cover

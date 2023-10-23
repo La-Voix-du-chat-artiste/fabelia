@@ -49,9 +49,9 @@ header.flex.flex-col.lg:flex-row.justify-between.items-center.mb-8
 #empty_stories
   = render 'empty_stories' if @stories.empty?
 
-= turbo_frame_tag :story_details
-
 - if @chapter_popup && allowed_to?(:show?, @chapter_popup, with: Stories::ChapterPolicy, context: { story: @chapter_popup.story })
-  = turbo_frame_tag :chapter_details, src: story_chapter_path(@chapter_popup.story, @chapter_popup, format: :turbo_stream)
+  = turbo_frame_tag :panel_details, src: story_chapter_path(@chapter_popup.story, @chapter_popup, format: :turbo_stream)
+- elsif @story_popup && allowed_to?(:show?, @story_popup, with: StoryPolicy, context: { story: @story_popup })
+  = turbo_frame_tag :panel_details, src: story_path(@story_popup, format: :turbo_stream)
 - else
-  = turbo_frame_tag :chapter_details
+  = turbo_frame_tag :panel_details

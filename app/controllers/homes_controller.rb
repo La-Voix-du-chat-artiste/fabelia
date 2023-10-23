@@ -14,18 +14,17 @@ class HomesController < ApplicationController
       NostrUser.pluck(:language).each do |language|
         @active_stories[language] = Story.publishable(language: language).first
       end
-
     end
 
-    @chapter_popup = begin
-      if modal? && valid_modal_params?
-        Chapter.find_by(
-          id: decoded_modal_params[:chapter_id],
-          story_id: decoded_modal_params[:story_id]
-        )
+    begin
+      if modal_chapter?
+        @chapter_popup = Chapter.find_by(id: chapter_id, story_id: story_id)
+      elsif modal_story?
+        @story_popup = Story.find_by(id: story_id)
       end
     rescue URI::InvalidURIError
-      nil
+      @chapter_popup = nil
+      @story_popup = nil
     end
 
     @pagy, @stories = pagy(
@@ -54,8 +53,19 @@ class HomesController < ApplicationController
     ).to_h.with_indifferent_access
   end
 
-  def valid_modal_params?
-    decoded_modal_params[:story_id].present? &&
-      decoded_modal_params[:chapter_id].present?
+  def story_id
+    decoded_modal_params[:story_id]
+  end
+
+  def chapter_id
+    decoded_modal_params[:chapter_id]
+  end
+
+  def modal_story?
+    modal? && story_id && !chapter_id
+  end
+
+  def modal_chapter?
+    modal? && story_id && chapter_id
   end
 end
