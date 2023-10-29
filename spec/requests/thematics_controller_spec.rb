@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ThematicsController do
+  include_context 'shared company'
+
   describe 'GET /thematics' do
     subject(:action) { get '/thematics' }
 
@@ -18,7 +20,7 @@ RSpec.describe ThematicsController do
 
       context 'with some record' do
         before do
-          create_list :thematic, 2
+          create_list :thematic, 2, company: shared_company
           action
         end
 
@@ -46,7 +48,7 @@ RSpec.describe ThematicsController do
     subject(:action) { post '/thematics', params: { thematic: params } }
 
     let(:params) { {} }
-    let(:relay) { create :relay }
+    let(:relay) { create :relay, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -56,7 +58,7 @@ RSpec.describe ThematicsController do
 
       context 'when params are invalid' do
         let(:params) do
-          attributes_for(:thematic).merge(identifier: nil)
+          attributes_for(:thematic).merge(name_fr: nil)
         end
 
         before { action }
@@ -78,7 +80,7 @@ RSpec.describe ThematicsController do
   describe 'GET /thematics/:id/edit' do
     subject(:action) { get "/thematics/#{thematic.id}/edit" }
 
-    let(:thematic) { create :thematic }
+    let(:thematic) { create :thematic, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -98,7 +100,7 @@ RSpec.describe ThematicsController do
     end
 
     let(:params) { {} }
-    let(:thematic) { create :thematic }
+    let(:thematic) { create :thematic, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -107,7 +109,7 @@ RSpec.describe ThematicsController do
       let(:role) { :admin }
 
       context 'when params are invalid' do
-        let(:params) { { identifier: nil } }
+        let(:params) { { name_fr: nil } }
 
         before { action }
 
@@ -115,7 +117,7 @@ RSpec.describe ThematicsController do
       end
 
       context 'when params are valid' do
-        let(:params) { { identifier: 'Foobar' } }
+        let(:params) { { name_fr: 'Foobar' } }
 
         include_examples 'a redirect response with success message' do
           let(:message) { 'Thematic was successfully updated.' }
@@ -128,7 +130,7 @@ RSpec.describe ThematicsController do
   describe 'DELETE /thematics/:id' do
     subject(:action) { delete "/thematics/#{thematic.id}" }
 
-    let!(:thematic) { create :thematic }
+    let!(:thematic) { create :thematic, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'

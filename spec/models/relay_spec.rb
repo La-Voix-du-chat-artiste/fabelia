@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Relay do
+  subject { build :relay }
+
   it { is_expected.to validate_presence_of(:url) }
-  it { is_expected.to validate_uniqueness_of(:url).case_insensitive }
+  it { is_expected.to validate_uniqueness_of(:url).scoped_to(:company_id).case_insensitive }
 
   describe '#title' do
     subject { relay.title }

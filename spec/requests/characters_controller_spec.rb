@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CharactersController do
+  include_context 'shared company'
+
   describe 'GET /characters' do
     subject(:action) { get '/characters' }
 
@@ -18,7 +20,7 @@ RSpec.describe CharactersController do
 
       context 'with some record' do
         before do
-          create_list :character, 2
+          create_list :character, 2, company: shared_company
           action
         end
 
@@ -78,7 +80,7 @@ RSpec.describe CharactersController do
   describe 'GET /characters/:id/edit' do
     subject(:action) { get "/characters/#{character.id}/edit" }
 
-    let(:character) { create :character }
+    let(:character) { create :character, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -98,7 +100,7 @@ RSpec.describe CharactersController do
     end
 
     let(:params) { {} }
-    let(:character) { create :character }
+    let(:character) { create :character, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -129,7 +131,7 @@ RSpec.describe CharactersController do
   describe 'DELETE /characters/:id' do
     subject(:action) { delete "/characters/#{character.id}" }
 
-    let!(:character) { create :character }
+    let!(:character) { create :character, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'

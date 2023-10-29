@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Public::StoriesController do
+  include_context 'shared company'
+
   describe 'GET /p/s/:id.pdf' do
     subject(:action) { get "/p/s/#{story.id}.pdf" }
 
     context 'when story is viewable as PDF' do
-      let(:story) { create :story, :ended }
+      let(:story) { create :story, :ended, company: shared_company }
 
       before do
         create :chapter, :published, story: story
@@ -16,7 +18,7 @@ RSpec.describe Public::StoriesController do
     end
 
     context 'when story is not viewable as PDF' do
-      let(:story) { create :story }
+      let(:story) { create :story, company: shared_company }
 
       before { action }
 

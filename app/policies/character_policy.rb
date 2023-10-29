@@ -1,5 +1,6 @@
 class CharacterPolicy < ApplicationPolicy
   pre_check :allow_admins
+  pre_check :from_company?, except: %i[index? new? create?]
 
   def index?
     true

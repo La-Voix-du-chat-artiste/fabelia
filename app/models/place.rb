@@ -2,6 +2,7 @@ class Place < ApplicationRecord
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
+  belongs_to :company
   has_many :places_stories, dependent: :delete_all
   has_many :places, through: :places_stories
 
@@ -27,6 +28,15 @@ end
 #  name        :string
 #  description :text
 #  enabled     :boolean          default(TRUE), not null
+#  company_id  :uuid             not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_places_on_company_id  (company_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (company_id => companies.id)
 #

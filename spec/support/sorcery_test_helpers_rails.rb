@@ -21,7 +21,9 @@ RSpec.configure do |config|
   config.include Sorcery::TestHelpers::Rails::Request, type: :request
 
   config.before(:example, as: :logged_in, type: :request) do
-    user = create :user, defined?(role) ? role : :admin
+    company = shared_company || create(:company)
+
+    user = create :user, defined?(role) ? role : :admin, company: company
     sign_in(user)
   end
 end

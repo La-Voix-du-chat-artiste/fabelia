@@ -6,6 +6,7 @@ class CreateNostrUsers < ActiveRecord::Migration[7.0]
       t.string :private_key
       t.string :relay_url
       t.integer :language, null: false, default: 0
+      t.references :company, null: false, foreign_key: true, type: :uuid
 
       t.timestamps
     end

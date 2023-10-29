@@ -1,10 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Stories::CoversController do
+  include_context 'shared company'
+
   describe 'PATCH /stories/:story_id/covers' do
     subject(:action) { patch "/stories/#{story.id}/covers" }
 
-    let(:story) { create :story, summary: 'my story summary' }
+    let(:story) do
+      create :story, summary: 'my story summary', company: shared_company
+    end
 
     before do
       allow(ReplicateServices::Picture).to receive(:call)

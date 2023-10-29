@@ -4,7 +4,7 @@ module Relays
     def create
       authorize! Relay, with: ResetListPolicy
 
-      Relay.reset!
+      company.relays.reset!
 
       redirect_to relays_path, notice: 'Les relais ont été réinitialisés'
     end

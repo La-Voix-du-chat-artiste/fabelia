@@ -1,5 +1,6 @@
 class StoryPolicy < ApplicationPolicy
   pre_check :allow_admins
+  pre_check :from_company?, except: %i[new? create?]
 
   def new?
     true

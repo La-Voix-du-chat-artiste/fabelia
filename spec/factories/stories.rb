@@ -3,12 +3,16 @@ FactoryBot.define do
     title { FFaker::Lorem.sentence }
     summary { FFaker::Lorem.sentence }
 
-    thematic
-    nostr_user
+    company
 
-    media_prompt
-    narrator_prompt
-    atmosphere_prompt
+    before :create do |story|
+      story.thematic = create :thematic, company: story.company
+      story.nostr_user = create :nostr_user, company: story.company
+
+      story.media_prompt = create :media_prompt, company: story.company
+      story.narrator_prompt = create :narrator_prompt, company: story.company
+      story.atmosphere_prompt = create :atmosphere_prompt, company: story.company
+    end
 
     trait :enabled do
       enabled { true }

@@ -32,7 +32,7 @@ module NostrUsers
     end
 
     def set_nostr_user
-      @nostr_user = NostrUser.find(params[:id])
+      @nostr_user = company.nostr_users.find(params[:id])
     end
   end
 end

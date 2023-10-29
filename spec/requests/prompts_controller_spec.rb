@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe PromptsController do
+  include_context 'shared company'
+
   describe 'GET /prompts' do
     subject(:action) { get '/prompts', params: params }
 
@@ -20,7 +22,7 @@ RSpec.describe PromptsController do
 
       context 'with some record' do
         before do
-          create_list :narrator_prompt, 2
+          create_list :narrator_prompt, 2, company: shared_company
           action
         end
 
@@ -31,8 +33,8 @@ RSpec.describe PromptsController do
         let(:params) { { archived: true } }
 
         before do
-          create :narrator_prompt
-          create :narrator_prompt, :archived
+          create :narrator_prompt, company: shared_company
+          create :narrator_prompt, :archived, company: shared_company
 
           action
         end
@@ -137,7 +139,7 @@ RSpec.describe PromptsController do
   describe 'GET /prompts/:id/edit' do
     subject(:action) { get "/prompts/#{prompt.id}/edit" }
 
-    let(:prompt) { create :narrator_prompt }
+    let(:prompt) { create :narrator_prompt, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -158,7 +160,7 @@ RSpec.describe PromptsController do
 
     let(:params) { {} }
     let(:prompt_kind) { :narrator_prompt }
-    let(:prompt) { create :narrator_prompt }
+    let(:prompt) { create :narrator_prompt, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -169,7 +171,7 @@ RSpec.describe PromptsController do
       %i[media_prompt narrator_prompt atmosphere_prompt].each do |kind|
         describe "with #{kind} prompt type" do
           let(:prompt_kind) { kind }
-          let(:prompt) { create kind }
+          let(:prompt) { create kind, company: shared_company }
 
           context 'when params are invalid' do
             let(:params) { { title: nil } }
@@ -196,7 +198,7 @@ RSpec.describe PromptsController do
   describe 'DELETE /prompts/:id' do
     subject(:action) { delete "/prompts/#{prompt.id}" }
 
-    let!(:prompt) { create :narrator_prompt }
+    let!(:prompt) { create :narrator_prompt, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -206,7 +208,7 @@ RSpec.describe PromptsController do
 
       context 'when there is more than one prompt' do
         before do
-          create :narrator_prompt
+          create :narrator_prompt, company: shared_company
         end
 
         it_behaves_like 'a redirect response with success message' do
@@ -231,7 +233,9 @@ RSpec.describe PromptsController do
   describe 'POST /prompts/:id/archive' do
     subject(:action) { post "/prompts/#{prompt.id}/archive" }
 
-    let!(:prompt) { create :narrator_prompt, archived_at: archived_at }
+    let!(:prompt) do
+      create :narrator_prompt, archived_at: archived_at, company: shared_company
+    end
     let(:archived_at) { nil }
 
     it_behaves_like 'a user not logged in'

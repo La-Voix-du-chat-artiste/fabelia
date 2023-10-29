@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe PlacesController do
+  include_context 'shared company'
+
   describe 'GET /places' do
     subject(:action) { get '/places' }
 
@@ -18,7 +20,7 @@ RSpec.describe PlacesController do
 
       context 'with some record' do
         before do
-          create_list :place, 2
+          create_list :place, 2, company: shared_company
           action
         end
 
@@ -78,7 +80,7 @@ RSpec.describe PlacesController do
   describe 'GET /places/:id/edit' do
     subject(:action) { get "/places/#{place.id}/edit" }
 
-    let(:place) { create :place }
+    let(:place) { create :place, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -98,7 +100,7 @@ RSpec.describe PlacesController do
     end
 
     let(:params) { {} }
-    let(:place) { create :place }
+    let(:place) { create :place, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -115,7 +117,7 @@ RSpec.describe PlacesController do
       end
 
       context 'when params are valid' do
-        let(:params) { { identifier: 'Foobar' } }
+        let(:params) { { name_fr: 'Foobar' } }
 
         include_examples 'a redirect response with success message' do
           let(:message) { 'Le lieu a bien été modifié' }
@@ -129,7 +131,7 @@ RSpec.describe PlacesController do
   describe 'DELETE /places/:id' do
     subject(:action) { delete "/places/#{place.id}" }
 
-    let!(:place) { create :place }
+    let!(:place) { create :place, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'

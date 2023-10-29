@@ -5,6 +5,8 @@ FactoryBot.define do
 
     type { 'Prompt' }
 
+    company
+
     trait :archived do
       archived_at { 1.week.ago }
     end

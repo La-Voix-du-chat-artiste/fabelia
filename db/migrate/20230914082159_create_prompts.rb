@@ -10,6 +10,7 @@ class CreatePrompts < ActiveRecord::Migration[7.0]
       t.boolean :enabled, null: false, default: true
       t.integer :position, null: false, default: 1
       t.datetime :archived_at
+      t.references :company, null: false, foreign_key: true, type: :uuid
 
       t.timestamps
     end

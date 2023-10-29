@@ -70,8 +70,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.string "last_name"
     t.text "biography"
     t.boolean "enabled", default: true, null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_characters_on_company_id"
     t.index ["first_name", "last_name"], name: "index_characters_on_first_name_and_last_name", unique: true
   end
 
@@ -83,9 +85,18 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.index ["story_id"], name: "index_characters_stories_on_story_id"
   end
 
+  create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "users_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_companies_on_name", unique: true
+  end
+
   create_table "nostr_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "private_key"
     t.string "language", limit: 2, default: "EN", null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stories_count", default: 0, null: false
@@ -98,6 +109,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.string "website"
     t.string "lud16"
     t.string "display_name"
+    t.index ["company_id"], name: "index_nostr_users_on_company_id"
     t.index ["private_key"], name: "index_nostr_users_on_private_key", unique: true
   end
 
@@ -111,8 +123,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.string "name"
     t.text "description"
     t.boolean "enabled", default: true, null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_places_on_company_id"
   end
 
   create_table "places_stories", id: false, force: :cascade do |t|
@@ -132,24 +146,30 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.boolean "enabled", default: true, null: false
     t.integer "position", default: 1, null: false
     t.datetime "archived_at"
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_prompts_on_company_id"
   end
 
   create_table "relays", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "url"
     t.text "description"
     t.boolean "enabled", default: true, null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position", default: 1, null: false
-    t.index ["url"], name: "index_relays_on_url", unique: true
+    t.index ["company_id", "url"], name: "index_relays_on_company_id_and_url", unique: true
+    t.index ["company_id"], name: "index_relays_on_company_id"
   end
 
   create_table "settings", force: :cascade do |t|
     t.jsonb "chapter_options", default: {}, null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_settings_on_company_id"
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
@@ -250,6 +270,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.integer "chapters_count", default: 0, null: false
     t.datetime "adventure_ended_at"
     t.json "raw_response_body", default: {}, null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mode", default: 0, null: false
@@ -270,6 +291,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.uuid "atmosphere_prompt_id"
     t.index ["atmosphere_prompt_id"], name: "index_stories_on_atmosphere_prompt_id"
     t.index ["back_cover_nostr_identifier"], name: "index_stories_on_back_cover_nostr_identifier", unique: true
+    t.index ["company_id"], name: "index_stories_on_company_id"
     t.index ["media_prompt_id"], name: "index_stories_on_media_prompt_id"
     t.index ["narrator_prompt_id"], name: "index_stories_on_narrator_prompt_id"
     t.index ["nostr_identifier"], name: "index_stories_on_nostr_identifier", unique: true
@@ -279,16 +301,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
   end
 
   create_table "thematics", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "identifier"
     t.string "name_fr"
     t.string "name_en"
     t.text "description_fr"
     t.text "description_en"
     t.integer "stories_count", default: 0, null: false
     t.boolean "enabled", default: true, null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["identifier"], name: "index_thematics_on_identifier", unique: true
+    t.index ["company_id"], name: "index_thematics_on_company_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -303,7 +325,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
     t.integer "access_count_to_reset_password_page", default: 0
+    t.uuid "company_id"
     t.integer "role", default: 0, null: false
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
@@ -312,14 +336,22 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "stories"
+  add_foreign_key "characters", "companies"
+  add_foreign_key "nostr_users", "companies"
+  add_foreign_key "places", "companies"
+  add_foreign_key "prompts", "companies"
+  add_foreign_key "relays", "companies"
+  add_foreign_key "settings", "companies"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "stories", "companies"
   add_foreign_key "stories", "nostr_users"
   add_foreign_key "stories", "prompts", column: "atmosphere_prompt_id"
   add_foreign_key "stories", "prompts", column: "media_prompt_id"
   add_foreign_key "stories", "prompts", column: "narrator_prompt_id"
   add_foreign_key "stories", "thematics"
+  add_foreign_key "thematics", "companies"
 end

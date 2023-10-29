@@ -16,6 +16,10 @@ class ApplicationPolicy < ActionPolicy::Base
 
   private
 
+  def from_company?
+    deny! unless record.company_id == user.company_id
+  end
+
   def allow_super_admins
     deny! unless user.super_admin?
   end

@@ -2,6 +2,7 @@ class Character < ApplicationRecord
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
+  belongs_to :company
   has_many :characters_stories, dependent: :delete_all
   has_many :stories, through: :characters_stories
 
@@ -38,10 +39,16 @@ end
 #  last_name  :string
 #  biography  :text
 #  enabled    :boolean          default(TRUE), not null
+#  company_id :uuid             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
+#  index_characters_on_company_id                (company_id)
 #  index_characters_on_first_name_and_last_name  (first_name,last_name) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (company_id => companies.id)
 #

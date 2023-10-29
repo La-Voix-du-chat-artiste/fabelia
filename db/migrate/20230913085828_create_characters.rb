@@ -5,6 +5,7 @@ class CreateCharacters < ActiveRecord::Migration[7.0]
       t.string :last_name
       t.text :biography
       t.boolean :enabled, null: false, default: true
+      t.references :company, null: false, foreign_key: true, type: :uuid
 
       t.timestamps
 

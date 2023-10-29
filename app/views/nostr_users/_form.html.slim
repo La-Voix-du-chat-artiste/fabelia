@@ -49,7 +49,7 @@
         = image_tag f.object.banner_url, class: 'mx-auto mt-3 w-96'
 
   = f.association :relays,
-                  collection: Relay.enabled,
+                  collection: company.relays.enabled,
                   input_html: { \
                     data: { controller: 'slim-select' }, \
                     class: 'w-full' \

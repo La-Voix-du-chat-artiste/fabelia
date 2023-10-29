@@ -1,3 +1,5 @@
 FactoryBot.define do
-  factory :setting
+  factory :setting do
+    company
+  end
 end

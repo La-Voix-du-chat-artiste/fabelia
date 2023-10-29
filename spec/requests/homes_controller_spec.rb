@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe HomesController do
+  include_context 'shared company'
+
   describe 'GET /' do
     subject(:action) { get '/' }
 

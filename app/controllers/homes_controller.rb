@@ -4,23 +4,23 @@ class HomesController < ApplicationController
   # @route GET / (root)
   def show
     if display_ended?
-      @stories = Story.ended
+      @stories = company.stories.ended
     else
-      @stories = Story.currents
+      @stories = company.stories.currents
 
-      @publishable_stories = Story.publishable
+      @publishable_stories = company.stories.publishable
 
       @active_stories = {}
-      NostrUser.pluck(:language).each do |language|
-        @active_stories[language] = Story.publishable(language: language).first
+      company.nostr_users.pluck(:language).each do |language|
+        @active_stories[language] = company.stories.publishable(language: language).first
       end
     end
 
     begin
       if modal_chapter?
-        @chapter_popup = Chapter.find_by(id: chapter_id, story_id: story_id)
+        @chapter_popup = company.chapters.find_by(id: chapter_id, story_id: story_id)
       elsif modal_story?
-        @story_popup = Story.find_by(id: story_id)
+        @story_popup = company.stories.find_by(id: story_id)
       end
     rescue URI::InvalidURIError
       @chapter_popup = nil

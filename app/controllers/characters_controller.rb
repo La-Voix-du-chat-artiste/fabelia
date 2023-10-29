@@ -5,21 +5,21 @@ class CharactersController < ApplicationController
   def index
     authorize! Character
 
-    @characters = Character.order(id: :desc)
+    @characters = company.characters.order(id: :desc)
   end
 
   # @route GET /characters/new (new_character)
   def new
     authorize! Character
 
-    @character = Character.new
+    @character = company.characters.new
   end
 
   # @route POST /characters (characters)
   def create
     authorize! Character
 
-    @character = Character.new(character_params)
+    @character = company.characters.new(character_params)
 
     respond_to do |format|
       if @character.save
@@ -63,7 +63,7 @@ class CharactersController < ApplicationController
   private
 
   def set_character
-    @character = Character.find(params[:id])
+    @character = company.characters.find(params[:id])
   end
 
   def character_params

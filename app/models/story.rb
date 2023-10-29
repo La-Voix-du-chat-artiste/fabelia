@@ -14,6 +14,7 @@ class Story < ApplicationRecord
 
   attr_accessor :light_form
 
+  belongs_to :company
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
 
@@ -224,6 +225,7 @@ end
 #  chapters_count              :integer          default(0), not null
 #  adventure_ended_at          :datetime
 #  raw_response_body           :json             not null
+#  company_id                  :uuid             not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  mode                        :integer          default("complete"), not null
@@ -247,6 +249,7 @@ end
 #
 #  index_stories_on_atmosphere_prompt_id         (atmosphere_prompt_id)
 #  index_stories_on_back_cover_nostr_identifier  (back_cover_nostr_identifier) UNIQUE
+#  index_stories_on_company_id                   (company_id)
 #  index_stories_on_media_prompt_id              (media_prompt_id)
 #  index_stories_on_narrator_prompt_id           (narrator_prompt_id)
 #  index_stories_on_nostr_identifier             (nostr_identifier) UNIQUE
@@ -257,6 +260,7 @@ end
 # Foreign Keys
 #
 #  fk_rails_...  (atmosphere_prompt_id => prompts.id)
+#  fk_rails_...  (company_id => companies.id)
 #  fk_rails_...  (media_prompt_id => prompts.id)
 #  fk_rails_...  (narrator_prompt_id => prompts.id)
 #  fk_rails_...  (nostr_user_id => nostr_users.id)
