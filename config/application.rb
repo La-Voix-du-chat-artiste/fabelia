@@ -9,7 +9,12 @@ Bundler.require(*Rails.groups)
 module Fabelia
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    # config.autoload_lib(ignore: %w[assets tasks templates])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -23,7 +28,6 @@ module Fabelia
     config.i18n.available_locales = %i[fr en]
     config.i18n.enforce_available_locales = false
     config.i18n.fallbacks = %i[en fr]
-    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}').to_s]
 
     config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY')
     config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY')
