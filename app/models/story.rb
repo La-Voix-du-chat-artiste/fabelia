@@ -12,7 +12,7 @@ class Story < ApplicationRecord
 
   attribute :options, StoryOption.to_type
 
-  attr_reader :light_form
+  attr_accessor :light_form
 
   belongs_to :thematic, counter_cache: true
   belongs_to :nostr_user, counter_cache: true
