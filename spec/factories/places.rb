@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :place do
-    name { Faker::Lorem.sentence }
-    description { Faker::Lorem.paragraph }
+    name { FFaker::Lorem.sentence }
+    description { FFaker::Lorem.paragraph }
   end
 end

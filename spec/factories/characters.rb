@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :character do
-    first_name { Faker::Name.name }
-    last_name { Faker::Name.last_name }
-    biography { Faker::Lorem.paragraph }
+    first_name { FFaker::Name.name }
+    last_name { FFaker::Name.last_name }
+    biography { FFaker::Lorem.paragraph }
   end
 end

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :prompt do
-    title { Faker::Lorem.paragraph }
-    body { Faker::Lorem.sentence }
+    title { FFaker::Lorem.paragraph }
+    body { FFaker::Lorem.sentence }
 
     type { 'Prompt' }
 

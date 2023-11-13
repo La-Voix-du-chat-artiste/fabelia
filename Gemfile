@@ -8,7 +8,7 @@ gem 'action_policy'
 gem 'acts_as_list'
 gem 'bootsnap', require: false
 gem 'dotenv-rails'
-gem 'faker'
+gem 'ffaker'
 gem 'human_attributes'
 gem 'i18n_data'
 gem 'image_processing'

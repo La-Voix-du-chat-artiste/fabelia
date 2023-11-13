@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :chapter do
-    summary { Faker::Lorem.sentence }
+    summary { FFaker::Lorem.sentence }
 
     story
 

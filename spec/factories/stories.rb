@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :story do
-    summary { Faker::Lorem.sentence }
+    summary { FFaker::Lorem.sentence }
 
     thematic
     nostr_user

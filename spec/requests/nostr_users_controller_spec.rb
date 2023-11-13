@@ -135,7 +135,7 @@ RSpec.describe NostrUsersController do
       end
 
       context 'when params are valid' do
-        let(:params) { { private_key: Faker::Crypto.sha256 } }
+        let(:params) { { private_key: FFaker::Crypto.sha256 } }
 
         include_examples 'a redirect response with success message' do
           let(:message) { 'Le compte Nostr a bien été mis à jour.' }
