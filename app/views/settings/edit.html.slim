@@ -3,4 +3,7 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
 
   = link_to '<< Retour', settings_path, class: 'back-link'
 
+.panel-info.mb-6
+  p Tous les paramètres ont une portée globale aux histoires générées par défaut. Vous pouvez toujours surcharger ces options dans la configuration avancée d'une histoire.
+
 = render 'form', setting: @setting

@@ -4,6 +4,10 @@ form label {
   @apply dark:text-white;
 }
 
+form label:not(.boolean) {
+  @apply mb-2;
+}
+
 input.string, input.password, input.numeric,
 input.date, input.time, select.select,
 textarea.text, input.file {
@@ -37,6 +41,6 @@ input.boolean, input.check_boxes {
   @apply inline-block w-4 mr-1;
 }
 
-input.boolean, input.check_boxes {
-  @apply inline-block w-4 mr-2;
+label.boolean, label.check_boxes {
+  @apply block;
 }
