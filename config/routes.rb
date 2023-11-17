@@ -66,6 +66,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :settings, only: %i[show edit update]
+  resource :settings, only: %i[edit update]
   resolve('Setting') { [:settings] }
 end

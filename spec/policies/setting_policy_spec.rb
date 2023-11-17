@@ -6,7 +6,7 @@ RSpec.describe SettingPolicy do
 
   let(:context) { { user: user } }
 
-  %i[show edit update].each do |action|
+  %i[edit update].each do |action|
     describe_rule "#{action}?" do
       succeed 'when user is super admin' do
         let(:role) { :super_admin }

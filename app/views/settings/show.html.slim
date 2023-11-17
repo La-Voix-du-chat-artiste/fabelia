@@ -1,9 +1,0 @@
-header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
-  h1.text-3xl Les paramètres
-
-  - if allowed_to?(:update?, Setting)
-    = link_to 'Modifier', edit_settings_path, class: 'edit-link'
-
-
-.mb-3
-  = render @setting

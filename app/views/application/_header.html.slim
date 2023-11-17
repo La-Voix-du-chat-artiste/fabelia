@@ -42,9 +42,9 @@ header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
                             class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'thematics'}" do
                     span.relative.dark:group-hover:text-white Thématiques
 
-              - if allowed_to?(:show?, Setting)
+              - if allowed_to?(:update?, Setting)
                 li
-                  = link_to settings_path,
+                  = link_to edit_settings_path,
                             class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'settings'}" do
                     span.relative.dark:group-hover:text-white Paramètres
 

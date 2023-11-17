@@ -1,10 +1,5 @@
 class SettingsController < ApplicationController
-  before_action :set_setting, only: %i[show edit update]
-
-  # @route GET /settings (settings)
-  def show
-    authorize! @setting
-  end
+  before_action :set_setting, only: %i[edit update]
 
   # @route GET /settings/edit (edit_settings)
   def edit
@@ -20,7 +15,7 @@ class SettingsController < ApplicationController
       if @setting.update(setting_params)
         format.html do
           notice = 'Les paramètres ont bien été mis à jour'
-          path = request.referer.presence || settings_path
+          path = request.referer.presence || edit_settings_path
 
           redirect_to path, notice: notice
         end

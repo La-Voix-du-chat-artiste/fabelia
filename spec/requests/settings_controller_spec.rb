@@ -3,22 +3,6 @@ require 'rails_helper'
 RSpec.describe SettingsController do
   before { create(:setting) unless Setting.exists? }
 
-  describe 'GET /settings' do
-    subject(:action) { get '/settings' }
-
-    it_behaves_like 'a user not logged in'
-    it_behaves_like 'unauthorized request when logged in as standard'
-    it_behaves_like 'unauthorized request when logged in as admin'
-
-    context 'when logged in with proper accreditation', as: :logged_in do
-      let(:role) { :super_admin }
-
-      before { action }
-
-      it { expect(response).to have_http_status :ok }
-    end
-  end
-
   describe 'GET /settings/edit' do
     subject(:action) { get '/settings/edit' }
 
@@ -70,7 +54,7 @@ RSpec.describe SettingsController do
 
         include_examples 'a redirect response with success message' do
           let(:message) { 'Les paramètres ont bien été mis à jour' }
-          let(:url_to_redirect) { settings_path }
+          let(:url_to_redirect) { edit_settings_path }
         end
       end
     end

@@ -75,7 +75,7 @@ SimpleForm.setup do |config|
   config.boolean_style = :nested
 
   # Default class for buttons
-  config.button_class = 'add-link'
+  config.button_class = 'add-link cursor-pointer'
 
   # Method used to tidy up errors. Specify any Rails Array method.
   # :first lists the first message for each field.
