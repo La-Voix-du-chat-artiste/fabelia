@@ -1,7 +1,8 @@
 module NostrJobs
   class StoryDeletionJob < NostrJob
     def perform(story)
-      NostrServices::StoryDeletionEvent.call(story)
+      event = NostrBuilder::StoryDeletionEvent.call(story)
+      NostrBroadcaster.call(story.nostr_user, event)
 
       story.destroy!
 

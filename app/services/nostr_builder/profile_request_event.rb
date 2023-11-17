@@ -1,5 +1,5 @@
-module NostrServices
-  class FetchProfile < NostrEvent
+module NostrBuilder
+  class ProfileRequestEvent < BaseEvent
     METADATA_KIND = 0
 
     attr_reader :nostr_user
@@ -11,8 +11,8 @@ module NostrServices
     def call
       validate!
 
-      req = nostr.build_req_event(filters)
-      response = nostr.test_post_event(req, favorite_relay_url)
+      event = nostr.build_req_event(filters)
+      response = nostr.test_post_event(event, favorite_relay_url)
 
       JSON.parse(response.last['content'])
     end

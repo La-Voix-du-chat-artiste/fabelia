@@ -158,7 +158,7 @@ class Story < ApplicationRecord
     Story.publishable(language: nostr_user.language).first == self
   end
 
-  def front_cover_pubished?
+  def front_cover_published?
     nostr_identifier.present?
   end
 

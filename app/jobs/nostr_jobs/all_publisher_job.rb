@@ -10,7 +10,7 @@ module NostrJobs
       raise StoryErrors::MissingCover unless story.cover.attached?
 
       story.chapters.not_published.not_draft.by_position.each do |chapter|
-        NostrPublisherService.call(chapter)
+        NostrPublisher::SmartChapter.call(chapter)
         sleep 1
       end
 

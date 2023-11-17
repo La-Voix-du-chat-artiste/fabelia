@@ -16,7 +16,7 @@ module NostrUsers
       end
 
       if @nostr_user.save
-        NostrAccounts::ImportAccount.call(@nostr_user)
+        NostrServices::ImportAccount.call(@nostr_user)
 
         redirect_to nostr_users_path, notice: 'Nostr user was successfully imported.'
       else

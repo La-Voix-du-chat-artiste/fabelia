@@ -6,7 +6,7 @@ module NostrUsers
     def create
       authorize! @nostr_user, with: ProfilePolicy
 
-      NostrAccounts::ImportProfile.call(@nostr_user)
+      NostrServices::ImportProfile.call(@nostr_user)
 
       redirect_to nostr_users_path, notice: 'Les métadonnées du profil ont bien été rafraîchies'
     rescue URI::InvalidURIError,

@@ -56,11 +56,11 @@ RSpec.describe NostrUsersController do
 
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :super_admin }
-      let(:instance) { instance_double(NostrAccounts::PublishProfile) }
+      let(:instance) { instance_double(NostrPublisher::Profile) }
 
       before do
-        allow(NostrAccounts::PublishProfile).to receive(:new) { instance }
-        allow(instance).to receive(:build_and_publish_event)
+        allow(NostrPublisher::Profile).to receive(:new) { instance }
+        allow(instance).to receive(:call)
       end
 
       context 'when params are invalid' do
@@ -119,11 +119,11 @@ RSpec.describe NostrUsersController do
 
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :super_admin }
-      let(:instance) { instance_double(NostrAccounts::PublishProfile) }
+      let(:instance) { instance_double(NostrPublisher::Profile) }
 
       before do
-        allow(NostrAccounts::PublishProfile).to receive(:new) { instance }
-        allow(instance).to receive(:build_and_publish_event)
+        allow(NostrPublisher::Profile).to receive(:new) { instance }
+        allow(instance).to receive(:call)
       end
 
       context 'when params are invalid' do

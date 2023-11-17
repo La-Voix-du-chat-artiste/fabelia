@@ -4,7 +4,7 @@ RSpec.describe NostrJobs::StoryDeletionJob do
   let(:job) { described_class.new }
 
   before do
-    allow(NostrServices::StoryDeletionEvent).to receive(:call)
+    allow(NostrBroadcaster).to receive(:call)
     allow(Story).to receive(:broadcast_flash)
   end
 
@@ -16,7 +16,7 @@ RSpec.describe NostrJobs::StoryDeletionJob do
     it 'calls deletion service and broadcast flash', :aggregate_failures do
       perform
 
-      expect(NostrServices::StoryDeletionEvent).to have_received(:call).with(story)
+      expect(NostrBroadcaster).to have_received(:call).with(story.nostr_user, instance_of(Array))
       expect(Story).to have_received(:broadcast_flash).with(:notice, "L'aventure vient d'être supprimée sur Nostr")
     end
 

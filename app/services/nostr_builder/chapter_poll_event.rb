@@ -1,5 +1,5 @@
-module NostrServices
-  class ChapterPollEvent < NostrEvent
+module NostrBuilder
+  class ChapterPollEvent < BaseEvent
     EVENT_KIND = 6969 # NIP-69
     POLL_END_OF_LIFE = 1.hour
 
@@ -11,20 +11,10 @@ module NostrServices
     end
 
     def call
-      validate!
-
-      nostr.build_event(payload).tap do |event|
-        relay_urls.each do |relay_url|
-          nostr.test_post_event(event, relay_url)
-        end
-      end
+      nostr.build_event(payload)
     end
 
     private
-
-    def validate!
-      raise NostrUserErrors::MissingAssociatedRelay if relay_urls.empty?
-    end
 
     def payload
       @payload ||= {
@@ -38,12 +28,12 @@ module NostrServices
 
     def tags
       [
-        ['p', public_key, favorite_relay_url],
+        ['p', public_key],
         ['value_minimum', options.minimum_poll_sats.to_s],
         ['value_maximum', options.maximum_poll_sats.to_s],
         ['closed_at', POLL_END_OF_LIFE.from_now.utc.to_i.to_s]
       ].tap do |data|
-        data.push ['e', reference, favorite_relay_url] if reference
+        data.push ['e', reference] if reference
 
         chapter.options.each_with_index do |option, index|
           data.push ['poll_option', index.to_s, option]
@@ -70,6 +60,10 @@ module NostrServices
 
     def story
       chapter.story
+    end
+
+    def options
+      @options ||= story.options
     end
   end
 end

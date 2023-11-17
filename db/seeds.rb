@@ -25,7 +25,7 @@ puts 'Seeding relays...'
 
 relay = Relay.create!(
   url: 'ws://umbrel.local:4848',
-  description: 'Testing relay'
+  description: 'Self-hosted relay on Umbrel server'
 )
 
 puts 'Seeding nostr users...'
@@ -37,9 +37,9 @@ if ENV.fetch('NOSTR_USER_FR_PRIVATE_KEY', nil).present?
     relays: [relay],
     mode: :imported
   )
-  NostrAccounts::ImportProfile.call(nostr_user)
+  NostrServices::ImportProfile.call(nostr_user)
 else
-  NostrUser.create!(
+  nostr_user = NostrUser.create!(
     display_name: FFaker::Internet.user_name,
     private_key: FFaker::Crypto.sha256,
     language: :fr,
@@ -47,6 +47,8 @@ else
     relays: [relay],
     mode: :generated
   )
+
+  NostrPublisher::Profile.call(nostr_user)
 end
 
 if ENV.fetch('NOSTR_USER_EN_PRIVATE_KEY', nil).present?
@@ -56,9 +58,9 @@ if ENV.fetch('NOSTR_USER_EN_PRIVATE_KEY', nil).present?
     relays: [relay],
     mode: :imported
   )
-  NostrAccounts::ImportProfile.call(nostr_user)
+  NostrServices::ImportProfile.call(nostr_user)
 else
-  NostrUser.create!(
+  nostr_user = NostrUser.create!(
     display_name: FFaker::Internet.user_name,
     private_key: FFaker::Crypto.sha256,
     language: :en,
@@ -66,6 +68,8 @@ else
     relays: [relay],
     mode: :generated
   )
+
+  NostrPublisher::Profile.call(nostr_user)
 end
 
 puts 'Seeding thematics...'

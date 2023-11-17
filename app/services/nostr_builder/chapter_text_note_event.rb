@@ -1,10 +1,14 @@
-module NostrServices
-  class ChapterTextNoteEvent < TextNoteEvent
+module NostrBuilder
+  class ChapterTextNoteEvent < BaseEvent
     attr_reader :chapter, :reference
 
     def initialize(chapter, reference = nil)
       @chapter = chapter
       @reference = reference
+    end
+
+    def call
+      TextNoteEvent.call(body, nostr_user, reference)
     end
 
     private

@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module NostrAccounts
+module NostrServices
   class ImportProfile < ApplicationService
     attr_reader :nostr_user
 
@@ -46,7 +46,7 @@ module NostrAccounts
     private
 
     def metadata
-      @metadata ||= NostrServices::FetchProfile.call(nostr_user)
+      @metadata ||= NostrBuilder::ProfileRequestEvent.call(nostr_user)
     end
   end
 end

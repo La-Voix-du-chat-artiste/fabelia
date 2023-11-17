@@ -98,7 +98,7 @@ namespace :stories do
           end
         end
 
-        NostrPublisherService.call(@chapter)
+        NostrPublisher::SmartChapter.call(@chapter)
       end
     rescue StandardError => e
       Rails.logger.tagged(e.class) do
@@ -127,7 +127,7 @@ namespace :stories do
           end
         end
 
-        NostrPublisherService.call(chapter)
+        NostrPublisher::SmartChapter.call(chapter)
       end
     rescue StandardError => e
       Rails.logger.tagged(e.class) do

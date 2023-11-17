@@ -13,13 +13,13 @@ RSpec.describe NostrUsers::RefreshProfilesController do
       let(:role) { :admin }
 
       before do
-        allow(NostrAccounts::ImportProfile).to receive(:call) { {} }
+        allow(NostrServices::ImportProfile).to receive(:call) { {} }
       end
 
       describe '[nostr service]' do
         before { action }
 
-        it { expect(NostrAccounts::ImportProfile).to have_received(:call).with(nostr_user) }
+        it { expect(NostrServices::ImportProfile).to have_received(:call).with(nostr_user) }
       end
 
       include_examples 'a redirect response with success message' do

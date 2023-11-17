@@ -25,8 +25,7 @@ class NostrUsersController < ApplicationController
     end
 
     if @nostr_user.save
-      @account = NostrAccounts::PublishProfile.new(@nostr_user)
-      @account.build_and_publish_event
+      NostrPublisher::Profile.call_later(@nostr_user)
 
       redirect_to nostr_users_path, notice: "Votre compte Nostr vient d'être créé ! ⚠️ Assurez-vous d'avoir fait une sauvegarde de votre clé privée pour ne pas perdre votre compte ⚠️"
     else
@@ -45,8 +44,7 @@ class NostrUsersController < ApplicationController
     authorize! @nostr_user
 
     if @nostr_user.update(nostr_user_params)
-      @account = NostrAccounts::PublishProfile.new(@nostr_user)
-      @account.build_and_publish_event
+      NostrPublisher::Profile.call_later(@nostr_user)
 
       redirect_to nostr_users_path, notice: 'Le compte Nostr a bien été mis à jour.'
     else
