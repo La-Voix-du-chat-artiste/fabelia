@@ -22,7 +22,7 @@ class SettingsController < ApplicationController
           notice = 'Les paramètres ont bien été mis à jour'
           path = request.referer.presence || settings_path
 
-          redirect_back_or_to path, notice: notice
+          redirect_to path, notice: notice
         end
       else
         format.html { render :edit, status: :unprocessable_entity }
