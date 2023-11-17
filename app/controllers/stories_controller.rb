@@ -40,6 +40,8 @@ class StoriesController < ApplicationController
   # @route GET /stories/:id (story)
   def show
     authorize! @story
+
+    @title = "#{@story.title} | Fabelia"
   end
 
   # @route PATCH /stories/:id (story)

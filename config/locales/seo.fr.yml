@@ -1,0 +1,73 @@
+fr:
+  seo:
+    default:
+      title: Fabelia, histoires générées par IA sur Nostr
+      description: Fabelia est une plateforme qui fait appel à l'IA pour créer des histoires et les publie sur le réseau Nostr.
+
+    characters:
+      index:
+        title: Liste des personnages
+      new:
+        title: Ajouter un personnage
+      edit:
+        title: Modifier un personnage
+
+    nostr_users:
+      index:
+        title: Comptes Nostr
+      new:
+        title: Ajouter un compte Nostr
+      edit:
+        title: Modifier un compte Nostr
+
+    password_resets:
+      new:
+        title: Réinitialisation du mot de passe
+      edit:
+        title: Réinitialisation du mot de passe
+
+    places:
+      index:
+        title: Liste des lieux
+      new:
+        title: Ajouter un lieu
+      edit:
+        title: Modifier un lieu
+
+    prompts:
+      index:
+        title: Liste des prompts
+      new:
+        title: Ajouter un prompt
+      edit:
+        title: Modifier un prompt
+
+    relays:
+      index:
+        title: Liste des relais
+      new:
+        title: Ajouter un relais
+      edit:
+        title: Modifier un relais
+
+    sessions:
+      new:
+        title: Connexion utilisateur
+      edit:
+        title: Connexion utilisateur
+
+    settings:
+      edit:
+        title: Les paramètres
+
+    stories:
+      new:
+        title: Créer une nouvelle aventure
+
+    thematics:
+      index:
+        title: Liste des thématiques
+      new:
+        title: Ajouter une thématique
+      edit:
+        title: Modifier une thématique

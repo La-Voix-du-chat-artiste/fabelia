@@ -29,6 +29,9 @@ export default class extends Controller {
       window.history.pushState({ path: url.href }, '', url.href)
     }
 
+    this.$title = document.querySelector('title')
+    this.$metaOriginalTitle = document.querySelector('meta[name="original-page-title"]')
+
     // this._disableScroll()
   }
 
@@ -37,6 +40,7 @@ export default class extends Controller {
 
     fadeOut(this.element, this.duration, () => {
       this.element.remove()
+      this.$title.innerText = this.$metaOriginalTitle.content
     })
 
     if (this.hasUrlValue) {

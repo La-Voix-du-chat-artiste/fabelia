@@ -33,6 +33,8 @@ module Stories
     # @route GET /stories/:story_id/chapters/:id (story_chapter)
     def show
       authorize! @chapter, context: { story: @story }
+
+      @title = "#{@chapter.title} - #{@story.title} | Fabelia"
     end
 
     # @route POST /stories/:story_id/chapters/publish_next (publish_next_story_chapters)

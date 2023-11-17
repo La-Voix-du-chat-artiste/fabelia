@@ -18,4 +18,5 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'NSFW'
   inflect.acronym 'ChatGPT'
+  inflect.acronym 'SEO'
 end
