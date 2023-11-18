@@ -67,3 +67,8 @@ h1, h2, h3, h4 {
 #bullet-footer {
   @apply dark:!bg-black;
 }
+
+
+.dropdown-menu-item {
+  @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 first:rounded-t-lg last:rounded-b-lg;
+}

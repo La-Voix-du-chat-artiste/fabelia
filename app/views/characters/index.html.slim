@@ -2,9 +2,11 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
   .flex.items-end.gap-3
     h1.text-3xl Les personnages
 
-  - if allowed_to?(:create?, Character)
-    .flex.items-center.gap-3
+  .flex.items-center.gap-3
+    - if allowed_to?(:create?, Character)
       = link_to 'Créer un personnage', new_character_path, class: 'add-link'
+
+    = render 'stories/menu_resources'
 
 #characters.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-3
   = render @characters

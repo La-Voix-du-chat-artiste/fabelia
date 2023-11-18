@@ -6,11 +6,8 @@ header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
     - else
       = link_to 'Archivés', prompts_path(archived: true), class: 'bg-black text-white p-1 text-sm'
 
-  - if allowed_to?(:create?, Prompt)
-    .flex.items-center.gap-3
-      = link_to 'Ajouter un prompt média', new_prompt_path(type: Base64.encode64('MediaPrompt')), class: 'add-link'
-      = link_to 'Ajouter un prompt narrateur', new_prompt_path(type: Base64.encode64('NarratorPrompt')), class: 'blue-button'
-      = link_to 'Ajouter un prompt ambiance', new_prompt_path(type: Base64.encode64('AtmospherePrompt')), class: 'edit-link'
+  .flex.items-center.gap-3
+    = render 'stories/menu_resources'
 
 details.panel-info.mb-5
   summary Explications à lire
@@ -24,8 +21,12 @@ details.panel-info.mb-5
     .w-full.lg:w-1/3
       - prompts.each_with_index do |prompt, index|
         - if index.zero?
-          header.mb-3
+          header.flex.items-center.gap-3.mb-3
             p.text-center.font-bold.text-lg.dark:text-white= prompt.model_name.human.capitalize
+
+            - if allowed_to?(:create?, Prompt)
+              = link_to 'Ajouter +', new_prompt_path(type: Base64.encode64(prompt.model_name.to_s)), class: 'add-link !text-xs'
+
 
       div data-controller="sortable" data-sortable-ghost-class="bg-gray-200" data-sortable-filter-class="opacity-25" data-sortable-model-value=label.underscore
         = render collection: prompts, partial: 'prompts/prompt'
