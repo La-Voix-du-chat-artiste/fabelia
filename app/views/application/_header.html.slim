@@ -4,10 +4,11 @@ header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
     .flex.items-center.justify-between
       .relative.z-20
         = link_to root_path, class: 'flex items-center gap-3 px-2 py-1' do
-          = image_tag '/logo.png', class: 'w-12 lg:w-16'
+          = image_tag '/logo.png', class: 'w-10'
           div
             h1.text-lg.lg:text-2xl.dark:text-white Fabelia
-            h2.text-sm.lg:text-md.dark:text-gray-300 Contes générés par IA
+            p.text-gray-900.dark:text-white.text-xs.font-mono.font-semibold.border-r-2.border-black.dark:border-white.whitespace-nowrap.overflow-hidden.animate-typing class="w-[33ch]"
+              = I18n.t('subtitles').sample
 
       .flex.items-center.justify-end.border-l.lg:border-l-0.dark:border-gray-600
         input#hamburger.peer.hidden type="checkbox" name="hamburger" hidden="hidden"
@@ -18,7 +19,7 @@ header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
 
         .peer-checked:translate-x-0.fixed.inset-0.border-r.shadow-xl.transition.duration-300.lg:border-r-0.lg:w-auto.lg:static.lg:shadow-none.lg:translate-x-0.bg-white.dark:bg-slate-800.dark:border-gray-600 class="w-[calc(100%-4.5rem)] translate-x-[-100%]"
           .flex.flex-col.h-full.justify-between.lg:items-center.lg:flex-row
-            ul.px-6.pt-32.text-gray-700.space-y-8.md:px-12.lg:space-y-0.lg:flex.lg:space-x-8.lg:pt-0
+            ul.px-6.pt-32.text-gray-700.space-y-4.lg:space-y-0.lg:flex.lg:space-x-4.lg:pt-0.lg:pr-4
               - link_class = 'group relative before:absolute before:inset-x-0 before:-bottom-2 before:h-2 before:origin-right before:scale-x-0 before:bg-black dark:before:bg-white before:transition before:duration-200 hover:before:origin-left hover:before:scale-x-100 dark:text-white'
               li
                 = link_to root_path, class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'homes'}" do
@@ -61,7 +62,7 @@ header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
                       span title="Thème sombre" 🌙
 
 
-            .border-t.dark:border-gray-600.py-8.px-6.md:px-12.md:py-16.lg:border-t-0.lg:border-l.lg:py-0.lg:pr-0.lg:pl-6
+            .border-t.dark:border-gray-600.lg:border-t-0.lg:border-l
               .flex.items-center.gap-3.p-2
                 - if current_user.avatar.attached?
                   = image_tag polymorphic_path(current_user.avatar), class: 'w-12 h-12 rounded-full'

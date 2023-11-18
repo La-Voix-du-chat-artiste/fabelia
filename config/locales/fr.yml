@@ -2,6 +2,11 @@ fr:
   light: Clair
   dark: Sombre
 
+  subtitles:
+    - Comptes générés par IA sur Nostr
+    - Générateur d'aventures sur Nostr
+    - ChatGPT, StableDiffusion et Nostr
+
   time:
     formats:
       default: "%d/%m/%Y à %Hh%M"

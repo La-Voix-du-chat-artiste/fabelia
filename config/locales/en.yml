@@ -1,2 +1,6 @@
 en:
+  subtitles:
+    - AI generated adventures on Nostr
+    - ChatGPT, StableDiffusion and Nostr
+
   begin_adventure: "%{description} : Beginning of adventure"
