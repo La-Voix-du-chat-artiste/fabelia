@@ -1,5 +1,8 @@
 header.flex.flex-col.lg:flex-row.items-center.justify-between.mb-6.gap-3
-  h1.text-3xl Modifier compte Nostr
+  .flex.items-center.gap-3
+    h1.text-3xl Modifier compte Nostr
+    span.bg-yellow-100.text-yellow-800.text-xs.font-medium.me-2.rounded.dark:bg-gray-700.dark:text-yellow-400.border.border-yellow-400 class="px-2.5 py-0.5"
+      = @nostr_user.human_language
 
   = link_to '<< Retour', nostr_users_path, class: 'back-link'
 

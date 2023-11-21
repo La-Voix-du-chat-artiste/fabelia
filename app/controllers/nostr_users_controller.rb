@@ -19,7 +19,7 @@ class NostrUsersController < ApplicationController
   def create
     authorize! NostrUser
 
-    @nostr_user = NostrUser.new(nostr_user_params) do |nostr_user|
+    @nostr_user = NostrUser.new(nostr_user_create_params) do |nostr_user|
       nostr_user.mode = :generated
       nostr_user.relays = [Relay.main]
     end
@@ -43,7 +43,7 @@ class NostrUsersController < ApplicationController
   def update
     authorize! @nostr_user
 
-    if @nostr_user.update(nostr_user_params)
+    if @nostr_user.update(nostr_user_update_params)
       NostrPublisher::Profile.call_later(@nostr_user)
 
       redirect_to nostr_users_path, notice: 'Le compte Nostr a bien été mis à jour.'
@@ -72,10 +72,16 @@ class NostrUsersController < ApplicationController
     @nostr_user = NostrUser.find(params[:id])
   end
 
-  def nostr_user_params
+  def nostr_user_create_params
+    nostr_user_update_params.merge(
+      params.require(:nostr_user).permit(:language)
+    )
+  end
+
+  def nostr_user_update_params
     params.require(:nostr_user)
           .permit(:name, :display_name, :about, :nip05, :lud16,
-                  :website, :picture, :banner, :language, :enabled,
+                  :website, :picture, :banner, :enabled,
                   relay_ids: [])
   end
 end

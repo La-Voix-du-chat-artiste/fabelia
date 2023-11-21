@@ -50,7 +50,9 @@ fr:
         nip05: Preuve de l'identité de la personne possédant le compte
         name: "@mon_nom (sans le @)"
         display_name:  Nom du profil affiché publiquement
-        language: Langue utilisée pour les aventures
+        language: |
+          Langue utilisée pour les aventures <br />
+          ⚠️ Une fois définie, la langue ne pourra plus être modifiée par la suite
 
       story:
         mode: Type d'aventure

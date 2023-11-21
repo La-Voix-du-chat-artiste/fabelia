@@ -3,22 +3,23 @@
     div
       .flex.justify-between.gap-3.mb-5
         = f.input :display_name,
-                  wrapper_html: { class: 'w-1/3' }
+                  wrapper_html: { class: 'w-full' }
 
         = f.input :name,
-                  wrapper_html: { class: 'w-1/3' }
+                  wrapper_html: { class: 'w-full' }
 
-        = f.input :language,
-                  as: :select,
-                  collection: nostr_user_languages_select_options,
-                  include_blank: false,
-                  input_html: { \
-                    class: 'w-full', \
-                    data: { \
-                      controller: 'slim-select' \
-                    } \
-                  }, \
-                  wrapper_html: { class: 'w-1/3' }
+        - if f.object.new_record?
+          = f.input :language,
+                    as: :select,
+                    collection: nostr_user_languages_select_options,
+                    include_blank: false,
+                    input_html: { \
+                      class: 'w-full', \
+                      data: { \
+                        controller: 'slim-select' \
+                      } \
+                    }, \
+                    wrapper_html: { class: 'w-full' }
 
       = f.input :about,
                 input_html: { class: 'h-32' },

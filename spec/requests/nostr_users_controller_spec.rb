@@ -142,6 +142,15 @@ RSpec.describe NostrUsersController do
           let(:url_to_redirect) { nostr_users_path }
         end
       end
+
+      describe 'language cannot be modified' do
+        let(:nostr_user) { create :nostr_user, language: 'FR' }
+        let(:params) { { language: 'ES' } }
+
+        before { action }
+
+        it { expect(nostr_user.reload.language).to eq 'FR' }
+      end
     end
   end
 

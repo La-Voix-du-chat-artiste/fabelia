@@ -3,9 +3,8 @@
     .relative.pb-44.overflow-hidden
       = image_tag nostr_user.banner_url, class: 'absolute inset-0 h-full w-full object-cover transition-transform hover:scale-105'
 
-      - language = I18nData.languages(I18n.locale)[nostr_user.language.upcase]
-      span.absolute.bottom-0.left-1.inline-block.px-2.py-1.leading-none.rounded-full.font-semibold.uppercase.tracking-wide.text-xs.mb-2 style="background-color: ##{Digest::MD5.hexdigest(language)[0..5]}"
-        = language.capitalize
+      span.absolute.bottom-0.left-1.inline-block.mb-2.bg-yellow-100.text-yellow-800.text-xs.font-medium.me-2.rounded.dark:bg-gray-700.dark:text-yellow-400.border.border-yellow-400 class="px-2.5 py-0.5"
+        = nostr_user.human_language
 
     .px-4.py-3
       .flex.items-center.gap-2.mb-3

@@ -12,7 +12,7 @@ ul#quick_look role="list"
             p.text-xs
               = nostr_user.profile.identity
 
-              span.ml-2.highlight-code.inline-block
+              span.inline-flex.ml-2.bg-yellow-100.text-yellow-800.text-xs.font-medium.me-2.rounded.dark:bg-gray-700.dark:text-yellow-400.border.border-yellow-400 class="px-1.5 py-0.5"
                 = nostr_user.human_language
 
     - else
@@ -51,5 +51,5 @@ ul#quick_look role="list"
           = image_tag story.nostr_user.picture_url, class: 'w-24 mx-auto mb-1 rounded-full'
 
           p.text-sm.mb-1= story.nostr_user.profile.identity
-          p.inline-block.text-xs.font-medium.p-1.rounded.bg-blue-500.text-white
+          p.bg-yellow-100.text-yellow-800.text-xs.font-medium.me-2.rounded.dark:bg-gray-700.dark:text-yellow-400.border.border-yellow-400 class="px-2.5 py-0.5"
             = story.nostr_user.human_language
