@@ -7,8 +7,7 @@ header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
           = image_tag '/logo.png', class: 'w-10'
           div
             h1.text-lg.lg:text-2xl.dark:text-white Fabelia
-            p.text-gray-900.dark:text-white.text-xs.font-mono.font-semibold.border-r-2.border-black.dark:border-white.whitespace-nowrap.overflow-hidden.animate-typing class="w-[33ch]"
-              = I18n.t('subtitles').sample
+            = render 'subtitle'
 
       .flex.items-center.justify-end.border-l.lg:border-l-0.dark:border-gray-600
         input#hamburger.peer.hidden type="checkbox" name="hamburger" hidden="hidden"

@@ -41,6 +41,11 @@ fr:
           <<: *option_labels
           theme: Thème
 
+      session:
+        email: Email
+        password: Mot de passe
+        remember: Se souvenir de moi
+
     hints:
       nostr_user:
         private_key: La clé privée est chiffrée en base de données
@@ -87,3 +92,7 @@ fr:
         nip05: name@domain.com
         lud16: foo@getalby.com
         website: https://mywebsite.com
+
+      user:
+        password: Nouveau mot de passe
+        password_confirmation: Confirmation du nouveau mot de passe

@@ -1,7 +1,12 @@
-.border.border-primary-color.rounded-lg.p-5.mb-3
+.lg:w-2/3.border.rounded-lg.p-5.dark:border-gray-600
   h2.text-xl.mb-6 Réinitialiser mon mot de passe
 
-  = simple_form_for :user, url: password_resets_path, html: { method: :post } do |f|
+  = simple_form_for :user,
+                    url: password_resets_path,
+                    html: { \
+                      class: 'mb-3', \
+                      method: :post \
+                    } do |f|
     = f.input :email,
               label_html: { class: 'block mb-2' },
               input_html: { class: 'w-full' },
@@ -12,6 +17,6 @@
       = f.button :submit, 'Réinitialiser mon mot de passe', class: 'bg-green-600 p-2 rounded-lg text-white cursor-pointer'
 
 
-p.text-center
-  = link_to new_sessions_path, class: 'text-sm text-primary-color' do
-    | J'ai retrouvé mon mot de passe, je me connecte !
+  p.text-center
+    = link_to new_sessions_path, class: 'text-sm dark:text-white' do
+      | J'ai retrouvé mon mot de passe, je me connecte !

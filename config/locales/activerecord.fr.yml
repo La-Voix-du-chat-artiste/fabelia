@@ -72,3 +72,8 @@ fr:
         body: Instructions à suivre
         negative_body: Instructions négatives
         enabled: Activé ?
+
+      user:
+        email: Email
+        password: Mot de passe
+        password_confirmation: Confirmation du mot de passe

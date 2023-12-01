@@ -1,0 +1,23 @@
+@layer components {
+  #subtitle {
+    @apply flex items-center text-gray-900 dark:text-white text-xs font-mono font-semibold;
+  }
+
+  #subtitle.is-centered {
+    @apply justify-center;
+  }
+
+  #blink-cursor {
+    @apply dark:text-white transition-opacity;
+    animation: appear-and-disappear .8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes appear-and-disappear {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}

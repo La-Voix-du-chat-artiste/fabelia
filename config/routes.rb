@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   post '/replicate/webhook', to: 'replicate/webhooks#event'
   post '/replicate/webhook/publish', to: 'replicate/webhooks#publish'
 
+  get '/sessions', to: redirect('/sessions/new')
+
   resource :sessions, only: %i[new create destroy]
   resources :password_resets, only: %i[new create edit update]
 

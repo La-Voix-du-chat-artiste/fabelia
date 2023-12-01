@@ -11,7 +11,7 @@ form label:not(.boolean) {
 input.string, input.password, input.numeric,
 input.date, input.time, select.select,
 textarea.text, input.file {
-  @apply rounded-lg dark:bg-slate-700/25 dark:text-white;
+  @apply rounded-lg dark:bg-slate-700/25 dark:text-white focus:ring-secondary-color focus:border-transparent;
 }
 
 .error, .error_notification {
@@ -38,7 +38,7 @@ textarea.text, input.file {
 }
 
 input.boolean, input.check_boxes {
-  @apply inline-block w-4 mr-1;
+  @apply inline-block w-4 mr-1 appearance-none checked:bg-secondary-color checked:hover:bg-secondary-color;
 }
 
 label.boolean, label.check_boxes {

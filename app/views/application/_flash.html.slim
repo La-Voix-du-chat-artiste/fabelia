@@ -19,7 +19,7 @@
   div.pr-3
     - unless disappear
       p.text-xs.italic.mb-1.underline= l(Time.current)
-    .max-h-64.overflow-y-scroll.max-w-sm= simple_format message
+    .max-h-64.overflow-y-scroll= simple_format message
 
   - unless disappear
     button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 inline-flex items-center justify-center h-8 w-8 transition-colors" aria-label="Close" class=close_button_classes data-action="click->removals#forceRemove"
