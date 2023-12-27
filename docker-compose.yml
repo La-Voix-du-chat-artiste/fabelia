@@ -13,17 +13,5 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
 
-  redis_fabelia:
-    image: redis:7-alpine
-    restart: always
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
-    networks:
-      - fabelia
-
-networks:
-  fabelia:
-    name: fabelia
-
 volumes:
   pg_fabelia:

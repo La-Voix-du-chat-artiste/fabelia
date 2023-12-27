@@ -1,9 +1,5 @@
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
   root to: 'homes#show'
-
-  mount Sidekiq::Web => '/sidekiq'
 
   post '/replicate/webhook', to: 'replicate/webhooks#event'
   post '/replicate/webhook/publish', to: 'replicate/webhooks#publish'
