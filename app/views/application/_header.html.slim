@@ -1,78 +1,123 @@
-/ @see: https://play.tailwindcss.com/3Tox96tRmY
-header.relative.z-20.bg-white.border-b.dark:border-gray-600.dark:bg-slate-800
-  .px-6.md:px-12.py-3.lg:container.lg:mx-auto.lg:px-6.lg:py-2
-    .flex.items-center.justify-between
-      .relative.z-20
-        = link_to root_path, class: 'flex items-center gap-3 px-2 py-1' do
-          = image_tag '/logo.png', class: 'w-10'
-          div
-            h1.text-lg.lg:text-2xl.dark:text-white Fabelia
-            = render 'subtitle'
+nav class="bg-white border-gray-200 dark:bg-gray-900"
+  div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 gap-5"
+    = link_to root_path, class: 'flex grow items-center gap-3 px-2 py-1' do
+      = image_tag '/logo.png', class: 'w-10'
+      div
+        h1.text-lg.md:text-2xl.dark:text-white Fabelia
+        span.text-xs= render 'subtitle'
 
-      .flex.items-center.justify-end.border-l.lg:border-l-0.dark:border-gray-600
-        input#hamburger.peer.hidden type="checkbox" name="hamburger" hidden="hidden"
+    div class="flex items-center md:order-2 space-x-3 rtl:space-x-reverse"
+      button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 ring-4 ring-gray-700 focus:ring-secondary-color" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom"
+        <span class="sr-only">Open user menu</span>
+        - if current_user.avatar.attached?
+          = image_tag polymorphic_path(current_user.avatar), class: 'w-10 h-10 object-cover rounded-full'
+        - else
+          p Menu
 
-        label.peer-checked:hamburger.block.relative.z-20.p-6.-mr-6.cursor-pointer.md:-mr-12.lg:hidden for="hamburger"
-          .m-auto.w-6.rounded.bg-black.dark:bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
-          .m-auto.mt-2.w-6.rounded.bg-black.dark:bg-white.transition.duration-300 class="h-0.5" aria-hidden="true"
+      <!-- Dropdown menu -->
+      div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown"
+        .px-4.py-3
+          span.block.text-sm.text-gray-900.dark:text-white= current_user.email
+          span.block.text-sm.text-center.text-gray-500.truncate.dark:text-gray-400
+            = current_user.role
 
-        .peer-checked:translate-x-0.fixed.inset-0.border-r.shadow-xl.transition.duration-300.lg:border-r-0.lg:w-auto.lg:static.lg:shadow-none.lg:translate-x-0.bg-white.dark:bg-slate-800.dark:border-gray-600 class="w-[calc(100%-4.5rem)] translate-x-[-100%]"
-          .flex.flex-col.h-full.justify-between.lg:items-center.lg:flex-row
-            ul.px-6.pt-32.text-gray-700.space-y-4.lg:space-y-0.lg:flex.lg:space-x-4.lg:pt-0.lg:pr-4
-              - link_class = 'group relative before:absolute before:inset-x-0 before:-bottom-2 before:h-2 before:origin-right before:scale-x-0 before:bg-black dark:before:bg-white before:transition before:duration-200 hover:before:origin-left hover:before:scale-x-100 dark:text-white'
-              li
-                = link_to root_path, class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'homes'}" do
-                  span.relative.dark:group-hover:text-white Accueil
+        ul.py-2 aria-labelledby="user-menu-button"
+          li
+            - setting_class = "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full"
 
+            - switch_theme = dark_theme? ? :light : :dark
+            = button_to settings_path,
+                        method: :patch,
+                        params: { setting: { chapter_options: { theme: switch_theme } } },
+                        form_class: setting_class,
+                        class: 'text-left w-full',
+                        form: { data: { turbo: false } } do
+              - if dark_theme?
+                | Thème clair ☀️
+              - else
+                | Thème sombre 🌙
+
+          li
+            = link_to 'Déconnexion',
+                      sessions_path,
+                      data: { turbo_method: :delete },
+                      class: setting_class
+
+      button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false"
+        span class="sr-only" Open main menu
+        svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14"
+          path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"
+
+    div class="text-sm items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user"
+      ul class="flex flex-col items-center font-medium p-4 md:p-0 border border-gray-100 rounded-lg bg-gray-50 space-y-2 md:space-y-0 md:space-x-3 rtl:space-x-reverse md:flex-row md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+        - link_class = "block py-2 px-3 text-gray-700 dark:text-white hover:bg-gray-300 hover:text-gray-700 hover:dark:bg-gray-700 hover:dark:text-white transition-colors rounded"
+
+        li
+          - is_active_nostr_menu = %w[nostr_users relays].include?(controller_path)
+
+          button data-dropdown-toggle="dropdownNostr" class="flex items-center justify-between w-full #{link_class} #{'bg-secondary-color' if is_active_nostr_menu}"
+            | Nostr
+            svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"
+              path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"
+
+          <!-- Dropdown nostr menu -->
+          div id="dropdownNostr" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+            ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
               - if allowed_to?(:index?, NostrUser)
                 li
                   = link_to nostr_users_path,
-                            class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'nostr_users'}" do
-                    span.relative.dark:group-hover:text-white Comptes Nostr
+                            class: "menu-link #{'menu-link--active' if controller_path == 'nostr_users'}" do
+                    | Les comptes
 
               - if allowed_to?(:index?, Relay)
                 li
                   = link_to relays_path,
-                            class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'relays'}" do
-                    span.relative.dark:group-hover:text-white Relays
+                            class: "menu-link #{'menu-link--active' if controller_path == 'relays'}" do
+                    | Les relais
 
+
+        li
+          - is_active_story_menu = %w[thematics characters places prompts].include?(controller_path)
+
+          button data-dropdown-toggle="dropdownStory" class="flex items-center justify-between w-full #{link_class} #{'bg-secondary-color' if is_active_story_menu}"
+            | Les histoires
+            svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"
+              path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"
+
+          <!-- Dropdown story menu -->
+          div id="dropdownStory" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+            ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
               - if allowed_to?(:index?, Thematic)
                 li
                   = link_to thematics_path,
-                            class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'thematics'}" do
-                    span.relative.dark:group-hover:text-white Thématiques
+                            class: "menu-link #{'menu-link--active' if controller_path == 'thematics'}" do
+                    | Les thématiques
 
-              - if allowed_to?(:update?, Setting)
+              - if allowed_to?(:index?, Character)
                 li
-                  = link_to edit_settings_path,
-                            class: "#{link_class} #{'before:origin-left before:scale-x-100' if params[:controller] == 'settings'}" do
-                    span.relative.dark:group-hover:text-white Paramètres
+                  = link_to characters_path,
+                            class: "menu-link #{'menu-link--active' if controller_path == 'characters'}" do
+                    | Les personnages
 
-              li
-                - switch_theme = dark_theme? ? :light : :dark
-                = button_to settings_path,
-                            method: :patch,
-                            params: { setting: { chapter_options: { theme: switch_theme } } },
-                            form: { data: { turbo: false } } do
-                  span.relative.dark:group-hover:text-white
-                    - if dark_theme?
-                      span title="Thème clair" ☀️
-                    - else
-                      span title="Thème sombre" 🌙
+              - if allowed_to?(:index?, Place)
+                li
+                  = link_to places_path,
+                            class: "menu-link #{'menu-link--active' if controller_path == 'places'}" do
+                    | Les lieux
 
+              - if allowed_to?(:index?, Prompt)
+                li
+                  = link_to prompts_path,
+                            class: "menu-link #{'menu-link--active' if controller_path == 'prompts'}" do
+                    | Les prompts
 
-            .border-t.dark:border-gray-600.lg:border-t-0.lg:border-l
-              .flex.items-center.gap-3.p-2
-                - if current_user.avatar.attached?
-                  = image_tag polymorphic_path(current_user.avatar), class: 'w-12 h-12 rounded-full'
-                .text-sm.dark:text-white
-                  p= current_user.email
-                  p= link_to 'Déconnexion',
-                             sessions_path,
-                             data: { turbo_method: :delete },
-                             class: 'text-gray-500'
+        - if allowed_to?(:update?, Setting)
+          li
+            = link_to edit_settings_path,
+                      class: "#{link_class} #{'text-white bg-secondary-color' if params[:controller] == 'settings'}" do
+              | Paramètres
 
-                  p.mt-1
-                    = link_to 'Nouvelle aventure',
-                             new_story_path,
-                             class: 'add-link inline-block !px-2 !py-1 !text-xs'
+        - if allowed_to?(:create?, Story)
+          li
+            = link_to new_story_path, class: 'block add-link' do
+              | Nouvelle aventure

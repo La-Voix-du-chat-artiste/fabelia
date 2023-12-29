@@ -15,3 +15,5 @@ pin 'stimulus-use/hotkeys', to: 'https://ga.jspm.io/npm:stimulus-use@0.52.0/dist
 pin 'hotkeys-js', to: 'https://ga.jspm.io/npm:hotkeys-js@3.12.0/dist/hotkeys.esm.js'
 
 pin 'turbo_power', to: 'https://ga.jspm.io/npm:turbo_power@0.6.0/dist/turbo_power.js'
+
+pin 'flowbite', to: 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.turbo.min.js'
