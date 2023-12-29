@@ -1,0 +1,5 @@
+/* Bullet */
+
+#bullet-footer {
+  @apply dark:!bg-black;
+}

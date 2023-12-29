@@ -14,7 +14,7 @@ html class=options.theme
   body
     = render 'header'
 
-    main.container.mx-auto.p-5.lg:pb-16
+    main.md:container.mx-auto.p-5.lg:pb-16
       = turbo_stream_from :flashes
       #flashes= render 'flashes'
 

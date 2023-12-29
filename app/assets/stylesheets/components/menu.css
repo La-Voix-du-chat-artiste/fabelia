@@ -1,0 +1,9 @@
+@layer base {
+  .menu-link {
+    @apply block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white;
+  }
+
+  .menu-link.menu-link--active {
+    @apply bg-secondary-color text-white;
+  }
+}
