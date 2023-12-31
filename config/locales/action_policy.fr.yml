@@ -1,3 +1,6 @@
 fr:
   action_policy:
     default: Vous n'avez pas l'autorisation d'effectuer cette action.
+
+    public/story_policy:
+      show?: L'histoire n'est pas configurée pour être lue en PDF ou n'est pas encore achevée

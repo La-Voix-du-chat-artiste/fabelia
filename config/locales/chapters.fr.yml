@@ -7,6 +7,13 @@ fr:
         - suivre ce compte sur Nostr pour ne rater aucune nouvelle aventure
         - aller faire un tour sur flownaely.cafe ☕
 
+      content_with_pdf_url: |-
+        Si cette histoire vous a plu, n'hésitez pas à:
+
+        - télécharger l'histoire en PDF sur %{public_pdf_url}
+        - suivre ce compte sur Nostr pour ne rater aucune nouvelle aventure
+        - aller faire un tour sur flownaely.cafe ☕
+
     text_note:
       next_adventure_questions:
         - Comment l'aventure va-t-elle continuer ?

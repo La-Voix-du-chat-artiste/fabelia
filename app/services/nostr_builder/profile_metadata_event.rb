@@ -26,13 +26,19 @@ module NostrBuilder
     def picture
       return unless nostr_user.picture.attached?
 
-      polymorphic_url(nostr_user.picture, port: nil, host: ENV.fetch('HOST', nil))
+      polymorphic_url(nostr_user.picture, port: nil, host: host)
     end
 
     def banner
       return unless nostr_user.banner.attached?
 
-      polymorphic_url(nostr_user.banner, port: nil, host: ENV.fetch('HOST', nil))
+      polymorphic_url(nostr_user.banner, port: nil, host: host)
+    end
+
+    def host
+      return ENV.fetch('HOST', nil) if Rails.env.development?
+
+      ENV.fetch('BASE_URL')
     end
   end
 end

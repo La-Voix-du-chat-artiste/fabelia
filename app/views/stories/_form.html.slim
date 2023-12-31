@@ -104,7 +104,9 @@ details.panel-info.mb-5
             = ff.input :minimum_poll_sats, wrapper_html: { class: 'w-full hidden' }
             = ff.input :maximum_poll_sats, wrapper_html: { class: 'w-full hidden' }
 
-          = ff.input :publish_previous
+          .flex.flex-col.lg:flex-row.items-center.justify-between.gap-3.mb-3
+            = ff.input :publish_previous
+            = ff.input :read_as_pdf
 
         section.mb-5
           p.text-xl.font-semibold.mb-3.border-b.dark:border-gray-600.dark:text-gray-600 Média
