@@ -12,6 +12,8 @@ class BaseReplicate < ApplicationService
   end
 
   def host
-    Rails.application.config.action_controller.default_url_options[:host]
+    return ENV.fetch('HOST', nil) if Rails.env.development?
+
+    ENV.fetch('BASE_URL')
   end
 end

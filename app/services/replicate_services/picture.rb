@@ -33,9 +33,9 @@ module ReplicateServices
     private
 
     def webhook_url
-      return replicate_webhook_publish_url(host: host, model: model.class.to_s) if publish
+      return replicate_webhook_publish_url(host: host, port: nil, model: model.class.to_s) if publish
 
-      replicate_webhook_url(host: host, model: model.class.to_s)
+      replicate_webhook_url(host: host, port: nil, model: model.class.to_s)
     end
 
     def story

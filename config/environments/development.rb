@@ -18,7 +18,9 @@ Rails.application.configure do
   config.server_timing = true
 
   port = ENV.fetch('PORT', 3000)
-  host = ENV.fetch('HOST', 'http://localhost')
+  host = ENV.fetch('BASE_URL', 'localhost')
+
+  routes.default_url_options = { host: host, port: port }
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

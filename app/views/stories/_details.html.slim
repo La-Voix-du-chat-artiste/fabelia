@@ -112,16 +112,14 @@
 
     / Modal footer
     footer.pt-4.mt-4.border-t.border-gray-200.dark:border-gray-600
-      .flex.flex-col.lg:flex-row.items-center.justify-between.gap-3
-        .text-center
-          p.text-xs.italic
-            | Créé le
-            =< l(story.created_at)
-          p.text-xs.italic
-            | Mis à jour le
-            =< l(story.updated_at)
-
+      .flex.flex-col.items-center.justify-between.gap-3
         .flex.items-center.gap-3
+          - if allowed_to?(:show?, @story, namespace: Public)
+            = link_to 'Lire en PDF',
+                      public_story_path(Base64.strict_encode64("#{@story.id}-#{@story.title}"), format: :pdf),
+                      target: :_blank,
+                      class: 'add-link'
+
           - unless story.ended?
             - if story.enabled?
               = button_to "Mettre en pause l'aventure",
@@ -141,7 +139,15 @@
                       story_path(story),
                       method: :delete,
                       class: 'destroy-button',
-                      data: { turbo_confirm: "Voulez-vous supprimer de cette aventure ? Cette action est irréversible et entraînera également une suppression sur Nostr" }
+                      data: { turbo_confirm: "Voulez-vous supprimer cette aventure ? Cette action est irréversible et entraînera également une suppression sur Nostr" }
+
+        .text-center
+          p.text-xs.italic
+            | Créé le
+            =< l(story.created_at)
+          p.text-xs.italic
+            | Mis à jour le
+            =< l(story.updated_at)
 
     = render 'turbo_confirm'
 

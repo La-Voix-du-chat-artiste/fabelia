@@ -8,9 +8,11 @@ option_labels: &option_labels
   minimum_poll_sats: Nombre minimum de sats pour voter
   maximum_poll_sats: Nombre maximum de sats pour voter
   publish_previous: Publier le chapitre précédent ?
+  read_as_pdf: Lire en PDF ?
 
 option_hints: &option_hints
   publish_previous: Si coché, le chapitre précédent le chapitre courant sera publié s'il ne l'a pas encore été
+  read_as_pdf: Si coché, l'aventure sera lisible en format PDF une fois publiée intégralement sur Nostr
 
 fr:
   simple_form:

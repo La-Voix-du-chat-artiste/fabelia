@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   resource :sessions, only: %i[new create destroy]
   resources :password_resets, only: %i[new create edit update]
 
+  # Public resources
+  scope :p do
+    get 's/:id', controller: 'public/stories', action: 'show', as: :public_story
+  end
+
   resources :stories, only: %i[new create show update destroy] do
     scope module: :stories do
       resource :covers, only: %i[update]

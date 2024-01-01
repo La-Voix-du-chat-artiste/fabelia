@@ -1,0 +1,62 @@
+/ Front
+
+- if @story.cover.attached?
+  = image_tag polymorphic_url(@story.cover), class: 'block mx-auto object-cover max-h-[500px] mb-6 border-4'
+
+h1.text-center.text-5xl.font-bold= @story.title
+
+hr.border-2.my-6
+
+/ .mb-3= @story.narrator_prompt.title
+/ .mb-3= @story.atmosphere_prompt.title
+
+- if @story.characters.any?
+  - @story.characters.each do |character|
+    .flex.items-center.mb-3
+      = image_tag polymorphic_url(character.avatar), class: 'w-20 h-20 rounded-full object-cover border border-gray-700'
+
+      p.text-sm.ml-3= character.name
+
+
+- if @story.places.any?
+  - @story.places.each do |place|
+    .flex.items-center.mb-3
+      = image_tag polymorphic_url(place.photo), class: 'w-20 h-20 rounded-full object-cover border border-gray-700'
+
+      p.text-sm.ml-3= place.name
+
+
+/ Chapters
+
+- @story.chapters.by_position.each do |chapter|
+  .page-break
+
+  h2.text-center.text-2xl.font-bold.mb-6
+    = chapter.title
+
+  - if chapter.cover.attached?
+    = image_tag polymorphic_url(chapter.cover), class: 'block mx-auto object-cover max-h-[300px] mb-6 border-4'
+
+  .border.p-3
+    == chapter.content
+
+
+/ Back
+
+.page-break
+
+h2.text-center.text-xl.font-bold.mb-6 Fin de l'histoire !
+
+- if @story.cover.attached?
+  = image_tag polymorphic_url(@story.cover), class: 'block mx-auto object-cover max-h-[200px] mb-12 border-4'
+
+.border.p-3
+  .mb-6== simple_format t('chapters.back_cover.content')
+
+  p.text-center.text-3xl
+    = link_to 'Lire sur Nostr', "https://njump.me/#{@story.chapters.first.nostr_identifier}"
+
+css:
+  .page-break { display: block; clear: both; page-break-after: always; }
+  .flex { display: -webkit-box; }
+  .items-center { -webkit-box-align : center; }

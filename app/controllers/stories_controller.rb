@@ -94,6 +94,7 @@ class StoriesController < ApplicationController
               publish_previous
               chatgpt_full_story_system_prompt
               chatgpt_dropper_story_system_prompt
+              read_as_pdf
             ]
           )
   end

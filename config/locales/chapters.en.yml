@@ -7,6 +7,13 @@ en:
         - follow this account on Nostr so you don't miss any new adventures
         - check out flownaely.cafe ☕
 
+      content_with_pdf_url: |-
+        If you enjoyed this story, please:
+
+        - download this story as PDF at %{public_pdf_url}
+        - follow this account on Nostr so you don't miss any new adventures
+        - check out flownaely.cafe ☕
+
     text_note:
       next_adventure_questions:
         - How will the adventure continue?

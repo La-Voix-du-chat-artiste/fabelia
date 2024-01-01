@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :story do
+    title { FFaker::Lorem.sentence }
     summary { FFaker::Lorem.sentence }
 
     thematic

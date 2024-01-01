@@ -6,6 +6,7 @@ FactoryBot.define do
 
     trait :published do
       published_at { 1.day.ago }
+      nostr_identifier { SecureRandom.hex }
     end
   end
 end
