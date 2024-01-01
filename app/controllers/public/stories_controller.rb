@@ -16,12 +16,7 @@ module Public
     private
 
     def set_story
-      @story = Story.find(id)
-    end
-
-    # TODO: Use `uuid` as primary key for stories
-    def id
-      Base64.strict_decode64(params[:id])
+      @story = Story.find(params[:id])
     end
 
     def unauthorized_access(e)

@@ -1,6 +1,6 @@
 class CreateThematics < ActiveRecord::Migration[7.0]
   def change
-    create_table :thematics do |t|
+    create_table :thematics, id: :uuid do |t|
       t.string :identifier, index: { unique: true }
       t.string :name_fr
       t.string :name_en

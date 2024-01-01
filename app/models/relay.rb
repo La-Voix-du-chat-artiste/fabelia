@@ -70,7 +70,7 @@ end
 #
 # Table name: relays
 #
-#  id          :bigint(8)        not null, primary key
+#  id          :uuid             not null, primary key
 #  url         :string
 #  description :text
 #  enabled     :boolean          default(TRUE), not null

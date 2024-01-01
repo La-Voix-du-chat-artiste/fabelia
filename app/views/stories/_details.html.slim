@@ -116,7 +116,7 @@
         .flex.items-center.gap-3
           - if allowed_to?(:show?, @story, namespace: Public)
             = link_to 'Lire en PDF',
-                      public_story_path(Base64.strict_encode64("#{@story.id}-#{@story.title}"), format: :pdf),
+                      public_story_path(story, format: :pdf),
                       target: :_blank,
                       class: 'add-link'
 

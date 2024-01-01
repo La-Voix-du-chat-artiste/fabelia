@@ -21,10 +21,7 @@ module NostrPublisher
     def body
       return main_body unless options.read_as_pdf?
 
-      pdf_url = public_story_url(
-        Base64.strict_encode64("#{story.id}-#{story.title}"),
-        format: :pdf
-      )
+      pdf_url = public_story_url(story, format: :pdf)
 
       main_body_with_pdf_url(pdf_url)
     end

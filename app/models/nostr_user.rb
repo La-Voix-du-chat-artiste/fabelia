@@ -92,7 +92,7 @@ end
 #
 # Table name: nostr_users
 #
-#  id                :bigint(8)        not null, primary key
+#  id                :uuid             not null, primary key
 #  private_key       :string
 #  language          :string(2)        default("EN"), not null
 #  created_at        :datetime         not null

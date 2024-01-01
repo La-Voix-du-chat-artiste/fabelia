@@ -7,8 +7,8 @@ end
 #
 # Table name: nostr_users_relays
 #
-#  nostr_user_id :bigint(8)        not null
-#  relay_id      :bigint(8)        not null
+#  nostr_user_id :uuid             not null
+#  relay_id      :uuid             not null
 #
 # Indexes
 #

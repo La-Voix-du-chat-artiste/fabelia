@@ -24,7 +24,7 @@ end
 #
 # Table name: thematics
 #
-#  id             :bigint(8)        not null, primary key
+#  id             :uuid             not null, primary key
 #  identifier     :string
 #  name_fr        :string
 #  name_en        :string
