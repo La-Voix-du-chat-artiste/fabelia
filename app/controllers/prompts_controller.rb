@@ -16,18 +16,19 @@ class PromptsController < ApplicationController
   def new
     authorize! Prompt
 
-    if params[:type].blank?
+    begin
+      type = Base64.decode64(params[:type])
+    rescue StandardError
+      type = nil
+    end
+
+    allowed_types = %w[NarratorPrompt MediaPrompt AtmospherePrompt]
+
+    if params[:type].present? && allowed_types.include?(type)
+      @prompt = type.constantize.new
+    else
       type = Base64.encode64('NarratorPrompt')
       redirect_to new_prompt_path(type: type)
-    else
-      type = Base64.decode64(params[:type])
-
-      begin
-        @prompt = type.constantize.new
-      rescue StandardError
-        type = Base64.encode64('NarratorPrompt')
-        redirect_to new_prompt_path(type: type)
-      end
     end
   end
 

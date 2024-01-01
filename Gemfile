@@ -48,6 +48,7 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'brakeman', require: false
   gem 'bullet'
   gem 'chusaku', require: false
   gem 'letter_opener'
