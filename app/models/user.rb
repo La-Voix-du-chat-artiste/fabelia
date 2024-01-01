@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  EMAIL_REGEX = /\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+/
+  EMAIL_REGEX = /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/
 
   enum role: { standard: 0, admin: 1, super_admin: 2 }
 

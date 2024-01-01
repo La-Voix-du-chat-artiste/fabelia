@@ -95,6 +95,8 @@ GEM
       ecdsa (~> 1.2.0)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
+    brakeman (6.1.1)
+      racc
     builder (3.2.4)
     bullet (7.1.4)
       activesupport (>= 3.0.0)
@@ -441,6 +443,7 @@ DEPENDENCIES
   acts_as_list
   annotate
   bootsnap
+  brakeman
   bullet
   chusaku
   debug
