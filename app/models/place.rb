@@ -23,7 +23,7 @@ end
 #
 # Table name: places
 #
-#  id          :bigint(8)        not null, primary key
+#  id          :uuid             not null, primary key
 #  name        :string
 #  description :text
 #  enabled     :boolean          default(TRUE), not null

@@ -219,7 +219,7 @@ end
 #
 # Table name: stories
 #
-#  id                          :bigint(8)        not null, primary key
+#  id                          :uuid             not null, primary key
 #  title                       :string
 #  chapters_count              :integer          default(0), not null
 #  adventure_ended_at          :datetime
@@ -230,18 +230,18 @@ end
 #  replicate_identifier        :string
 #  replicate_raw_request_body  :json             not null
 #  replicate_raw_response_body :json             not null
-#  thematic_id                 :bigint(8)
+#  thematic_id                 :uuid
 #  enabled                     :boolean          default(TRUE), not null
 #  nostr_identifier            :string
-#  nostr_user_id               :bigint(8)
+#  nostr_user_id               :uuid
 #  summary                     :string
 #  back_cover_nostr_identifier :string
 #  publication_rule            :integer          default("do_not_publish"), not null
 #  status                      :integer          default("draft"), not null
 #  options                     :jsonb            not null
-#  media_prompt_id             :bigint(8)
-#  narrator_prompt_id          :bigint(8)
-#  atmosphere_prompt_id        :bigint(8)
+#  media_prompt_id             :uuid
+#  narrator_prompt_id          :uuid
+#  atmosphere_prompt_id        :uuid
 #
 # Indexes
 #

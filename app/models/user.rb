@@ -29,7 +29,7 @@ end
 #
 # Table name: users
 #
-#  id                                  :bigint(8)        not null, primary key
+#  id                                  :uuid             not null, primary key
 #  email                               :string           not null
 #  crypted_password                    :string
 #  salt                                :string

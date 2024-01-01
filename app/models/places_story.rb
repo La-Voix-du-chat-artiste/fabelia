@@ -7,8 +7,8 @@ end
 #
 # Table name: places_stories
 #
-#  place_id :bigint(8)        not null
-#  story_id :bigint(8)        not null
+#  place_id :uuid             not null
+#  story_id :uuid             not null
 #
 # Indexes
 #

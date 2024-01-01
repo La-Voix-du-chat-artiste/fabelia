@@ -116,7 +116,7 @@ end
 #
 # Table name: chapters
 #
-#  id                          :bigint(8)        not null, primary key
+#  id                          :uuid             not null, primary key
 #  title                       :string
 #  content                     :text
 #  summary                     :string
@@ -124,7 +124,7 @@ end
 #  nostr_identifier            :string
 #  replicate_identifier        :string
 #  replicate_raw_response_body :json             not null
-#  story_id                    :bigint(8)        not null
+#  story_id                    :uuid             not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  prompt                      :text

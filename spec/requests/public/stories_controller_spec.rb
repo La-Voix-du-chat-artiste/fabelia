@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Public::StoriesController do
   describe 'GET /p/s/:id.pdf' do
-    subject(:action) { get "/p/s/#{id}.pdf" }
-
-    let(:id) { Base64.strict_encode64("#{story.id}-#{story.title}") }
+    subject(:action) { get "/p/s/#{story.id}.pdf" }
 
     context 'when story is viewable as PDF' do
       let(:story) { create :story, :ended }

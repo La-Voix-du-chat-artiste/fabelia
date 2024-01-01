@@ -14,17 +14,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.uuid "record_id", null: false
+    t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -36,13 +36,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+  create_table "active_storage_variant_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "chapters", force: :cascade do |t|
+  create_table "chapters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.string "summary"
@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.string "nostr_identifier"
     t.string "replicate_identifier"
     t.json "replicate_raw_response_body", default: {}, null: false
-    t.bigint "story_id", null: false
+    t.uuid "story_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "prompt"
@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.index ["story_id"], name: "index_chapters_on_story_id"
   end
 
-  create_table "characters", force: :cascade do |t|
+  create_table "characters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.text "biography"
@@ -76,14 +76,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
   end
 
   create_table "characters_stories", id: false, force: :cascade do |t|
-    t.bigint "character_id", null: false
-    t.bigint "story_id", null: false
+    t.uuid "character_id", null: false
+    t.uuid "story_id", null: false
     t.index ["character_id", "story_id"], name: "index_characters_stories_on_character_id_and_story_id", unique: true
     t.index ["character_id"], name: "index_characters_stories_on_character_id"
     t.index ["story_id"], name: "index_characters_stories_on_story_id"
   end
 
-  create_table "nostr_users", force: :cascade do |t|
+  create_table "nostr_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "private_key"
     t.string "language", limit: 2, default: "EN", null: false
     t.datetime "created_at", null: false
@@ -102,12 +102,12 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
   end
 
   create_table "nostr_users_relays", id: false, force: :cascade do |t|
-    t.bigint "nostr_user_id", null: false
-    t.bigint "relay_id", null: false
+    t.uuid "nostr_user_id", null: false
+    t.uuid "relay_id", null: false
     t.index ["nostr_user_id", "relay_id"], name: "index_nostr_users_relays_on_nostr_user_id_and_relay_id", unique: true
   end
 
-  create_table "places", force: :cascade do |t|
+  create_table "places", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.boolean "enabled", default: true, null: false
@@ -116,13 +116,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
   end
 
   create_table "places_stories", id: false, force: :cascade do |t|
-    t.bigint "place_id", null: false
-    t.bigint "story_id", null: false
+    t.uuid "place_id", null: false
+    t.uuid "story_id", null: false
     t.index ["place_id"], name: "index_places_stories_on_place_id"
     t.index ["story_id"], name: "index_places_stories_on_story_id"
   end
 
-  create_table "prompts", force: :cascade do |t|
+  create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "type"
     t.string "title"
     t.text "body"
@@ -136,7 +136,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "relays", force: :cascade do |t|
+  create_table "relays", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "url"
     t.text "description"
     t.boolean "enabled", default: true, null: false
@@ -245,7 +245,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
-  create_table "stories", force: :cascade do |t|
+  create_table "stories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.integer "chapters_count", default: 0, null: false
     t.datetime "adventure_ended_at"
@@ -256,18 +256,18 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.string "replicate_identifier"
     t.json "replicate_raw_request_body", default: {}, null: false
     t.json "replicate_raw_response_body", default: {}, null: false
-    t.bigint "thematic_id"
+    t.uuid "thematic_id"
     t.boolean "enabled", default: true, null: false
     t.string "nostr_identifier"
-    t.bigint "nostr_user_id"
+    t.uuid "nostr_user_id"
     t.string "summary"
     t.string "back_cover_nostr_identifier"
     t.integer "publication_rule", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.jsonb "options", default: {}, null: false
-    t.bigint "media_prompt_id"
-    t.bigint "narrator_prompt_id"
-    t.bigint "atmosphere_prompt_id"
+    t.uuid "media_prompt_id"
+    t.uuid "narrator_prompt_id"
+    t.uuid "atmosphere_prompt_id"
     t.index ["atmosphere_prompt_id"], name: "index_stories_on_atmosphere_prompt_id"
     t.index ["back_cover_nostr_identifier"], name: "index_stories_on_back_cover_nostr_identifier", unique: true
     t.index ["media_prompt_id"], name: "index_stories_on_media_prompt_id"
@@ -278,7 +278,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.index ["thematic_id"], name: "index_stories_on_thematic_id"
   end
 
-  create_table "thematics", force: :cascade do |t|
+  create_table "thematics", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "identifier"
     t.string "name_fr"
     t.string "name_en"
@@ -291,7 +291,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_171950) do
     t.index ["identifier"], name: "index_thematics_on_identifier", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "crypted_password"
     t.string "salt"
