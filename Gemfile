@@ -54,6 +54,7 @@ group :development do
   gem 'bullet'
   gem 'chusaku', require: false
   gem 'letter_opener'
+  gem 'ruby-lsp-rails'
   gem 'shog'
   gem 'web-console'
 end
