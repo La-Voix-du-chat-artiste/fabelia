@@ -2,13 +2,13 @@ class Story < ApplicationRecord
   include Coverable
   include NSFWCoverable
 
-  enum mode: { complete: 0, dropper: 1 }, _default: :complete
-  enum status: { draft: 0, completed: 1 }, _default: :draft
-  enum publication_rule: {
+  enum :mode, { complete: 0, dropper: 1 }, default: :complete, validate: true
+  enum :status, { draft: 0, completed: 1 }, default: :draft, validate: true
+  enum :publication_rule, {
     do_not_publish: 0,
     publish_first_chapter: 1,
     publish_all_chapters: 2
-  }, _default: :do_not_publish
+  }, default: :do_not_publish, validate: true
 
   attribute :options, StoryOption.to_type
 

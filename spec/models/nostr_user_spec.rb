@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe NostrUser do
+  describe '[validations rules]' do
+    subject { build_stubbed :nostr_user }
+
+    it { is_expected.to define_enum_for(:mode).with_values(described_class.modes.keys) }
+  end
+
   describe '#mode' do
     subject(:nostr_user) do
       described_class.new(mode: mode, display_name: 'John Doe')

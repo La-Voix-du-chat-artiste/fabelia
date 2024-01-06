@@ -2,7 +2,7 @@ class Chapter < ApplicationRecord
   include Coverable
   include NSFWCoverable
 
-  enum status: { draft: 0, completed: 1 }
+  enum :status, { draft: 0, completed: 1 }, validate: true
 
   belongs_to :story, counter_cache: true, touch: true
 
