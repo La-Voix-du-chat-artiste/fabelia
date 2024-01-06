@@ -2,7 +2,7 @@ class NostrUser < ApplicationRecord
   # include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
-  enum mode: { generated: 0, imported: 1 }, _default: :generated
+  enum :mode, { generated: 0, imported: 1 }, default: :generated, validate: true
 
   has_many :nostr_users_relays, dependent: :delete_all
   has_many :relays, -> { by_position }, through: :nostr_users_relays

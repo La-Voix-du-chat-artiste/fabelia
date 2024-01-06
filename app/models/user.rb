@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   EMAIL_REGEX = /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/
 
-  enum role: { standard: 0, admin: 1, super_admin: 2 }
+  enum :role, { standard: 0, admin: 1, super_admin: 2 }, validate: true
 
   has_one_attached :avatar
 

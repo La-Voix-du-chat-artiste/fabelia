@@ -7,6 +7,7 @@ RSpec.describe Story do
     it { is_expected.to belong_to(:thematic) }
     it { is_expected.to validate_presence_of(:mode) }
     it { is_expected.to define_enum_for(:mode).with_values(described_class.modes.keys) }
+    it { is_expected.to define_enum_for(:status).with_values(described_class.statuses.keys) }
     it { is_expected.to define_enum_for(:publication_rule).with_values(described_class.publication_rules.keys) }
   end
 
