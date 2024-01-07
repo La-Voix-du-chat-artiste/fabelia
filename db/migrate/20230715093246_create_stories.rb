@@ -5,6 +5,7 @@ class CreateStories < ActiveRecord::Migration[7.0]
       t.integer :chapters_count, null: false, default: 0
       t.datetime :adventure_ended_at
       t.json :raw_response_body, null: false, default: {}
+      t.references :company, null: false, foreign_key: true, type: :uuid
 
       t.timestamps
     end

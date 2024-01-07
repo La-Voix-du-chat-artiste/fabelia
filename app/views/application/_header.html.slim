@@ -17,9 +17,11 @@ nav class="bg-white border-gray-200 dark:bg-gray-900"
       <!-- Dropdown menu -->
       div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown"
         .px-4.py-3
-          span.block.text-sm.text-gray-900.dark:text-white= current_user.email
+          span.block.text-sm.text-center.text-gray-600.truncate.dark:text-gray-300.uppercase.border-b.mb-2
+            = company.name
+          span.block.text-sm.text-center.text-gray-900.dark:text-white= current_user.email
           span.block.text-sm.text-center.text-gray-500.truncate.dark:text-gray-400
-            = current_user.role
+            | (#{current_user.role})
 
         ul.py-2 aria-labelledby="user-menu-button"
           li
@@ -111,7 +113,7 @@ nav class="bg-white border-gray-200 dark:bg-gray-900"
                             class: "menu-link #{'menu-link--active' if controller_path == 'prompts'}" do
                     | Les prompts
 
-        - if allowed_to?(:update?, Setting)
+        - if allowed_to?(:update?, company.setting)
           li
             = link_to edit_settings_path,
                       class: "#{link_class} #{'text-white bg-secondary-color' if params[:controller] == 'settings'}" do

@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   enum :role, { standard: 0, admin: 1, super_admin: 2 }, validate: true
 
+  belongs_to :company, counter_cache: true
+
   has_one_attached :avatar
 
   authenticates_with_sorcery!
@@ -42,9 +44,11 @@ end
 #  reset_password_email_sent_at        :datetime
 #  access_count_to_reset_password_page :integer          default(0)
 #  role                                :integer          default("standard"), not null
+#  company_id                          :uuid
 #
 # Indexes
 #
+#  index_users_on_company_id            (company_id)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_remember_me_token     (remember_me_token)
 #  index_users_on_reset_password_token  (reset_password_token)

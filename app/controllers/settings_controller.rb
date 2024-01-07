@@ -28,7 +28,7 @@ class SettingsController < ApplicationController
   private
 
   def set_setting
-    @setting = Setting.first
+    @setting = company.setting
   end
 
   def setting_params

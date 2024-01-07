@@ -1,9 +1,9 @@
 class NostrUser < ApplicationRecord
-  # include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
   enum :mode, { generated: 0, imported: 1 }, default: :generated, validate: true
 
+  belongs_to :company
   has_many :nostr_users_relays, dependent: :delete_all
   has_many :relays, -> { by_position }, through: :nostr_users_relays
   has_many :stories, dependent: :destroy
@@ -95,6 +95,7 @@ end
 #  id                :uuid             not null, primary key
 #  private_key       :string
 #  language          :string(2)        default("EN"), not null
+#  company_id        :uuid             not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  stories_count     :integer          default(0), not null
@@ -110,5 +111,10 @@ end
 #
 # Indexes
 #
+#  index_nostr_users_on_company_id   (company_id)
 #  index_nostr_users_on_private_key  (private_key) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (company_id => companies.id)
 #

@@ -5,21 +5,21 @@ class RelaysController < ApplicationController
   def index
     authorize! Relay
 
-    @relays = Relay.all.by_position
+    @relays = company.relays.all.by_position
   end
 
   # @route GET /relays/new (new_relay)
   def new
     authorize! Relay
 
-    @relay = Relay.new
+    @relay = company.relays.new
   end
 
   # @route POST /relays (relays)
   def create
     authorize! Relay
 
-    @relay = Relay.new(relay_params)
+    @relay = company.relays.new(relay_params)
 
     respond_to do |format|
       if @relay.save
@@ -67,7 +67,7 @@ class RelaysController < ApplicationController
   private
 
   def set_relay
-    @relay = Relay.find(params[:id])
+    @relay = company.relays.find(params[:id])
   end
 
   def relay_params

@@ -4,14 +4,14 @@ module NostrUsers
     def new
       authorize! NostrUser
 
-      @nostr_user = NostrUser.new
+      @nostr_user = company.nostr_users.new
     end
 
     # @route POST /nostr_users/import_profiles (import_profiles)
     def create
       authorize! NostrUser
 
-      @nostr_user = NostrUser.new(nostr_user_params) do |nostr_user|
+      @nostr_user = company.nostr_users.new(nostr_user_params) do |nostr_user|
         nostr_user.mode = :imported
       end
 

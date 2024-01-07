@@ -48,7 +48,6 @@ fr:
         lud16: Adresse LN
 
       thematic:
-        identifier: Identifiant
         name_fr: Nom en français
         name_en: Nom en anglais
         description_fr: Description en français

@@ -5,21 +5,21 @@ class PlacesController < ApplicationController
   def index
     authorize! Place
 
-    @places = Place.order(id: :desc)
+    @places = company.places.order(id: :desc)
   end
 
   # @route GET /places/new (new_place)
   def new
     authorize! Place
 
-    @place = Place.new
+    @place = company.places.new
   end
 
   # @route POST /places (places)
   def create
     authorize! Place
 
-    @place = Place.new(place_params)
+    @place = company.places.new(place_params)
 
     respond_to do |format|
       if @place.save
@@ -63,7 +63,7 @@ class PlacesController < ApplicationController
   private
 
   def set_place
-    @place = Place.find(params[:id])
+    @place = company.places.find(params[:id])
   end
 
   def place_params

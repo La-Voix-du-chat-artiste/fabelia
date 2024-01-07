@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe NostrUsersController do
+  include_context 'shared company'
+
   describe 'GET /nostr_users' do
     subject(:action) { get '/nostr_users' }
 
@@ -19,7 +21,7 @@ RSpec.describe NostrUsersController do
 
       context 'with some record' do
         before do
-          create_list :nostr_user, 2
+          create_list :nostr_user, 2, company: shared_company
           action
         end
 
@@ -48,7 +50,7 @@ RSpec.describe NostrUsersController do
     subject(:action) { post '/nostr_users', params: { nostr_user: params } }
 
     let(:params) { {} }
-    let!(:relay) { create :relay }
+    let!(:relay) { create :relay, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -90,7 +92,7 @@ RSpec.describe NostrUsersController do
   describe 'GET /nostr_users/:id/edit' do
     subject(:action) { get "/nostr_users/#{nostr_user.id}/edit" }
 
-    let(:nostr_user) { create :nostr_user }
+    let(:nostr_user) { create :nostr_user, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -111,7 +113,7 @@ RSpec.describe NostrUsersController do
     end
 
     let(:params) { {} }
-    let(:nostr_user) { create :nostr_user }
+    let(:nostr_user) { create :nostr_user, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -144,7 +146,9 @@ RSpec.describe NostrUsersController do
       end
 
       describe 'language cannot be modified' do
-        let(:nostr_user) { create :nostr_user, language: 'FR' }
+        let(:nostr_user) do
+          create :nostr_user, language: 'FR', company: shared_company
+        end
         let(:params) { { language: 'ES' } }
 
         before { action }
@@ -157,7 +161,7 @@ RSpec.describe NostrUsersController do
   describe 'DELETE /nostr_users/:id' do
     subject(:action) { delete "/nostr_users/#{nostr_user.id}" }
 
-    let!(:nostr_user) { create :nostr_user }
+    let!(:nostr_user) { create :nostr_user, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'

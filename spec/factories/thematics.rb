@@ -4,6 +4,7 @@ FactoryBot.define do
     name_en { FFaker::Lorem.sentence }
     description_fr { FFaker::Lorem.paragraph }
     description_en { FFaker::Lorem.paragraph }
-    identifier { FFaker::Lorem.word }
+
+    company
   end
 end

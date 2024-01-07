@@ -11,15 +11,16 @@ class Relay < ApplicationRecord
     wss://nos.lol
   ].freeze
 
+  belongs_to :company
   has_many :nostr_users_relays, dependent: :destroy
   has_many :nostr_users, through: :nostr_users_relays
 
-  acts_as_list
+  acts_as_list scope: :company
 
   scope :enabled, -> { where(enabled: true) }
   scope :by_position, -> { order(:position) }
 
-  validates :url, presence: true, uniqueness: { case_sensitive: false }
+  validates :url, presence: true, uniqueness: { case_sensitive: false, scope: :company_id }
 
   after_validation :clean_url
   after_update :delete_nostr_users_association, if: :marked_as_disabled?
@@ -74,11 +75,17 @@ end
 #  url         :string
 #  description :text
 #  enabled     :boolean          default(TRUE), not null
+#  company_id  :uuid             not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  position    :integer          default(1), not null
 #
 # Indexes
 #
-#  index_relays_on_url  (url) UNIQUE
+#  index_relays_on_company_id          (company_id)
+#  index_relays_on_company_id_and_url  (company_id,url) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (company_id => companies.id)
 #

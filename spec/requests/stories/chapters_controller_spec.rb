@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Stories::ChaptersController do
+  include_context 'shared company'
+
   describe 'POST /stories/:story_id/chapters' do
     subject(:action) { post "/stories/#{story.id}/chapters", params: params }
 
     let(:params) { {} }
-    let!(:story) { create :story }
+    let!(:story) { create :story, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -39,7 +41,7 @@ RSpec.describe Stories::ChaptersController do
   describe 'POST /stories/:story_id/chapters/publish_next' do
     subject(:action) { post "/stories/#{story.id}/chapters/publish_next" }
 
-    let(:story) { create :story }
+    let(:story) { create :story, company: shared_company }
     let!(:chapter) { create :chapter, story: story }
 
     it_behaves_like 'a user not logged in'
@@ -60,7 +62,7 @@ RSpec.describe Stories::ChaptersController do
   describe 'POST /stories/:story_id/chapters/publish_all' do
     subject(:action) { post "/stories/#{story.id}/chapters/publish_all" }
 
-    let(:story) { create :story }
+    let(:story) { create :story, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -82,7 +84,7 @@ RSpec.describe Stories::ChaptersController do
   describe 'POST /stories/:story_id/chapters/:id/publish' do
     subject(:action) { post "/stories/#{story.id}/chapters/#{chapter.id}/publish" }
 
-    let(:story) { create :story }
+    let(:story) { create :story, company: shared_company }
     let(:chapter) { create :chapter, story: story }
 
     it_behaves_like 'a user not logged in'

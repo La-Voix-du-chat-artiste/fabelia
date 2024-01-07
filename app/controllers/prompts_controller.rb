@@ -6,9 +6,9 @@ class PromptsController < ApplicationController
     authorize! Prompt
 
     @prompts = if params[:archived].to_bool
-      Prompt.archived
+      company.prompts.archived
     else
-      Prompt.available
+      company.prompts.available
     end
   end
 
@@ -47,7 +47,9 @@ class PromptsController < ApplicationController
                       return
     end
 
-    @prompt = type.constantize.new(prompt_params)
+    @prompt = type.constantize.new(prompt_params) do |prompt|
+      prompt.company = company
+    end
 
     respond_to do |format|
       if @prompt.save
@@ -115,7 +117,7 @@ class PromptsController < ApplicationController
   private
 
   def set_prompt
-    @prompt = Prompt.find(params[:id])
+    @prompt = company.prompts.find(params[:id])
   end
 
   def media_prompt_params

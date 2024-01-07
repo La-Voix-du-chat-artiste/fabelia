@@ -32,6 +32,9 @@ RSpec/MultipleMemoizedHelpers:
   Exclude:
     - spec/models/option_spec.rb
     - spec/requests/stories_controller_spec.rb
+    - spec/policies/prompt_policy_spec.rb
+    - spec/policies/stories/chapter_policy_spec.rb
+    - spec/policies/stories/cover_policy_spec.rb
 
 Performance/CollectionLiteralInLoop:
   Exclude:

@@ -18,10 +18,10 @@ module ApplicationHelper
     enum.keys.map { |k| [klass.human_enum_name(enum_name, k), k] }
   end
 
-  def story_nostr_users_select_options
+  def story_nostr_users_select_options(company)
     all_languages = I18nData.languages(I18n.locale)
 
-    NostrUser.enabled.with_relays.with_attached_picture.map do |nostr_user|
+    company.nostr_users.enabled.with_relays.with_attached_picture.map do |nostr_user|
       language = nostr_user.language.upcase
 
       [
@@ -40,8 +40,8 @@ module ApplicationHelper
     end
   end
 
-  def story_characters_select_options
-    Character.enabled.with_attached_avatar.map do |character|
+  def story_characters_select_options(company)
+    company.characters.enabled.with_attached_avatar.map do |character|
       data_html = nil
 
       if character.avatar.attached?
@@ -60,8 +60,8 @@ module ApplicationHelper
     end
   end
 
-  def story_places_select_options
-    Place.enabled.with_attached_photo.map do |place|
+  def story_places_select_options(company)
+    company.places.enabled.with_attached_photo.map do |place|
       data_html = <<~HTML
         <div class="flex items-center gap-2">
           #{image_tag(place.photo_url, class: 'w-12 h-12 object-cover rounded-full')}

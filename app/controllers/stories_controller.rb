@@ -5,14 +5,14 @@ class StoriesController < ApplicationController
   def new
     authorize! Story
 
-    @story = Story.new
+    @story = company.stories.new
   end
 
   # @route POST /stories (stories)
   def create
     authorize! Story
 
-    @story = Story.new(story_params)
+    @story = company.stories.new(story_params)
 
     if @story.save
       case mode
@@ -76,7 +76,7 @@ class StoriesController < ApplicationController
   private
 
   def set_story
-    @story = Story.find(params[:id])
+    @story = company.stories.find(params[:id])
   end
 
   def story_params

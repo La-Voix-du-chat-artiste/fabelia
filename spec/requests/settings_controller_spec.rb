@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SettingsController do
-  before { create(:setting) unless Setting.exists? }
+  include_context 'shared company'
+
+  before { create(:setting, company: shared_company) unless Setting.exists? }
 
   describe 'GET /settings/edit' do
     subject(:action) { get '/settings/edit' }

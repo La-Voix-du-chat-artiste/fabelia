@@ -5,21 +5,21 @@ class NostrUsersController < ApplicationController
   def index
     authorize! NostrUser
 
-    @nostr_users = NostrUser.order(id: :asc)
+    @nostr_users = company.nostr_users.order(id: :asc)
   end
 
   # @route GET /nostr_users/new (new_nostr_user)
   def new
     authorize! NostrUser
 
-    @nostr_user = NostrUser.new(mode: :generated)
+    @nostr_user = company.nostr_users.new(mode: :generated)
   end
 
   # @route POST /nostr_users (nostr_users)
   def create
     authorize! NostrUser
 
-    @nostr_user = NostrUser.new(nostr_user_create_params) do |nostr_user|
+    @nostr_user = company.nostr_users.new(nostr_user_create_params) do |nostr_user|
       nostr_user.mode = :generated
       nostr_user.relays = [Relay.main]
     end
@@ -69,7 +69,7 @@ class NostrUsersController < ApplicationController
   private
 
   def set_nostr_user
-    @nostr_user = NostrUser.find(params[:id])
+    @nostr_user = company.nostr_users.find(params[:id])
   end
 
   def nostr_user_create_params

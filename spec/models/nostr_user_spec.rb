@@ -9,8 +9,10 @@ RSpec.describe NostrUser do
 
   describe '#mode' do
     subject(:nostr_user) do
-      described_class.new(mode: mode, display_name: 'John Doe')
+      described_class.new(mode: mode, display_name: 'John Doe', company: company)
     end
+
+    let(:company) { create :company }
 
     before do
       relay = build_stubbed :relay

@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Stories::Chapters::CoversController do
+  include_context 'shared company'
+
   describe 'PATCH /stories/:story_id/chapters/:chapter_id/covers' do
     subject(:action) { patch "/stories/#{story.id}/chapters/#{chapter.id}/covers" }
 
-    let(:story) { create :story }
+    let(:story) { create :story, company: shared_company }
     let(:chapter) { create :chapter, story: story, summary: 'my chapter summary' }
 
     before do

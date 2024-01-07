@@ -22,7 +22,7 @@ module Stories
       private
 
       def set_story
-        @story = Story.find(params[:story_id])
+        @story = company.stories.find(params[:story_id])
       end
 
       def set_chapter

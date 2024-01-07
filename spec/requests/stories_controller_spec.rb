@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe StoriesController do
+  include_context 'shared company'
+
   describe 'POST /stories' do
     subject(:action) { post '/stories', params: { story: params } }
 
@@ -12,11 +14,11 @@ RSpec.describe StoriesController do
     context 'when logged in with proper accreditation', as: :logged_in do
       let(:role) { :admin }
 
-      let(:thematic) { create :thematic }
-      let(:nostr_user) { create :nostr_user }
-      let(:media_prompt) { create :media_prompt }
-      let(:narrator_prompt) { create :narrator_prompt }
-      let(:atmosphere_prompt) { create :atmosphere_prompt }
+      let(:thematic) { create :thematic, company: shared_company }
+      let(:nostr_user) { create :nostr_user, company: shared_company }
+      let(:media_prompt) { create :media_prompt, company: shared_company }
+      let(:narrator_prompt) { create :narrator_prompt, company: shared_company }
+      let(:atmosphere_prompt) { create :atmosphere_prompt, company: shared_company }
       let(:mode) { :complete }
 
       let(:params) do
@@ -61,7 +63,7 @@ RSpec.describe StoriesController do
   describe 'PATCH /stories/:id' do
     subject(:action) { patch "/stories/#{story.id}" }
 
-    let(:story) { create :story }
+    let(:story) { create :story, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -70,7 +72,7 @@ RSpec.describe StoriesController do
       let(:role) { :admin }
 
       context 'when story is enabled' do
-        let(:story) { create :story, :enabled }
+        let(:story) { create :story, :enabled, company: shared_company }
 
         it { expect { action }.to change { story.reload.enabled }.from(true).to(false) }
 
@@ -81,7 +83,7 @@ RSpec.describe StoriesController do
       end
 
       context 'when story is disabled' do
-        let(:story) { create :story, :disabled }
+        let(:story) { create :story, :disabled, company: shared_company }
 
         it { expect { action }.to change { story.reload.enabled }.from(false).to(true) }
 
@@ -96,7 +98,7 @@ RSpec.describe StoriesController do
   describe 'DELETE /stories/:id' do
     subject(:action) { delete "/stories/#{story.id}" }
 
-    let!(:story) { create :story }
+    let!(:story) { create :story, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'

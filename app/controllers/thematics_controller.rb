@@ -5,21 +5,21 @@ class ThematicsController < ApplicationController
   def index
     authorize! Thematic
 
-    @thematics = Thematic.all
+    @thematics = company.thematics.all
   end
 
   # @route GET /thematics/new (new_thematic)
   def new
     authorize! Thematic
 
-    @thematic = Thematic.new
+    @thematic = company.thematics.new
   end
 
   # @route POST /thematics (thematics)
   def create
     authorize! Thematic
 
-    @thematic = Thematic.new(thematic_params)
+    @thematic = company.thematics.new(thematic_params)
 
     respond_to do |format|
       if @thematic.save
@@ -67,11 +67,11 @@ class ThematicsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_thematic
-    @thematic = Thematic.find(params[:id])
+    @thematic = company.thematics.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def thematic_params
-    params.require(:thematic).permit(:identifier, :name_fr, :name_en, :description_fr, :description_en, :enabled)
+    params.require(:thematic).permit(:name_fr, :name_en, :description_fr, :description_en, :enabled)
   end
 end

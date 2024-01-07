@@ -1,5 +1,6 @@
 class NostrUserPolicy < ApplicationPolicy
   pre_check :allow_super_admins
+  pre_check :from_company?, except: %i[index? new? create?]
 
   def index?
     true

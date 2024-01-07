@@ -15,7 +15,7 @@ details.panel-info.mb-5
 
   .flex.flex-col.lg:flex-row.gap-3.justify-between.w-full.mb-2
     = f.association :nostr_user,
-                    collection: story_nostr_users_select_options,
+                    collection: story_nostr_users_select_options(company),
                     include_blank: false,
                     label_html: { class: 'block italic mb-2' },
                     input_html: { \
@@ -55,7 +55,7 @@ details.panel-info.mb-5
 
   .flex.flex-col.lg:flex-row.items-center.gap-6.w-full.mb-6
     = f.association :thematic,
-                    collection: Thematic.enabled,
+                    collection: company.thematics.enabled,
                     include_blank: '[Aléatoire]',
                     label_html: { class: 'block italic mb-2' },
                     input_html: { \
@@ -67,7 +67,7 @@ details.panel-info.mb-5
                     wrapper_html: { class: 'text-center w-full' }
 
     = f.association :characters,
-                    collection: story_characters_select_options,
+                    collection: story_characters_select_options(company),
                     include_blank: false,
                     label_html: { class: 'block italic mb-2' },
                     input_html: { \
@@ -80,7 +80,7 @@ details.panel-info.mb-5
                     wrapper_html: { class: 'text-center w-full' }
 
     = f.association :places,
-                    collection: story_places_select_options,
+                    collection: story_places_select_options(company),
                     include_blank: false,
                     label_html: { class: 'block italic mb-2' },
                     input_html: { \
@@ -113,7 +113,7 @@ details.panel-info.mb-5
 
           .flex.flex-col.lg:flex-row.justify-center.gap-6
             = f.association :media_prompt,
-                            collection: MediaPrompt.enabled.available.by_position,
+                            collection: company.media_prompts.enabled.available.by_position,
                             include_blank: false,
                             input_html: { \
                               class: 'w-full', \
@@ -134,7 +134,7 @@ details.panel-info.mb-5
 
           .flex.flex-col.lg:flex-row.justify-center.gap-6
             = f.association :narrator_prompt,
-                            collection: NarratorPrompt.enabled.available.by_position,
+                            collection: company.narrator_prompts.enabled.available.by_position,
                             include_blank: false,
                             input_html: { \
                               class: 'w-full', \
@@ -145,7 +145,7 @@ details.panel-info.mb-5
                             wrapper_html: { class: 'text-center w-full' }
 
             = f.association :atmosphere_prompt,
-                            collection: AtmospherePrompt.enabled.available.by_position,
+                            collection: company.atmosphere_prompts.enabled.available.by_position,
                             include_blank: false,
                             input_html: { \
                               class: 'w-full', \

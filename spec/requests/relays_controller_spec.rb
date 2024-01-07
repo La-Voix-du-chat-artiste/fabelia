@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RelaysController do
+  include_context 'shared company'
+
   describe 'GET /relays' do
     subject(:action) { get '/relays' }
 
@@ -19,7 +21,7 @@ RSpec.describe RelaysController do
 
       context 'with some record' do
         before do
-          create_list :relay, 2
+          create_list :relay, 2, company: shared_company
           action
         end
 
@@ -81,7 +83,7 @@ RSpec.describe RelaysController do
   describe 'GET /relays/:id/edit' do
     subject(:action) { get "/relays/#{relay.id}/edit" }
 
-    let(:relay) { create :relay }
+    let(:relay) { create :relay, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -102,7 +104,7 @@ RSpec.describe RelaysController do
     end
 
     let(:params) { {} }
-    let(:relay) { create :relay }
+    let(:relay) { create :relay, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'
@@ -120,7 +122,7 @@ RSpec.describe RelaysController do
       end
 
       context 'when params are valid' do
-        let(:params) { { identifier: 'Foobar' } }
+        let(:params) { { name_fr: 'Foobar' } }
 
         include_examples 'a redirect response with success message' do
           let(:message) { 'Relay was successfully updated.' }
@@ -134,7 +136,7 @@ RSpec.describe RelaysController do
   describe 'DELETE /relays/:id' do
     subject(:action) { delete "/relays/#{relay.id}" }
 
-    let!(:relay) { create :relay }
+    let!(:relay) { create :relay, company: shared_company }
 
     it_behaves_like 'a user not logged in'
     it_behaves_like 'unauthorized request when logged in as standard'

@@ -8,9 +8,13 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :warning, :info
 
-  helper_method :options
+  helper_method :company, :options
 
   private
+
+  def company
+    Current.company ||= current_user.company
+  end
 
   def not_authenticated
     redirect_to new_sessions_path,
@@ -29,6 +33,6 @@ class ApplicationController < ActionController::Base
   end
 
   def options
-    @options ||= Setting.first.chapter_options
+    @options ||= company.setting.chapter_options
   end
 end
